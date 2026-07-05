@@ -136,6 +136,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <FloatingActions />
     </QueryClientProvider>
+
   );
 }
