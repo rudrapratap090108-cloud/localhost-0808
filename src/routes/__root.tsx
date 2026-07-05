@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { FloatingActions } from "@/components/FloatingActions";
+import { Toaster } from "sonner";
+
 
 
 function NotFoundComponent() {
@@ -137,7 +139,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
       <FloatingActions />
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
+
 
   );
 }
