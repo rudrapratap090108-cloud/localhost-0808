@@ -165,7 +165,7 @@ function Nav() {
             <a
               href="#admissions"
               onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
             >
               Apply Now
             </a>
