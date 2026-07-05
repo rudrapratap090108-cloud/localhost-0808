@@ -305,7 +305,13 @@ export function FloatingActions() {
 
   return (
     <>
-      <div className="fixed z-50 bottom-4 right-4 md:bottom-6 md:right-6 flex flex-col items-end gap-3">
+      <div
+        className="fixed z-[70] right-3 md:right-6 flex flex-col items-end gap-2.5 md:gap-3 pointer-events-auto"
+        style={{
+          bottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)",
+        }}
+      >
+
         {/* Music toggle */}
         <button
           onClick={toggle}
