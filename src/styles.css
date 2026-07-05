@@ -206,5 +206,34 @@
   display: inline-block;
   animation: letter-drop 5s cubic-bezier(0.34, 1.56, 0.64, 1) both infinite;
   animation-delay: var(--drop-delay, 0s);
+  color: var(--drop-color, currentColor);
+  text-shadow: 0 1px 0 color-mix(in oklab, var(--drop-color, currentColor) 45%, black);
+}
+
+/* Feature-phone style 3D button — presses inward on click */
+@utility btn-3d {
+  position: relative;
+  transform: translateY(0);
+  box-shadow:
+    0 6px 0 0 color-mix(in oklab, var(--btn-shadow, var(--foreground)) 55%, black),
+    0 10px 18px -6px color-mix(in oklab, var(--btn-shadow, var(--foreground)) 40%, transparent),
+    inset 0 1px 0 0 color-mix(in oklab, white 45%, transparent),
+    inset 0 -3px 0 0 color-mix(in oklab, black 15%, transparent);
+  transition: transform 90ms ease-out, box-shadow 90ms ease-out, filter 120ms ease-out;
+  will-change: transform;
+}
+@utility btn-3d {
+  &:hover { filter: brightness(1.04); }
+  &:active {
+    transform: translateY(6px);
+    box-shadow:
+      0 0 0 0 color-mix(in oklab, var(--btn-shadow, var(--foreground)) 55%, black),
+      0 2px 6px -2px color-mix(in oklab, var(--btn-shadow, var(--foreground)) 40%, transparent),
+      inset 0 2px 6px 0 color-mix(in oklab, black 25%, transparent);
+  }
+  &:focus-visible {
+    outline: 3px solid color-mix(in oklab, var(--ring) 70%, transparent);
+    outline-offset: 3px;
+  }
 }
 
