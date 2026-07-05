@@ -113,14 +113,14 @@ function Nav() {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
-      <div className="mx-auto max-w-7xl px-4 md:px-8 h-24 md:h-28 flex items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 h-16 md:h-20 flex items-center justify-between gap-4">
         <a href="#top" className="flex items-center gap-3">
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school logo"
-            className="h-20 md:h-24 w-auto"
-            width={240}
-            height={96}
+            className="h-12 md:h-16 w-auto"
+            width={200}
+            height={64}
           />
           <span className="sr-only">Mighty Mindz</span>
         </a>
