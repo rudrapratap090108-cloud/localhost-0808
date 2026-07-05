@@ -803,43 +803,8 @@ function Contact() {
             ))}
           </dl>
 
-          <form
-            className="mt-8 soft-card p-6 grid gap-4 sm:grid-cols-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert("Thanks! We'll be in touch shortly.");
-            }}
-          >
-            <label className="text-sm font-semibold sm:col-span-1">
-              <span className="block mb-1.5">Parent name</span>
-              <input
-                required
-                className="w-full rounded-xl border border-input bg-background px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </label>
-            <label className="text-sm font-semibold sm:col-span-1">
-              <span className="block mb-1.5">Phone</span>
-              <input
-                required
-                type="tel"
-                className="w-full rounded-xl border border-input bg-background px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </label>
-            <label className="text-sm font-semibold sm:col-span-2">
-              <span className="block mb-1.5">Message</span>
-              <textarea
-                rows={3}
-                className="w-full rounded-xl border border-input bg-background px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring"
-                placeholder="Tell us about your little one…"
-              />
-            </label>
-            <button
-              type="submit"
-              className="sm:col-span-2 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
-            >
-              Send message
-            </button>
-          </form>
+          <AdmissionForm />
+
         </div>
 
         <div className="soft-card overflow-hidden aspect-[4/3] lg:aspect-auto lg:h-full min-h-[420px]">
