@@ -881,7 +881,7 @@ function HomePage() {
         <Contact />
       </main>
       <Footer />
-      <FloatingActions />
     </div>
+
   );
 }
