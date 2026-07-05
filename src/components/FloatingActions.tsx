@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import logo from "@/assets/logo.asset.json";
+import bgMusic from "@/assets/bg-music.asset.json";
 
 const WHATSAPP_NUMBER = "351930656040";
 const WHATSAPP_MSG =
   "Hi Mighty Mindz! I'd like to know more about admissions for 2026.";
-const MUSIC_SRC = "/audio/bg-music.mp3";
+const MUSIC_SRC = bgMusic.url;
 const STORAGE_KEY = "mm_chat_v1";
 
 type Msg = { role: "user" | "assistant"; content: string };
