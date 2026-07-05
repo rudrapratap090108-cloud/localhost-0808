@@ -141,12 +141,16 @@ function Nav() {
             </a>
           ))}
         </nav>
-        <a
-          href="#admissions"
-          className="hidden md:inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
-        >
-          Apply Now
-        </a>
+        <div className="hidden md:flex items-center gap-2">
+          <AuthNavLink />
+          <a
+            href="#admissions"
+            className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
+          >
+            Apply Now
+          </a>
+        </div>
+
         <button
           className="md:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-accent text-accent-foreground btn-3d [--btn-shadow:var(--accent)]"
           onClick={() => setOpen((o) => !o)}
