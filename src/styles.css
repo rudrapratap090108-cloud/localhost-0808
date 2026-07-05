@@ -197,6 +197,12 @@
   45%      { transform: translateY(-10px) rotate(6deg) scaleY(1.05); }
   70%      { transform: translateY(-2px) rotate(-4deg) scaleY(1); }
 }
+@keyframes kid-jump-badge {
+  0%, 100% { transform: translateY(0) rotate(-4deg) scaleY(1); }
+  25%      { transform: translateY(0) rotate(-4deg) scaleY(0.88); }
+  55%      { transform: translateY(-5px) rotate(4deg) scaleY(1.03); }
+  75%      { transform: translateY(-1px) rotate(-2deg) scaleY(1); }
+}
 @utility animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
 @utility animate-bob { animation: bob 3s ease-in-out infinite; }
 @utility animate-wiggle { animation: wiggle 2.5s ease-in-out infinite; }
