@@ -788,7 +788,7 @@ function Contact() {
             </label>
             <button
               type="submit"
-              className="sm:col-span-2 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground shadow-soft hover:scale-[1.02] transition-transform"
+              className="sm:col-span-2 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
             >
               Send message
             </button>
