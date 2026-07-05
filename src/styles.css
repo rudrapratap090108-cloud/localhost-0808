@@ -222,7 +222,18 @@
   transition: transform 90ms ease-out, box-shadow 90ms ease-out, filter 120ms ease-out;
   will-change: transform;
 }
+/* Feature-phone style 3D button — presses inward on click */
 @utility btn-3d {
+  position: relative;
+  transform: translateY(0);
+  box-shadow:
+    0 6px 0 0 color-mix(in oklab, var(--btn-shadow, var(--foreground)) 55%, black),
+    0 10px 18px -6px color-mix(in oklab, var(--btn-shadow, var(--foreground)) 40%, transparent),
+    inset 0 1px 0 0 color-mix(in oklab, white 45%, transparent),
+    inset 0 -3px 0 0 color-mix(in oklab, black 15%, transparent);
+  transition: transform 90ms ease-out, box-shadow 90ms ease-out, filter 120ms ease-out;
+  will-change: transform;
+
   &:hover { filter: brightness(1.04); }
   &:active {
     transform: translateY(6px);
