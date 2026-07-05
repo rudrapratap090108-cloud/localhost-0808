@@ -214,7 +214,7 @@ function Hero() {
                   />
                 </span>
                 <span
-                  className="text-[10px] sm:text-xs font-black uppercase tracking-wider leading-none whitespace-nowrap"
+                  className="text-[10px] sm:text-xs font-black uppercase tracking-wider leading-none"
                   aria-label={badge}
                 >
                   {badge.split("").map((ch, i) => {
