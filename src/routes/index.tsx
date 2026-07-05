@@ -112,14 +112,14 @@ function Nav() {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
-      <div className="mx-auto max-w-7xl px-4 md:px-8 h-20 flex items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 h-24 md:h-28 flex items-center justify-between gap-4">
         <a href="#top" className="flex items-center gap-3">
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school logo"
-            className="h-14 w-auto"
-            width={140}
-            height={56}
+            className="h-20 md:h-24 w-auto"
+            width={240}
+            height={96}
           />
           <span className="sr-only">Mighty Mindz</span>
         </a>
@@ -188,10 +188,22 @@ function Hero() {
 
       <div className="mx-auto max-w-7xl px-4 md:px-8 pt-10 md:pt-16 pb-16 md:pb-24 grid gap-10 md:gap-12 lg:grid-cols-2 items-center">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border">
-            <span className="h-2 w-2 rounded-full bg-leaf animate-bob" />
-            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Nurturing Future · Admissions Open 2026
+          <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
+            <span className="h-2 w-2 rounded-full bg-leaf animate-bob shrink-0" />
+            <span
+              className="text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none"
+              aria-label="Nurturing Future · Admissions Open 2026"
+            >
+              {"Nurturing Future · Admissions Open 2026".split("").map((ch, i) => (
+                <span
+                  key={i}
+                  aria-hidden
+                  className="animate-letter-drop"
+                  style={{ ["--drop-delay" as any]: `${i * 0.07}s` }}
+                >
+                  {ch === " " ? "\u00A0" : ch}
+                </span>
+              ))}
             </span>
           </div>
 
