@@ -202,9 +202,15 @@ function Hero() {
             let colorIdx = 0;
             return (
               <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
-                <span className="text-lg leading-none animate-kid-jump shrink-0" aria-hidden>
-                  🧒
-                </span>
+                <img
+                  src={kid.url}
+                  alt=""
+                  aria-hidden
+                  loading="lazy"
+                  width={40}
+                  height={46}
+                  className="h-9 w-auto -my-2 animate-kid-jump shrink-0 select-none pointer-events-none"
+                />
                 <span
                   className="text-xs font-black uppercase tracking-wider leading-none"
                   aria-label={badge}
