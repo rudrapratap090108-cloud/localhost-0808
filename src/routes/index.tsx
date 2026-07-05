@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import logo from "@/assets/logo.asset.json";
+import kid from "@/assets/kid.asset.json";
 import heroImg from "@/assets/hero.jpg";
 import classroomImg from "@/assets/classroom.jpg";
 import activityImg from "@/assets/activity.jpg";
