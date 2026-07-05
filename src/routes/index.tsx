@@ -201,7 +201,9 @@ function Hero() {
             let colorIdx = 0;
             return (
               <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
-                <span className="h-2 w-2 rounded-full bg-leaf animate-bob shrink-0" />
+                <span className="text-lg leading-none animate-kid-jump shrink-0" aria-hidden>
+                  🧒
+                </span>
                 <span
                   className="text-xs font-black uppercase tracking-wider leading-none"
                   aria-label={badge}
