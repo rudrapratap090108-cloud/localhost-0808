@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 import logo from "@/assets/logo.asset.json";
 import kid from "@/assets/kid.asset.json";
+import { FloatingActions } from "@/components/FloatingActions";
 import heroImg from "@/assets/hero.jpg";
 import classroomImg from "@/assets/classroom.jpg";
 import activityImg from "@/assets/activity.jpg";
@@ -201,18 +202,20 @@ function Hero() {
             ];
             let colorIdx = 0;
             return (
-              <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
-                <img
-                  src={kid.url}
-                  alt=""
-                  aria-hidden
-                  loading="lazy"
-                  width={40}
-                  height={46}
-                  className="h-9 w-auto -my-2 animate-kid-jump shrink-0 select-none pointer-events-none"
-                />
+              <div className="inline-flex items-center gap-2 sm:gap-2.5 rounded-full bg-card pl-2 pr-3 sm:pl-2.5 sm:pr-4 py-1.5 sm:py-2 shadow-soft border border-border max-w-full">
+                <span className="relative shrink-0 h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10">
+                  <img
+                    src={kid.url}
+                    alt=""
+                    aria-hidden
+                    loading="lazy"
+                    width={40}
+                    height={46}
+                    className="absolute inset-x-0 bottom-0 mx-auto h-full w-auto animate-kid-jump-badge select-none pointer-events-none"
+                  />
+                </span>
                 <span
-                  className="text-xs font-black uppercase tracking-wider leading-none"
+                  className="text-[10px] sm:text-xs font-black uppercase tracking-wider leading-none"
                   aria-label={badge}
                 >
                   {badge.split("").map((ch, i) => {
@@ -878,6 +881,7 @@ function HomePage() {
         <Contact />
       </main>
       <Footer />
+      <FloatingActions />
     </div>
   );
 }
