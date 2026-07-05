@@ -188,24 +188,52 @@ function Hero() {
 
       <div className="mx-auto max-w-7xl px-4 md:px-8 pt-10 md:pt-16 pb-16 md:pb-24 grid gap-10 md:gap-12 lg:grid-cols-2 items-center">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
-            <span className="h-2 w-2 rounded-full bg-leaf animate-bob shrink-0" />
-            <span
-              className="text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none"
-              aria-label="Nurturing Future · Admissions Open 2026"
-            >
-              {"Nurturing Future · Admissions Open 2026".split("").map((ch, i) => (
+          {(() => {
+            const badge = "Nurturing Future · Admissions Open 2026";
+            const palette = [
+              "var(--primary)",
+              "var(--tomato)",
+              "var(--tangerine)",
+              "var(--sunshine)",
+              "var(--leaf)",
+              "var(--grape)",
+            ];
+            let colorIdx = 0;
+            return (
+              <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
+                <span className="h-2 w-2 rounded-full bg-leaf animate-bob shrink-0" />
                 <span
-                  key={i}
-                  aria-hidden
-                  className="animate-letter-drop"
-                  style={{ ["--drop-delay" as any]: `${i * 0.07}s` }}
+                  className="text-xs font-black uppercase tracking-wider leading-none"
+                  aria-label={badge}
                 >
-                  {ch === " " ? "\u00A0" : ch}
+                  {badge.split("").map((ch, i) => {
+                    if (ch === " " || ch === "\u00A0") {
+                      return (
+                        <span key={i} aria-hidden>
+                          {"\u00A0"}
+                        </span>
+                      );
+                    }
+                    const color = palette[colorIdx % palette.length];
+                    colorIdx++;
+                    return (
+                      <span
+                        key={i}
+                        aria-hidden
+                        className="animate-letter-drop"
+                        style={{
+                          ["--drop-delay" as any]: `${i * 0.06}s`,
+                          ["--drop-color" as any]: color,
+                        }}
+                      >
+                        {ch}
+                      </span>
+                    );
+                  })}
                 </span>
-              ))}
-            </span>
-          </div>
+              </div>
+            );
+          })()}
 
           <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-foreground">
             Where little{" "}
