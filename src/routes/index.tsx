@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import logo from "@/assets/logo.asset.json";
+import kid from "@/assets/kid.asset.json";
 import heroImg from "@/assets/hero.jpg";
 import classroomImg from "@/assets/classroom.jpg";
 import activityImg from "@/assets/activity.jpg";
@@ -112,14 +113,14 @@ function Nav() {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
-      <div className="mx-auto max-w-7xl px-4 md:px-8 h-24 md:h-28 flex items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 h-16 md:h-20 flex items-center justify-between gap-4">
         <a href="#top" className="flex items-center gap-3">
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school logo"
-            className="h-20 md:h-24 w-auto"
-            width={240}
-            height={96}
+            className="h-12 md:h-16 w-auto"
+            width={200}
+            height={64}
           />
           <span className="sr-only">Mighty Mindz</span>
         </a>
@@ -201,9 +202,15 @@ function Hero() {
             let colorIdx = 0;
             return (
               <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
-                <span className="text-lg leading-none animate-kid-jump shrink-0" aria-hidden>
-                  🧒
-                </span>
+                <img
+                  src={kid.url}
+                  alt=""
+                  aria-hidden
+                  loading="lazy"
+                  width={40}
+                  height={46}
+                  className="h-9 w-auto -my-2 animate-kid-jump shrink-0 select-none pointer-events-none"
+                />
                 <span
                   className="text-xs font-black uppercase tracking-wider leading-none"
                   aria-label={badge}
