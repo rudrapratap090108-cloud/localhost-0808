@@ -196,14 +196,15 @@
 @utility animate-wiggle { animation: wiggle 2.5s ease-in-out infinite; }
 
 @keyframes letter-drop {
-  0%   { transform: translateY(-140%) rotate(-14deg); opacity: 0; }
-  55%  { transform: translateY(18%)   rotate(6deg);   opacity: 1; }
-  75%  { transform: translateY(-8%)   rotate(-3deg); }
-  100% { transform: translateY(0)     rotate(0deg);   opacity: 1; }
+  0%   { transform: translateY(-160%) rotate(-14deg); opacity: 0; }
+  15%  { transform: translateY(12%)   rotate(6deg);   opacity: 1; }
+  22%  { transform: translateY(-6%)   rotate(-3deg); }
+  30%, 90% { transform: translateY(0) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(-160%) rotate(-14deg); opacity: 0; }
 }
 @utility animate-letter-drop {
   display: inline-block;
-  animation: letter-drop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both infinite;
+  animation: letter-drop 5s cubic-bezier(0.34, 1.56, 0.64, 1) both infinite;
   animation-delay: var(--drop-delay, 0s);
 }
 
