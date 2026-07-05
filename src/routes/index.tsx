@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import logo from "@/assets/logo.asset.json";
 import kid from "@/assets/kid.asset.json";
@@ -8,6 +9,10 @@ import heroImg from "@/assets/hero.jpg";
 import classroomImg from "@/assets/classroom.jpg";
 import activityImg from "@/assets/activity.jpg";
 import playgroundImg from "@/assets/playground.jpg";
+import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { submitAdmissionLead } from "@/lib/school.functions";
+
 import libraryImg from "@/assets/library.jpg";
 
 export const Route = createFileRoute("/")({
