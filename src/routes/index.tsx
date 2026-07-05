@@ -187,6 +187,32 @@ function Nav() {
   );
 }
 
+function AuthNavLink() {
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSignedIn(!!s));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+  if (signedIn === null) return <span className="w-16" />;
+  return signedIn ? (
+    <Link
+      to="/dashboard"
+      className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-bold hover:bg-cream transition"
+    >
+      Dashboard
+    </Link>
+  ) : (
+    <Link
+      to="/auth"
+      className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-bold hover:bg-cream transition"
+    >
+      Sign in
+    </Link>
+  );
+}
+
+
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
