@@ -709,13 +709,13 @@ function Admissions() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
               href="#contact"
-              className="inline-flex items-center rounded-full bg-primary px-7 py-3.5 text-base font-bold text-primary-foreground shadow-soft hover:scale-105 transition-transform"
+              className="inline-flex items-center rounded-full bg-primary px-7 py-3.5 text-base font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
             >
               Book a Tour
             </a>
             <a
               href="tel:+911234567890"
-              className="inline-flex items-center rounded-full bg-card border border-border px-7 py-3.5 text-base font-bold hover:bg-accent transition"
+              className="inline-flex items-center rounded-full bg-card border border-border px-7 py-3.5 text-base font-bold btn-3d [--btn-shadow:var(--border)]"
             >
               Call Admissions
             </a>
