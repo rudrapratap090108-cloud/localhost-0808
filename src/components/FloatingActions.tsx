@@ -168,7 +168,7 @@ function ChatPanel({ onClose }: { onClose: () => void }) {
     <div
       role="dialog"
       aria-label="MIGHTY MINDZ AI chatbot"
-      className="fixed z-[60] bottom-24 right-4 md:right-6 w-[min(92vw,380px)] h-[min(70vh,560px)] bg-card rounded-3xl border border-border shadow-2xl flex flex-col overflow-hidden animate-scale-in"
+      className="fixed z-[80] bottom-24 right-3 md:right-6 w-[min(94vw,380px)] h-[min(70vh,560px)] bg-card rounded-3xl border border-border shadow-2xl flex flex-col overflow-hidden animate-scale-in"
     >
       {/* Header */}
       <header className="flex items-center gap-3 px-4 py-3 bg-primary text-primary-foreground">
