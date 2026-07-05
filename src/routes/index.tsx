@@ -253,13 +253,13 @@ function Hero() {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="#admissions"
-              className="inline-flex items-center rounded-full bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground shadow-soft hover:scale-105 transition-transform"
+              className="inline-flex items-center rounded-full bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
             >
               Book a School Tour →
             </a>
             <a
               href="#programs"
-              className="inline-flex items-center rounded-full bg-card px-6 py-3.5 text-base font-bold text-foreground border border-border hover:bg-accent transition"
+              className="inline-flex items-center rounded-full bg-card px-6 py-3.5 text-base font-bold text-foreground border border-border btn-3d [--btn-shadow:var(--border)]"
             >
               Explore Programs
             </a>
