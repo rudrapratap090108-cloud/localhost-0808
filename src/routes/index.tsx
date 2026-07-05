@@ -212,6 +212,105 @@ function AuthNavLink() {
   );
 }
 
+function AdmissionForm() {
+  const submit = useServerFn(submitAdmissionLead);
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+  const [f, setF] = useState({
+    parent_name: "",
+    child_name: "",
+    child_age: "",
+    phone: "",
+    email: "",
+    program: "",
+    message: "",
+  });
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    try {
+      await submit({
+        data: {
+          parent_name: f.parent_name,
+          child_name: f.child_name,
+          child_age: f.child_age ? Number(f.child_age) : undefined,
+          phone: f.phone,
+          email: f.email || undefined,
+          program: f.program || undefined,
+          message: f.message || undefined,
+        },
+      });
+      setDone(true);
+      toast.success("Thanks! Our admissions team will call you shortly. 🎉");
+      setF({ parent_name: "", child_name: "", child_age: "", phone: "", email: "", program: "", message: "" });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Please try again");
+    } finally {
+      setBusy(false);
+    }
+  }
+  const input = "w-full rounded-xl border border-input bg-background px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring";
+  if (done) {
+    return (
+      <div className="mt-8 soft-card p-8 text-center">
+        <div className="text-4xl mb-2">🎈</div>
+        <h3 className="font-bold text-xl">We got your enquiry!</h3>
+        <p className="text-sm text-muted-foreground mt-1">Our admissions team will reach out within 24 hours.</p>
+        <button onClick={() => setDone(false)} className="mt-4 text-sm font-semibold text-primary underline">
+          Send another
+        </button>
+      </div>
+    );
+  }
+  return (
+    <form onSubmit={onSubmit} className="mt-8 soft-card p-6 grid gap-4 sm:grid-cols-2">
+      <label className="text-sm font-semibold">
+        <span className="block mb-1.5">Parent name</span>
+        <input required maxLength={100} className={input} value={f.parent_name} onChange={(e) => setF({ ...f, parent_name: e.target.value })} />
+      </label>
+      <label className="text-sm font-semibold">
+        <span className="block mb-1.5">Phone</span>
+        <input required type="tel" maxLength={20} className={input} value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} />
+      </label>
+      <label className="text-sm font-semibold">
+        <span className="block mb-1.5">Child's name</span>
+        <input required maxLength={100} className={input} value={f.child_name} onChange={(e) => setF({ ...f, child_name: e.target.value })} />
+      </label>
+      <label className="text-sm font-semibold">
+        <span className="block mb-1.5">Child's age</span>
+        <input type="number" min={1} max={12} className={input} value={f.child_age} onChange={(e) => setF({ ...f, child_age: e.target.value })} />
+      </label>
+      <label className="text-sm font-semibold sm:col-span-2">
+        <span className="block mb-1.5">Email (optional)</span>
+        <input type="email" maxLength={200} className={input} value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />
+      </label>
+      <label className="text-sm font-semibold sm:col-span-2">
+        <span className="block mb-1.5">Program of interest</span>
+        <select className={input} value={f.program} onChange={(e) => setF({ ...f, program: e.target.value })}>
+          <option value="">— Select —</option>
+          <option value="Playgroup">Playgroup (2–3 yrs)</option>
+          <option value="Nursery">Nursery (3–4 yrs)</option>
+          <option value="LKG">LKG (4–5 yrs)</option>
+          <option value="UKG">UKG (5–6 yrs)</option>
+        </select>
+      </label>
+      <label className="text-sm font-semibold sm:col-span-2">
+        <span className="block mb-1.5">Message</span>
+        <textarea rows={3} maxLength={1000} className={input} placeholder="Tell us about your little one…" value={f.message} onChange={(e) => setF({ ...f, message: e.target.value })} />
+      </label>
+      <button
+        type="submit"
+        disabled={busy}
+        className="sm:col-span-2 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)] disabled:opacity-50"
+      >
+        {busy ? "Sending…" : "Send message"}
+      </button>
+    </form>
+  );
+}
+
+
 
 function Hero() {
   return (
