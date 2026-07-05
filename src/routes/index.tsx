@@ -136,12 +136,12 @@ function Nav() {
         </nav>
         <a
           href="#admissions"
-          className="hidden md:inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-soft hover:scale-105 transition-transform"
+          className="hidden md:inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
         >
           Apply Now
         </a>
         <button
-          className="md:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-accent text-accent-foreground"
+          className="md:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-accent text-accent-foreground btn-3d [--btn-shadow:var(--accent)]"
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={open}
@@ -165,7 +165,7 @@ function Nav() {
             <a
               href="#admissions"
               onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
             >
               Apply Now
             </a>
@@ -188,24 +188,52 @@ function Hero() {
 
       <div className="mx-auto max-w-7xl px-4 md:px-8 pt-10 md:pt-16 pb-16 md:pb-24 grid gap-10 md:gap-12 lg:grid-cols-2 items-center">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
-            <span className="h-2 w-2 rounded-full bg-leaf animate-bob shrink-0" />
-            <span
-              className="text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none"
-              aria-label="Nurturing Future · Admissions Open 2026"
-            >
-              {"Nurturing Future · Admissions Open 2026".split("").map((ch, i) => (
+          {(() => {
+            const badge = "Nurturing Future · Admissions Open 2026";
+            const palette = [
+              "var(--primary)",
+              "var(--tomato)",
+              "var(--tangerine)",
+              "var(--sunshine)",
+              "var(--leaf)",
+              "var(--grape)",
+            ];
+            let colorIdx = 0;
+            return (
+              <div className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-2 shadow-soft border border-border overflow-hidden">
+                <span className="h-2 w-2 rounded-full bg-leaf animate-bob shrink-0" />
                 <span
-                  key={i}
-                  aria-hidden
-                  className="animate-letter-drop"
-                  style={{ ["--drop-delay" as any]: `${i * 0.07}s` }}
+                  className="text-xs font-black uppercase tracking-wider leading-none"
+                  aria-label={badge}
                 >
-                  {ch === " " ? "\u00A0" : ch}
+                  {badge.split("").map((ch, i) => {
+                    if (ch === " " || ch === "\u00A0") {
+                      return (
+                        <span key={i} aria-hidden>
+                          {"\u00A0"}
+                        </span>
+                      );
+                    }
+                    const color = palette[colorIdx % palette.length];
+                    colorIdx++;
+                    return (
+                      <span
+                        key={i}
+                        aria-hidden
+                        className="animate-letter-drop"
+                        style={{
+                          ["--drop-delay" as any]: `${i * 0.06}s`,
+                          ["--drop-color" as any]: color,
+                        }}
+                      >
+                        {ch}
+                      </span>
+                    );
+                  })}
                 </span>
-              ))}
-            </span>
-          </div>
+              </div>
+            );
+          })()}
 
           <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-foreground">
             Where little{" "}
@@ -225,13 +253,13 @@ function Hero() {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="#admissions"
-              className="inline-flex items-center rounded-full bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground shadow-soft hover:scale-105 transition-transform"
+              className="inline-flex items-center rounded-full bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
             >
               Book a School Tour →
             </a>
             <a
               href="#programs"
-              className="inline-flex items-center rounded-full bg-card px-6 py-3.5 text-base font-bold text-foreground border border-border hover:bg-accent transition"
+              className="inline-flex items-center rounded-full bg-card px-6 py-3.5 text-base font-bold text-foreground border border-border btn-3d [--btn-shadow:var(--border)]"
             >
               Explore Programs
             </a>
@@ -681,13 +709,13 @@ function Admissions() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
               href="#contact"
-              className="inline-flex items-center rounded-full bg-primary px-7 py-3.5 text-base font-bold text-primary-foreground shadow-soft hover:scale-105 transition-transform"
+              className="inline-flex items-center rounded-full bg-primary px-7 py-3.5 text-base font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
             >
               Book a Tour
             </a>
             <a
               href="tel:+911234567890"
-              className="inline-flex items-center rounded-full bg-card border border-border px-7 py-3.5 text-base font-bold hover:bg-accent transition"
+              className="inline-flex items-center rounded-full bg-card border border-border px-7 py-3.5 text-base font-bold btn-3d [--btn-shadow:var(--border)]"
             >
               Call Admissions
             </a>
@@ -760,7 +788,7 @@ function Contact() {
             </label>
             <button
               type="submit"
-              className="sm:col-span-2 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground shadow-soft hover:scale-[1.02] transition-transform"
+              className="sm:col-span-2 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
             >
               Send message
             </button>
