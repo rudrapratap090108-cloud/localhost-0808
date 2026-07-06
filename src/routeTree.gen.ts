@@ -23,9 +23,12 @@ import { Route as DashboardHomeworkRouteImport } from './routes/dashboard.homewo
 import { Route as DashboardGalleryRouteImport } from './routes/dashboard.gallery'
 import { Route as DashboardFeesRouteImport } from './routes/dashboard.fees'
 import { Route as DashboardCreateParentRouteImport } from './routes/dashboard.create-parent'
+import { Route as DashboardComplaintsRouteImport } from './routes/dashboard.complaints'
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
 import { Route as DashboardCctvRouteImport } from './routes/dashboard.cctv'
 import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
+import { Route as DashboardAssignmentsRouteImport } from './routes/dashboard.assignments'
+import { Route as DashboardAnnouncementsRouteImport } from './routes/dashboard.announcements'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -98,6 +101,11 @@ const DashboardCreateParentRoute = DashboardCreateParentRouteImport.update({
   path: '/create-parent',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardComplaintsRoute = DashboardComplaintsRouteImport.update({
+  id: '/complaints',
+  path: '/complaints',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardClassesRoute = DashboardClassesRouteImport.update({
   id: '/classes',
   path: '/classes',
@@ -113,6 +121,16 @@ const DashboardAttendanceRoute = DashboardAttendanceRouteImport.update({
   path: '/attendance',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAssignmentsRoute = DashboardAssignmentsRouteImport.update({
+  id: '/assignments',
+  path: '/assignments',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAnnouncementsRoute = DashboardAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -125,9 +143,12 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/announcements': typeof DashboardAnnouncementsRoute
+  '/dashboard/assignments': typeof DashboardAssignmentsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
@@ -144,9 +165,12 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/announcements': typeof DashboardAnnouncementsRoute
+  '/dashboard/assignments': typeof DashboardAssignmentsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
@@ -165,9 +189,12 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/announcements': typeof DashboardAnnouncementsRoute
+  '/dashboard/assignments': typeof DashboardAssignmentsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
@@ -187,9 +214,12 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/announcements'
+    | '/dashboard/assignments'
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/complaints'
     | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
@@ -206,9 +236,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/announcements'
+    | '/dashboard/assignments'
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/complaints'
     | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
@@ -226,9 +259,12 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/announcements'
+    | '/dashboard/assignments'
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/complaints'
     | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
@@ -349,6 +385,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCreateParentRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/complaints': {
+      id: '/dashboard/complaints'
+      path: '/complaints'
+      fullPath: '/dashboard/complaints'
+      preLoaderRoute: typeof DashboardComplaintsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/classes': {
       id: '/dashboard/classes'
       path: '/classes'
@@ -370,6 +413,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAttendanceRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/assignments': {
+      id: '/dashboard/assignments'
+      path: '/assignments'
+      fullPath: '/dashboard/assignments'
+      preLoaderRoute: typeof DashboardAssignmentsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/announcements': {
+      id: '/dashboard/announcements'
+      path: '/announcements'
+      fullPath: '/dashboard/announcements'
+      preLoaderRoute: typeof DashboardAnnouncementsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -381,9 +438,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteChildren {
+  DashboardAnnouncementsRoute: typeof DashboardAnnouncementsRoute
+  DashboardAssignmentsRoute: typeof DashboardAssignmentsRoute
   DashboardAttendanceRoute: typeof DashboardAttendanceRoute
   DashboardCctvRoute: typeof DashboardCctvRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
+  DashboardComplaintsRoute: typeof DashboardComplaintsRoute
   DashboardCreateParentRoute: typeof DashboardCreateParentRoute
   DashboardFeesRoute: typeof DashboardFeesRoute
   DashboardGalleryRoute: typeof DashboardGalleryRoute
@@ -397,9 +457,12 @@ interface DashboardRouteChildren {
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAnnouncementsRoute: DashboardAnnouncementsRoute,
+  DashboardAssignmentsRoute: DashboardAssignmentsRoute,
   DashboardAttendanceRoute: DashboardAttendanceRoute,
   DashboardCctvRoute: DashboardCctvRoute,
   DashboardClassesRoute: DashboardClassesRoute,
+  DashboardComplaintsRoute: DashboardComplaintsRoute,
   DashboardCreateParentRoute: DashboardCreateParentRoute,
   DashboardFeesRoute: DashboardFeesRoute,
   DashboardGalleryRoute: DashboardGalleryRoute,

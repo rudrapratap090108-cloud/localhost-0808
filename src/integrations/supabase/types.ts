@@ -56,6 +56,36 @@ export type Database = {
         }
         Relationships: []
       }
+      announcements: {
+        Row: {
+          audience: string
+          body: string
+          created_at: string
+          created_by: string
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          audience?: string
+          body: string
+          created_at?: string
+          created_by: string
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          audience?: string
+          body?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       attendance: {
         Row: {
           class_id: string
@@ -124,6 +154,104 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      complaints: {
+        Row: {
+          admin_reply: string | null
+          body: string
+          created_at: string
+          id: string
+          parent_id: string
+          replied_at: string | null
+          replied_by: string | null
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          admin_reply?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          parent_id: string
+          replied_at?: string | null
+          replied_by?: string | null
+          status?: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          admin_reply?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          parent_id?: string
+          replied_at?: string | null
+          replied_by?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      fee_assignments: {
+        Row: {
+          amount: number
+          assigned_by: string | null
+          created_at: string
+          due_date: string | null
+          id: string
+          note: string | null
+          paid_payment_id: string | null
+          parent_id: string
+          period: string
+          status: string
+          student_class: string | null
+          student_name: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          assigned_by?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          note?: string | null
+          paid_payment_id?: string | null
+          parent_id: string
+          period: string
+          status?: string
+          student_class?: string | null
+          student_name: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          assigned_by?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          note?: string | null
+          paid_payment_id?: string | null
+          parent_id?: string
+          period?: string
+          status?: string
+          student_class?: string | null
+          student_name?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fee_assignments_paid_payment_id_fkey"
+            columns: ["paid_payment_id"]
+            isOneToOne: false
+            referencedRelation: "fee_payments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       fee_payments: {
         Row: {
