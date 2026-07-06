@@ -17,6 +17,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardUsersRouteImport } from './routes/dashboard.users'
 import { Route as DashboardStudentsRouteImport } from './routes/dashboard.students'
 import { Route as DashboardLeadsRouteImport } from './routes/dashboard.leads'
+import { Route as DashboardHomeworkRouteImport } from './routes/dashboard.homework'
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
 import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -61,6 +62,11 @@ const DashboardLeadsRoute = DashboardLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardHomeworkRoute = DashboardHomeworkRouteImport.update({
+  id: '/homework',
+  path: '/homework',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardClassesRoute = DashboardClassesRouteImport.update({
   id: '/classes',
   path: '/classes',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/dashboard/attendance'
     | '/dashboard/classes'
+    | '/dashboard/homework'
     | '/dashboard/leads'
     | '/dashboard/students'
     | '/dashboard/users'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/dashboard/attendance'
     | '/dashboard/classes'
+    | '/dashboard/homework'
     | '/dashboard/leads'
     | '/dashboard/students'
     | '/dashboard/users'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/dashboard/attendance'
     | '/dashboard/classes'
+    | '/dashboard/homework'
     | '/dashboard/leads'
     | '/dashboard/students'
     | '/dashboard/users'
@@ -223,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardLeadsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/homework': {
+      id: '/dashboard/homework'
+      path: '/homework'
+      fullPath: '/dashboard/homework'
+      preLoaderRoute: typeof DashboardHomeworkRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/classes': {
       id: '/dashboard/classes'
       path: '/classes'
@@ -250,6 +269,7 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardAttendanceRoute: typeof DashboardAttendanceRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
+  DashboardHomeworkRoute: typeof DashboardHomeworkRoute
   DashboardLeadsRoute: typeof DashboardLeadsRoute
   DashboardStudentsRoute: typeof DashboardStudentsRoute
   DashboardUsersRoute: typeof DashboardUsersRoute
@@ -259,6 +279,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAttendanceRoute: DashboardAttendanceRoute,
   DashboardClassesRoute: DashboardClassesRoute,
+  DashboardHomeworkRoute: DashboardHomeworkRoute,
   DashboardLeadsRoute: DashboardLeadsRoute,
   DashboardStudentsRoute: DashboardStudentsRoute,
   DashboardUsersRoute: DashboardUsersRoute,
