@@ -12,14 +12,15 @@ import {
   verifyFeePayment,
 } from "@/lib/school.functions";
 import { downloadFeeReceiptPdf } from "@/lib/pdf";
+import upiQrAsset from "@/assets/upi-qr.asset.json";
 
-const UPI_ID = "mightymindz@upi";
-const PAYEE_NAME = "Mighty Mindz Preschool";
+const UPI_ID = "seema.m.bansal@okhdfcbank";
+const PAYEE_NAME = "Seema Bansal";
+const ACCOUNT_NAME = "Tara Devi Educational and Welfare Trust";
 const BANK = {
-  name: "HDFC Bank",
-  account: "50100 1234 5678",
-  ifsc: "HDFC0001234",
-  branch: "MG Road, Bengaluru",
+  name: "Union Bank of India",
+  account: "215211100003004",
+  ifsc: "UBIN0821527",
 };
 
 export function FeesCard({ childName }: { childName: string | null }) {
