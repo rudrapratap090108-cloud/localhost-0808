@@ -297,9 +297,152 @@ function AdminHome() {
           </div>
         )}
       </Section>
+
+      <ClassesAdminSection users={users.data ?? []} />
     </div>
   );
 }
+
+/* ---------- Admin: classes + teacher assignments ---------- */
+function ClassesAdminSection({ users }: { users: Array<{ id: string; full_name: string | null; email: string; roles: string[] }> }) {
+  const qc = useQueryClient();
+  const listClassesFn = useServerFn(listClasses);
+  const createClassFn = useServerFn(createClass);
+  const deleteClassFn = useServerFn(deleteClass);
+  const listAssignFn = useServerFn(listTeacherAssignments);
+  const assignFn = useServerFn(assignTeacherClass);
+
+  const classes = useQuery({ queryKey: ["classes"], queryFn: () => listClassesFn() });
+  const assigns = useQuery({ queryKey: ["assigns"], queryFn: () => listAssignFn() });
+  const [className, setClassName] = useState("");
+
+  const teachers = users.filter((u) => u.roles.includes("teacher"));
+
+  const create = useMutation({
+    mutationFn: (name: string) => createClassFn({ data: { name } }),
+    onSuccess: () => {
+      setClassName("");
+      qc.invalidateQueries({ queryKey: ["classes"] });
+      toast.success("Class added");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+  const remove = useMutation({
+    mutationFn: (id: string) => deleteClassFn({ data: { id } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["classes"] });
+      qc.invalidateQueries({ queryKey: ["assigns"] });
+      toast.success("Class removed");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+  const toggle = useMutation({
+    mutationFn: (v: { teacher_id: string; class_id: string; action: "add" | "remove" }) => assignFn({ data: v }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["assigns"] });
+      toast.success("Assignment updated");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+
+  const assignSet = new Set((assigns.data ?? []).map((a) => `${a.teacher_id}:${a.class_id}`));
+
+  return (
+    <Section title="Classes & teacher assignments" subtitle="Create classes and assign teachers to them">
+      <div className="grid gap-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (className.trim()) create.mutate(className.trim());
+          }}
+          className="flex gap-2"
+        >
+          <input
+            value={className}
+            onChange={(e) => setClassName(e.target.value)}
+            placeholder="Class name (e.g. Nursery A)"
+            className="flex-1 rounded-xl border border-border bg-background px-3 py-2 text-sm"
+            maxLength={60}
+          />
+          <button
+            type="submit"
+            disabled={create.isPending}
+            className="rounded-full bg-primary text-primary-foreground text-sm font-bold px-4 py-2 disabled:opacity-50"
+          >
+            Add class
+          </button>
+        </form>
+
+        {classes.isLoading ? (
+          <SkeletonRows />
+        ) : (classes.data ?? []).length === 0 ? (
+          <EmptyState emoji="🏫" label="No classes yet." />
+        ) : (
+          <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+            <table className="w-full text-sm">
+              <thead className="bg-cream text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="p-3">Class</th>
+                  <th className="p-3">Assigned teachers</th>
+                  <th className="p-3 w-24">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {classes.data!.map((c) => (
+                  <tr key={c.id} className="border-t border-border align-top">
+                    <td className="p-3 font-semibold">{c.name}</td>
+                    <td className="p-3">
+                      {teachers.length === 0 ? (
+                        <span className="text-xs text-muted-foreground">
+                          No teachers yet — grant a user the teacher role above.
+                        </span>
+                      ) : (
+                        <div className="flex flex-wrap gap-1">
+                          {teachers.map((t) => {
+                            const has = assignSet.has(`${t.id}:${c.id}`);
+                            return (
+                              <button
+                                key={t.id}
+                                onClick={() =>
+                                  toggle.mutate({
+                                    teacher_id: t.id,
+                                    class_id: c.id,
+                                    action: has ? "remove" : "add",
+                                  })
+                                }
+                                className={`rounded-full px-2.5 py-1 text-xs font-bold border transition ${
+                                  has
+                                    ? "bg-leaf text-leaf-foreground border-leaf"
+                                    : "bg-background border-border hover:bg-cream"
+                                }`}
+                              >
+                                {has ? "✓ " : "+ "}
+                                {t.full_name ?? t.email}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => confirm(`Delete class "${c.name}"?`) && remove.mutate(c.id)}
+                        className="rounded-full border border-border bg-background text-xs font-bold px-3 py-1 hover:bg-cream"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </Section>
+  );
+}
+
 
 function StatusPill({ status }: { status: string }) {
   const map: Record<string, string> = {
