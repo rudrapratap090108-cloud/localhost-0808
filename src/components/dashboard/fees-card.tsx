@@ -155,15 +155,14 @@ export function FeesCard({ childName }: { childName: string | null }) {
               <div className="rounded-2xl border border-border bg-card p-4 text-center">
                 <img
                   src={qrSrc}
-                  alt="Demo UPI QR"
-                  className="mx-auto rounded-xl border border-border bg-white p-2"
-                  width={220}
-                  height={220}
+                  alt={`UPI QR — ${PAYEE_NAME}`}
+                  className="mx-auto rounded-xl border border-border bg-white p-2 max-w-[240px] w-full h-auto"
                 />
                 <div className="text-xs text-muted-foreground mt-2">
                   Scan with any UPI app (GPay / PhonePe / Paytm)
                 </div>
-                <div className="text-sm font-semibold mt-1">₹{form.amount.toLocaleString("en-IN")}</div>
+                <div className="text-sm font-semibold mt-1">{PAYEE_NAME} · {UPI_ID}</div>
+                <div className="text-sm font-semibold">₹{form.amount.toLocaleString("en-IN")}</div>
               </div>
             )}
 
