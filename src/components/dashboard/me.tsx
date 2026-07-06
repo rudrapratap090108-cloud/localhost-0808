@@ -13,6 +13,7 @@ export type Me = {
     phone: string | null;
     child_name: string | null;
     class_name: string | null;
+    avatar_url: string | null;
   } | null;
 };
 
