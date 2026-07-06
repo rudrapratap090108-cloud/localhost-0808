@@ -173,6 +173,9 @@ function Nav() {
                 {label}
               </a>
             ))}
+            <div onClick={() => setOpen(false)} className="mt-2">
+              <AuthNavLink />
+            </div>
             <a
               href="#admissions"
               onClick={() => setOpen(false)}
