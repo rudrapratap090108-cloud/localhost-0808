@@ -1013,7 +1013,12 @@ export const replyComplaint = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertStaff(context);
-    const patch: Record<string, unknown> = { status: data.status };
+    const patch: {
+      status: "open" | "in_progress" | "resolved";
+      admin_reply?: string;
+      replied_by?: string;
+      replied_at?: string;
+    } = { status: data.status };
     if (data.admin_reply) {
       patch.admin_reply = data.admin_reply;
       patch.replied_by = context.userId;
@@ -1023,6 +1028,7 @@ export const replyComplaint = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
 
 
 
