@@ -798,4 +798,231 @@ export const createParentAccount = createServerFn({ method: "POST" })
     return { ok: true, mode: data.mode, email, password, generated };
   });
 
+/* ---------- Parents list (for staff pickers) ---------- */
+export const listParents = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const isAdmin = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+    const isTeacher = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "teacher" });
+    if (!isAdmin.data && !isTeacher.data) throw new Error("Forbidden");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: roles } = await supabaseAdmin.from("user_roles").select("user_id").eq("role", "parent");
+    const ids = (roles ?? []).map((r) => r.user_id);
+    if (ids.length === 0) return [];
+    const { data: profiles } = await supabaseAdmin
+      .from("profiles")
+      .select("id, full_name, phone, child_name, class_name")
+      .in("id", ids);
+    return (profiles ?? []).sort((a, b) => (a.full_name ?? "").localeCompare(b.full_name ?? ""));
+  });
+
+/* ---------- Fee assignments ---------- */
+async function assertStaff(context: { supabase: ReturnType<typeof createClient<Database>>; userId: string }) {
+  const isAdmin = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+  const isTeacher = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "teacher" });
+  if (!isAdmin.data && !isTeacher.data) throw new Error("Forbidden");
+}
+
+export const listMyFeeAssignments = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
+      .from("fee_assignments")
+      .select("*")
+      .eq("parent_id", context.userId)
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const listAllFeeAssignments = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context);
+    const { data, error } = await context.supabase
+      .from("fee_assignments")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const createFeeAssignment = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        parent_id: z.string().uuid(),
+        student_name: z.string().trim().min(1).max(100),
+        student_class: z.string().trim().max(50).optional().or(z.literal("")),
+        title: z.string().trim().min(1).max(120),
+        amount: z.number().positive(),
+        period: z.string().trim().min(1).max(50),
+        due_date: z.string().optional().or(z.literal("")),
+        note: z.string().trim().max(500).optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertStaff(context);
+    const { error } = await context.supabase.from("fee_assignments").insert({
+      parent_id: data.parent_id,
+      assigned_by: context.userId,
+      student_name: data.student_name,
+      student_class: data.student_class || null,
+      title: data.title,
+      amount: data.amount,
+      period: data.period,
+      due_date: data.due_date || null,
+      note: data.note || null,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const updateFeeAssignment = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        status: z.enum(["open", "paid", "cancelled"]),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertStaff(context);
+    const { error } = await context.supabase
+      .from("fee_assignments")
+      .update({ status: data.status })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteFeeAssignment = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertStaff(context);
+    const { error } = await context.supabase.from("fee_assignments").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/* ---------- Announcements ---------- */
+export const listAnnouncements = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
+      .from("announcements")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(100);
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const createAnnouncement = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        title: z.string().trim().min(1).max(120),
+        body: z.string().trim().min(1).max(4000),
+        audience: z.enum(["all", "parents", "teachers"]),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertStaff(context);
+    const { error } = await context.supabase.from("announcements").insert({
+      created_by: context.userId,
+      title: data.title,
+      body: data.body,
+      audience: data.audience,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteAnnouncement = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("announcements").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/* ---------- Complaints ---------- */
+export const listMyComplaints = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
+      .from("complaints")
+      .select("*")
+      .eq("parent_id", context.userId)
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const listAllComplaints = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context);
+    const { data, error } = await context.supabase
+      .from("complaints")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const createComplaint = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        subject: z.string().trim().min(2).max(150),
+        body: z.string().trim().min(2).max(4000),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("complaints").insert({
+      parent_id: context.userId,
+      subject: data.subject,
+      body: data.body,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const replyComplaint = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        status: z.enum(["open", "in_progress", "resolved"]),
+        admin_reply: z.string().trim().max(4000).optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertStaff(context);
+    const patch: Record<string, unknown> = { status: data.status };
+    if (data.admin_reply) {
+      patch.admin_reply = data.admin_reply;
+      patch.replied_by = context.userId;
+      patch.replied_at = new Date().toISOString();
+    }
+    const { error } = await context.supabase.from("complaints").update(patch).eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+
 
