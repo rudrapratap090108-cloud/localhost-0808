@@ -902,17 +902,19 @@ function Contact() {
 
           <dl className="mt-8 space-y-5 text-sm">
             {[
-              ["Address", "Mighty Mindz International Pre-school, Sector 21, Green Park, City"],
+              ["Address", "Mighty Mindz International Pre-school, Sec 11A/197, Vrindavan Yojna, Lucknow, Uttar Pradesh 226029"],
               ["Hours", "Mon – Sat · 8:30 AM – 3:30 PM"],
-              ["Phone", "+91 12345 67890"],
-              ["Email", "hello@mightymindz.school"],
+              ["Phone", "+91 84001 00348"],
+              ["WhatsApp", "+91 84001 00348"],
+              ["Email", "seema.m.bansal@gmail.com"],
             ].map(([k, v]) => (
               <div key={k} className="flex gap-4">
-                <dt className="w-20 shrink-0 font-bold text-primary">{k}</dt>
+                <dt className="w-24 shrink-0 font-bold text-primary">{k}</dt>
                 <dd className="text-foreground">{v}</dd>
               </div>
             ))}
           </dl>
+
 
           <AdmissionForm />
 
