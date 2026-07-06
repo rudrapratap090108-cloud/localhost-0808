@@ -23,6 +23,7 @@ import { Route as DashboardHomeworkRouteImport } from './routes/dashboard.homewo
 import { Route as DashboardGalleryRouteImport } from './routes/dashboard.gallery'
 import { Route as DashboardFeesRouteImport } from './routes/dashboard.fees'
 import { Route as DashboardCreateParentRouteImport } from './routes/dashboard.create-parent'
+import { Route as DashboardComplaintsRouteImport } from './routes/dashboard.complaints'
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
 import { Route as DashboardCctvRouteImport } from './routes/dashboard.cctv'
 import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
@@ -99,6 +100,11 @@ const DashboardCreateParentRoute = DashboardCreateParentRouteImport.update({
   path: '/create-parent',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardComplaintsRoute = DashboardComplaintsRouteImport.update({
+  id: '/complaints',
+  path: '/complaints',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardClassesRoute = DashboardClassesRouteImport.update({
   id: '/classes',
   path: '/classes',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/complaints'
     | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/complaints'
     | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/complaints'
     | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
@@ -361,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCreateParentRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/complaints': {
+      id: '/dashboard/complaints'
+      path: '/complaints'
+      fullPath: '/dashboard/complaints'
+      preLoaderRoute: typeof DashboardComplaintsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/classes': {
       id: '/dashboard/classes'
       path: '/classes'
@@ -404,6 +423,7 @@ interface DashboardRouteChildren {
   DashboardAttendanceRoute: typeof DashboardAttendanceRoute
   DashboardCctvRoute: typeof DashboardCctvRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
+  DashboardComplaintsRoute: typeof DashboardComplaintsRoute
   DashboardCreateParentRoute: typeof DashboardCreateParentRoute
   DashboardFeesRoute: typeof DashboardFeesRoute
   DashboardGalleryRoute: typeof DashboardGalleryRoute
@@ -421,6 +441,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAttendanceRoute: DashboardAttendanceRoute,
   DashboardCctvRoute: DashboardCctvRoute,
   DashboardClassesRoute: DashboardClassesRoute,
+  DashboardComplaintsRoute: DashboardComplaintsRoute,
   DashboardCreateParentRoute: DashboardCreateParentRoute,
   DashboardFeesRoute: DashboardFeesRoute,
   DashboardGalleryRoute: DashboardGalleryRoute,
