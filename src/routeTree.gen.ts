@@ -17,6 +17,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardUsersRouteImport } from './routes/dashboard.users'
 import { Route as DashboardStudentsRouteImport } from './routes/dashboard.students'
 import { Route as DashboardResultsRouteImport } from './routes/dashboard.results'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as DashboardLeadsRouteImport } from './routes/dashboard.leads'
 import { Route as DashboardHomeworkRouteImport } from './routes/dashboard.homework'
 import { Route as DashboardGalleryRouteImport } from './routes/dashboard.gallery'
@@ -64,6 +65,11 @@ const DashboardStudentsRoute = DashboardStudentsRouteImport.update({
 const DashboardResultsRoute = DashboardResultsRouteImport.update({
   id: '/results',
   path: '/results',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardLeadsRoute = DashboardLeadsRouteImport.update({
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/results': typeof DashboardResultsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/results': typeof DashboardResultsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/results': typeof DashboardResultsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/dashboard/gallery'
     | '/dashboard/homework'
     | '/dashboard/leads'
+    | '/dashboard/profile'
     | '/dashboard/results'
     | '/dashboard/students'
     | '/dashboard/users'
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/dashboard/gallery'
     | '/dashboard/homework'
     | '/dashboard/leads'
+    | '/dashboard/profile'
     | '/dashboard/results'
     | '/dashboard/students'
     | '/dashboard/users'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/dashboard/gallery'
     | '/dashboard/homework'
     | '/dashboard/leads'
+    | '/dashboard/profile'
     | '/dashboard/results'
     | '/dashboard/students'
     | '/dashboard/users'
@@ -283,6 +295,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardResultsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/leads': {
       id: '/dashboard/leads'
       path: '/leads'
@@ -350,6 +369,7 @@ interface DashboardRouteChildren {
   DashboardGalleryRoute: typeof DashboardGalleryRoute
   DashboardHomeworkRoute: typeof DashboardHomeworkRoute
   DashboardLeadsRoute: typeof DashboardLeadsRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardResultsRoute: typeof DashboardResultsRoute
   DashboardStudentsRoute: typeof DashboardStudentsRoute
   DashboardUsersRoute: typeof DashboardUsersRoute
@@ -364,6 +384,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardGalleryRoute: DashboardGalleryRoute,
   DashboardHomeworkRoute: DashboardHomeworkRoute,
   DashboardLeadsRoute: DashboardLeadsRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
   DashboardResultsRoute: DashboardResultsRoute,
   DashboardStudentsRoute: DashboardStudentsRoute,
   DashboardUsersRoute: DashboardUsersRoute,
