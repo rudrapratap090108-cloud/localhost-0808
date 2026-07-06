@@ -167,3 +167,180 @@ export const assignRole = createServerFn({ method: "POST" })
     }
     return { ok: true };
   });
+
+/* ---------- Classes & assignments (admin) ---------- */
+export const listClasses = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
+      .from("classes")
+      .select("id, name, created_at")
+      .order("name");
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const createClass = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ name: z.string().trim().min(1).max(60) }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase.from("classes").insert({ name: data.name });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteClass = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase.from("classes").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const listTeacherAssignments = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const { data, error } = await context.supabase
+      .from("teacher_classes")
+      .select("id, teacher_id, class_id, classes(name)");
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const assignTeacherClass = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        teacher_id: z.string().uuid(),
+        class_id: z.string().uuid(),
+        action: z.enum(["add", "remove"]),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    if (data.action === "add") {
+      const { error } = await context.supabase
+        .from("teacher_classes")
+        .insert({ teacher_id: data.teacher_id, class_id: data.class_id });
+      if (error && !error.message.includes("duplicate")) throw new Error(error.message);
+    } else {
+      const { error } = await context.supabase
+        .from("teacher_classes")
+        .delete()
+        .eq("teacher_id", data.teacher_id)
+        .eq("class_id", data.class_id);
+      if (error) throw new Error(error.message);
+    }
+    return { ok: true };
+  });
+
+/* ---------- Teacher: my classes, students, attendance ---------- */
+export const listMyClasses = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
+      .from("teacher_classes")
+      .select("class_id, classes(id, name)")
+      .eq("teacher_id", context.userId);
+    if (error) throw new Error(error.message);
+    return (data ?? [])
+      .map((r) => r.classes)
+      .filter((c): c is { id: string; name: string } => !!c);
+  });
+
+export const listStudents = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ class_id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("students")
+      .select("id, name, roll_no, phone")
+      .eq("class_id", data.class_id)
+      .order("roll_no");
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
+export const addStudent = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        class_id: z.string().uuid(),
+        name: z.string().trim().min(1).max(100),
+        roll_no: z.string().trim().min(1).max(30),
+        phone: z.string().trim().min(6).max(20).optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("students").insert({
+      class_id: data.class_id,
+      name: data.name,
+      roll_no: data.roll_no,
+      phone: data.phone || null,
+      created_by: context.userId,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteStudent = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("students").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const getAttendance = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ class_id: z.string().uuid(), date: z.string() }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("attendance")
+      .select("student_id, status")
+      .eq("class_id", data.class_id)
+      .eq("date", data.date);
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
+export const markAttendance = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        class_id: z.string().uuid(),
+        student_id: z.string().uuid(),
+        date: z.string(),
+        status: z.enum(["present", "absent", "late"]),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("attendance")
+      .upsert(
+        {
+          class_id: data.class_id,
+          student_id: data.student_id,
+          date: data.date,
+          status: data.status,
+          marked_by: context.userId,
+        },
+        { onConflict: "student_id,date" },
+      );
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
