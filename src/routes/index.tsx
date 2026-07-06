@@ -963,9 +963,10 @@ function Footer() {
         <div>
           <h4 className="font-display font-bold mb-4">Contact</h4>
           <ul className="space-y-2 text-primary-foreground/85 text-sm">
-            <li>Sector 21, Green Park</li>
-            <li>+91 12345 67890</li>
-            <li>hello@mightymindz.school</li>
+            <li>Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029</li>
+            <li>+91 84001 00348 (Call / WhatsApp)</li>
+            <li>seema.m.bansal@gmail.com</li>
+
           </ul>
         </div>
       </div>
