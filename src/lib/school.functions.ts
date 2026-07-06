@@ -344,3 +344,58 @@ export const markAttendance = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+/* ---------- Homework / Assignments ---------- */
+export const listHomework = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ class_id: z.string().uuid().optional() }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    let q = context.supabase
+      .from("homework")
+      .select("id, class_id, title, description, subject, due_date, created_at, classes(name)")
+      .order("due_date", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: false })
+      .limit(100);
+    if (data.class_id) q = q.eq("class_id", data.class_id);
+    const { data: rows, error } = await q;
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
+export const createHomework = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        class_id: z.string().uuid(),
+        title: z.string().trim().min(1).max(150),
+        description: z.string().trim().max(2000).optional().or(z.literal("")),
+        subject: z.string().trim().max(60).optional().or(z.literal("")),
+        due_date: z.string().optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("homework").insert({
+      class_id: data.class_id,
+      title: data.title,
+      description: data.description || null,
+      subject: data.subject || null,
+      due_date: data.due_date || null,
+      created_by: context.userId,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteHomework = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("homework").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+
