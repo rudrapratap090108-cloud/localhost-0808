@@ -201,6 +201,58 @@ function CreateParentPage() {
           )}
         </Card>
       )}
+
+      {isAdmin && (
+        <Card title="All parent logins" emoji="👥">
+          <p className="text-sm text-muted-foreground mb-3">
+            Principal-only view. Delete removes the parent's login permanently.
+          </p>
+          {logins.isLoading ? (
+            <p className="text-sm text-muted-foreground">Loading…</p>
+          ) : (logins.data ?? []).length === 0 ? (
+            <p className="text-sm text-muted-foreground">No parent logins yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs uppercase tracking-wide text-muted-foreground border-b border-border">
+                    <th className="py-2 pr-3">Parent</th>
+                    <th className="py-2 pr-3">Email / ID</th>
+                    <th className="py-2 pr-3">Child</th>
+                    <th className="py-2 pr-3">Class</th>
+                    <th className="py-2 pr-3">Phone</th>
+                    <th className="py-2 pr-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(logins.data ?? []).map((p) => (
+                    <tr key={p.id} className="border-b border-border/50">
+                      <td className="py-2 pr-3 font-semibold">{p.full_name ?? "—"}</td>
+                      <td className="py-2 pr-3 font-mono text-xs">{p.email || "—"}</td>
+                      <td className="py-2 pr-3">{p.child_name ?? "—"}</td>
+                      <td className="py-2 pr-3">{p.class_name ?? "—"}</td>
+                      <td className="py-2 pr-3">{p.phone ?? "—"}</td>
+                      <td className="py-2 pr-3 text-right">
+                        <button
+                          disabled={del.isPending}
+                          onClick={() => {
+                            if (confirm(`Delete login for ${p.full_name ?? p.email}? This cannot be undone.`)) {
+                              del.mutate(p.id);
+                            }
+                          }}
+                          className="rounded-full border border-destructive/40 text-destructive text-xs font-bold px-3 py-1 hover:bg-destructive/10 disabled:opacity-50"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </Card>
+      )}
     </div>
   );
 }
