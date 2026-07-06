@@ -316,6 +316,43 @@ export const getAttendance = createServerFn({ method: "POST" })
     return rows ?? [];
   });
 
+export const getAttendanceRange = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        class_id: z.string().uuid(),
+        from: z.string(),
+        to: z.string(),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const [{ data: rows, error }, { data: students, error: sErr }, { data: cls }] =
+      await Promise.all([
+        context.supabase
+          .from("attendance")
+          .select("student_id, status, date")
+          .eq("class_id", data.class_id)
+          .gte("date", data.from)
+          .lte("date", data.to)
+          .order("date"),
+        context.supabase
+          .from("students")
+          .select("id, name, roll_no")
+          .eq("class_id", data.class_id)
+          .order("roll_no"),
+        context.supabase.from("classes").select("name").eq("id", data.class_id).maybeSingle(),
+      ]);
+    if (error) throw new Error(error.message);
+    if (sErr) throw new Error(sErr.message);
+    return {
+      className: cls?.name ?? "",
+      students: students ?? [],
+      records: rows ?? [],
+    };
+  });
+
 export const markAttendance = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) =>
@@ -561,7 +598,7 @@ export const listGallery = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data: rows, error } = await context.supabase
       .from("gallery")
-      .select("id, storage_path, title, uploaded_by, created_at")
+      .select("id, storage_path, title, uploaded_by, created_at, media_type")
       .order("created_at", { ascending: false })
       .limit(200);
     if (error) throw new Error(error.message);
@@ -583,6 +620,7 @@ export const addGalleryImage = createServerFn({ method: "POST" })
       .object({
         storage_path: z.string().min(1).max(500),
         title: z.string().trim().max(100).optional().or(z.literal("")),
+        media_type: z.enum(["image", "video"]).optional(),
       })
       .parse(d),
   )
@@ -590,8 +628,9 @@ export const addGalleryImage = createServerFn({ method: "POST" })
     const { error } = await context.supabase.from("gallery").insert({
       storage_path: data.storage_path,
       title: data.title || null,
+      media_type: data.media_type ?? "image",
       uploaded_by: context.userId,
-    });
+    } as never);
     if (error) throw new Error(error.message);
     return { ok: true };
   });

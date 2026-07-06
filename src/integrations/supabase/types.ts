@@ -341,6 +341,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          media_type: string
           storage_path: string
           title: string | null
           uploaded_by: string
@@ -348,6 +349,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          media_type?: string
           storage_path: string
           title?: string | null
           uploaded_by: string
@@ -355,6 +357,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          media_type?: string
           storage_path?: string
           title?: string | null
           uploaded_by?: string
