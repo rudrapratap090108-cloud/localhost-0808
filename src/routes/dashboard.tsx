@@ -125,6 +125,7 @@ function DashboardLayout() {
               {b.emoji} {b.label}
             </span>
             <div className="ml-auto flex items-center gap-3">
+              <NotificationsBell userId={data.userId} />
               <div className="hidden md:block text-right leading-tight">
                 <div className="text-sm font-semibold">{data.profile?.full_name ?? data.email}</div>
                 <div className="text-xs text-muted-foreground">{data.email}</div>
