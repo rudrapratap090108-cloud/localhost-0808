@@ -22,6 +22,7 @@ import { Route as DashboardLeadsRouteImport } from './routes/dashboard.leads'
 import { Route as DashboardHomeworkRouteImport } from './routes/dashboard.homework'
 import { Route as DashboardGalleryRouteImport } from './routes/dashboard.gallery'
 import { Route as DashboardFeesRouteImport } from './routes/dashboard.fees'
+import { Route as DashboardCreateParentRouteImport } from './routes/dashboard.create-parent'
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
 import { Route as DashboardCctvRouteImport } from './routes/dashboard.cctv'
 import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
@@ -92,6 +93,11 @@ const DashboardFeesRoute = DashboardFeesRouteImport.update({
   path: '/fees',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardCreateParentRoute = DashboardCreateParentRouteImport.update({
+  id: '/create-parent',
+  path: '/create-parent',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardClassesRoute = DashboardClassesRouteImport.update({
   id: '/classes',
   path: '/classes',
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
     | '/dashboard/homework'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
     | '/dashboard/homework'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/create-parent'
     | '/dashboard/fees'
     | '/dashboard/gallery'
     | '/dashboard/homework'
@@ -330,6 +342,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardFeesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/create-parent': {
+      id: '/dashboard/create-parent'
+      path: '/create-parent'
+      fullPath: '/dashboard/create-parent'
+      preLoaderRoute: typeof DashboardCreateParentRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/classes': {
       id: '/dashboard/classes'
       path: '/classes'
@@ -365,6 +384,7 @@ interface DashboardRouteChildren {
   DashboardAttendanceRoute: typeof DashboardAttendanceRoute
   DashboardCctvRoute: typeof DashboardCctvRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
+  DashboardCreateParentRoute: typeof DashboardCreateParentRoute
   DashboardFeesRoute: typeof DashboardFeesRoute
   DashboardGalleryRoute: typeof DashboardGalleryRoute
   DashboardHomeworkRoute: typeof DashboardHomeworkRoute
@@ -380,6 +400,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAttendanceRoute: DashboardAttendanceRoute,
   DashboardCctvRoute: DashboardCctvRoute,
   DashboardClassesRoute: DashboardClassesRoute,
+  DashboardCreateParentRoute: DashboardCreateParentRoute,
   DashboardFeesRoute: DashboardFeesRoute,
   DashboardGalleryRoute: DashboardGalleryRoute,
   DashboardHomeworkRoute: DashboardHomeworkRoute,
