@@ -495,14 +495,17 @@ function Welcome() {
           <Reveal delay={300}>
             <div className="flex items-center gap-4 pt-4">
               <div className="h-14 w-14 rounded-full bg-accent grid place-items-center font-display font-bold text-xl text-accent-foreground">
-                MM
+                SB
               </div>
               <div>
-                <div className="font-bold text-foreground">Mrs. Priya Sharma</div>
-                <div className="text-sm">Principal · M.Ed Early Childhood</div>
+                <div className="font-bold text-foreground">Mrs. Seema Bansal</div>
+                <div className="text-sm">
+                  Principal · Post-graduate Educationist · Psychologist by passion · Trustee, Tarr Devi Educational & Welfare Trust · 20+ years running pre-schools & colleges in Pratapgarh
+                </div>
               </div>
             </div>
           </Reveal>
+
         </div>
       </div>
     </section>
@@ -860,11 +863,20 @@ function Admissions() {
               Book a Tour
             </a>
             <a
-              href="tel:+911234567890"
+              href="tel:+918400100348"
               className="inline-flex items-center rounded-full bg-card border border-border px-7 py-3.5 text-base font-bold btn-3d [--btn-shadow:var(--border)]"
             >
               Call Admissions
             </a>
+            <a
+              href="https://wa.me/918400100348"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full bg-leaf px-7 py-3.5 text-base font-bold text-leaf-foreground btn-3d [--btn-shadow:var(--leaf)]"
+            >
+              WhatsApp
+            </a>
+
           </div>
         </div>
       </div>
@@ -890,17 +902,19 @@ function Contact() {
 
           <dl className="mt-8 space-y-5 text-sm">
             {[
-              ["Address", "Mighty Mindz International Pre-school, Sector 21, Green Park, City"],
+              ["Address", "Mighty Mindz International Pre-school, Sec 11A/197, Vrindavan Yojna, Lucknow, Uttar Pradesh 226029"],
               ["Hours", "Mon – Sat · 8:30 AM – 3:30 PM"],
-              ["Phone", "+91 12345 67890"],
-              ["Email", "hello@mightymindz.school"],
+              ["Phone", "+91 84001 00348"],
+              ["WhatsApp", "+91 84001 00348"],
+              ["Email", "seema.m.bansal@gmail.com"],
             ].map(([k, v]) => (
               <div key={k} className="flex gap-4">
-                <dt className="w-20 shrink-0 font-bold text-primary">{k}</dt>
+                <dt className="w-24 shrink-0 font-bold text-primary">{k}</dt>
                 <dd className="text-foreground">{v}</dd>
               </div>
             ))}
           </dl>
+
 
           <AdmissionForm />
 
@@ -909,7 +923,7 @@ function Contact() {
         <div className="soft-card overflow-hidden aspect-[4/3] lg:aspect-auto lg:h-full min-h-[420px]">
           <iframe
             title="Mighty Mindz on the map"
-            src="https://www.google.com/maps?q=preschool&output=embed"
+            src="https://www.google.com/maps?q=Mighty+Mindz+International+Preschool+Sec+11A+Vrindavan+Yojna+Lucknow+226029&output=embed"
             className="w-full h-full border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -949,9 +963,10 @@ function Footer() {
         <div>
           <h4 className="font-display font-bold mb-4">Contact</h4>
           <ul className="space-y-2 text-primary-foreground/85 text-sm">
-            <li>Sector 21, Green Park</li>
-            <li>+91 12345 67890</li>
-            <li>hello@mightymindz.school</li>
+            <li>Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029</li>
+            <li>+91 84001 00348 (Call / WhatsApp)</li>
+            <li>seema.m.bansal@gmail.com</li>
+
           </ul>
         </div>
       </div>
