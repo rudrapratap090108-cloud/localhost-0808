@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useMe } from "@/components/dashboard/me";
 import { Card, AccessDenied } from "@/components/dashboard/ui";
-import { createParentAccount } from "@/lib/school.functions";
+import { createParentAccount, listParentLogins, deleteParentAccount } from "@/lib/school.functions";
 
 export const Route = createFileRoute("/dashboard/create-parent")({
   head: () => ({ meta: [{ title: "Create parent — Dashboard" }, { name: "robots", content: "noindex" }] }),
