@@ -172,12 +172,24 @@ export type FeeReceiptForPdf = {
   verified_at: string | null;
 };
 
-export function downloadFeeReceiptPdf(r: FeeReceiptForPdf) {
+export async function downloadFeeReceiptPdf(r: FeeReceiptForPdf) {
   const doc = new jsPDF();
-  header(doc, "Official Fee Payment Receipt");
+  const logo = await getLogoDataUrl();
+  header(doc, "Official Fee Payment Receipt", logo);
 
-  doc.setFontSize(12);
-  let y = 40;
+  // Verified stamp
+  doc.setDrawColor(80, 160, 90);
+  doc.setLineWidth(1.2);
+  doc.roundedRect(150, 48, 45, 16, 3, 3);
+  doc.setTextColor(80, 160, 90);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("VERIFIED", 156, 59);
+  doc.setTextColor(0, 0, 0);
+  doc.setLineWidth(0.2);
+
+  doc.setFontSize(11);
+  let y = 74;
   const rows: [string, string][] = [
     ["Receipt no.", r.receipt_no],
     ["Parent", r.parent_name],
