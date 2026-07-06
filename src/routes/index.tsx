@@ -493,16 +493,19 @@ function Welcome() {
             </p>
           </Reveal>
           <Reveal delay={300}>
-            <div className="flex items-center gap-4 pt-4">
-              <div className="h-14 w-14 rounded-full bg-accent grid place-items-center font-display font-bold text-xl text-accent-foreground">
-                SB
-              </div>
-              <div>
-                <div className="font-bold text-foreground">Mrs. Seema Bansal</div>
-                <div className="text-sm">
-                  Principal · Post-graduate Educationist · Psychologist by passion · Trustee, Tarr Devi Educational & Welfare Trust · 20+ years running pre-schools & colleges in Pratapgarh
+            <div className="soft-card border-l-4 border-l-primary bg-primary/5 p-5 mt-4">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-full bg-primary text-primary-foreground grid place-items-center font-display font-bold text-2xl shadow-md">
+                  SB
+                </div>
+                <div>
+                  <div className="font-bold text-foreground text-lg">Mrs. Seema Bansal</div>
+                  <div className="text-sm font-semibold text-primary">Principal & Founder Visionary</div>
                 </div>
               </div>
+              <p className="mt-3 text-base text-foreground/90 leading-relaxed">
+                Post-graduate Educationist · Psychologist by passion · Trustee, Tarr Devi Educational & Welfare Trust · 20+ years of running pre-schools & colleges in Pratapgarh.
+              </p>
             </div>
           </Reveal>
 
@@ -972,7 +975,7 @@ function Footer() {
       </div>
       <div className="relative mx-auto max-w-7xl px-4 md:px-8 mt-12 pt-6 border-t border-primary-foreground/20 flex flex-wrap items-center justify-between gap-3 text-xs text-primary-foreground/70">
         <div>© {new Date().getFullYear()} Mighty Mindz International Pre-school™</div>
-        <div>Made with ❤ for tiny explorers.</div>
+        <div className="font-semibold">Under the caring leadership of Mrs. Seema Bansal, Principal</div>
       </div>
     </footer>
   );
