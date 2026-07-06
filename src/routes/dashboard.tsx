@@ -58,14 +58,18 @@ function DashboardPage() {
   const data = me.data!;
   const roles = data.roles as Role[];
   const primary: Role =
-    (["admin", "teacher", "parent", "student"] as Role[]).find((r) => roles.includes(r)) ?? "parent";
+    (["admin", "teacher", "parent"] as Role[]).find((r) => roles.includes(r)) ?? "parent";
 
   return (
     <DashboardShell email={data.email} roles={roles} primary={primary} name={data.profile?.full_name ?? null}>
       {primary === "admin" && <AdminHome />}
       {primary === "teacher" && <TeacherHome />}
-      {primary === "parent" && <ParentHome childName={data.profile?.child_name ?? null} />}
-      {primary === "student" && <StudentHome name={data.profile?.full_name ?? null} />}
+      {primary === "parent" && (
+        <ParentHome
+          childName={data.profile?.child_name ?? null}
+          parentName={data.profile?.full_name ?? null}
+        />
+      )}
     </DashboardShell>
   );
 }
