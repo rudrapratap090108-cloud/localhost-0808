@@ -863,11 +863,20 @@ function Admissions() {
               Book a Tour
             </a>
             <a
-              href="tel:+911234567890"
+              href="tel:+918400100348"
               className="inline-flex items-center rounded-full bg-card border border-border px-7 py-3.5 text-base font-bold btn-3d [--btn-shadow:var(--border)]"
             >
               Call Admissions
             </a>
+            <a
+              href="https://wa.me/918400100348"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full bg-leaf px-7 py-3.5 text-base font-bold text-leaf-foreground btn-3d [--btn-shadow:var(--leaf)]"
+            >
+              WhatsApp
+            </a>
+
           </div>
         </div>
       </div>
