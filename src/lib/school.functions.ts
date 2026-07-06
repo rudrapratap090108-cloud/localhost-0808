@@ -144,7 +144,7 @@ export const assignRole = createServerFn({ method: "POST" })
     z
       .object({
         user_id: z.string().uuid(),
-        role: z.enum(["admin", "teacher", "parent", "student"]),
+        role: z.enum(["admin", "teacher", "parent"]),
         action: z.enum(["add", "remove"]),
       })
       .parse(d),
