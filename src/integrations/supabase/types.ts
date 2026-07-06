@@ -134,6 +134,36 @@ export type Database = {
           },
         ]
       }
+      cameras: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          password: string
+          serial_no: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          password: string
+          serial_no: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          password?: string
+          serial_no?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       classes: {
         Row: {
           created_at: string
