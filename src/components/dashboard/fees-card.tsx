@@ -46,9 +46,7 @@ export function FeesCard({ childName }: { childName: string | null }) {
   const upiLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(
     PAYEE_NAME,
   )}&am=${form.amount}&cu=INR&tn=${encodeURIComponent(note)}`;
-  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
-    upiLink,
-  )}`;
+  const qrSrc = upiQrAsset.url;
 
   const myPayments = useQuery({ queryKey: ["my-fees"], queryFn: () => listMine() });
 
