@@ -18,6 +18,7 @@ import { Route as DashboardUsersRouteImport } from './routes/dashboard.users'
 import { Route as DashboardStudentsRouteImport } from './routes/dashboard.students'
 import { Route as DashboardLeadsRouteImport } from './routes/dashboard.leads'
 import { Route as DashboardHomeworkRouteImport } from './routes/dashboard.homework'
+import { Route as DashboardFeesRouteImport } from './routes/dashboard.fees'
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
 import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -67,6 +68,11 @@ const DashboardHomeworkRoute = DashboardHomeworkRouteImport.update({
   path: '/homework',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardFeesRoute = DashboardFeesRouteImport.update({
+  id: '/fees',
+  path: '/fees',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardClassesRoute = DashboardClassesRouteImport.update({
   id: '/classes',
   path: '/classes',
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/fees': typeof DashboardFeesRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/dashboard/attendance'
     | '/dashboard/classes'
+    | '/dashboard/fees'
     | '/dashboard/homework'
     | '/dashboard/leads'
     | '/dashboard/students'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/dashboard/attendance'
     | '/dashboard/classes'
+    | '/dashboard/fees'
     | '/dashboard/homework'
     | '/dashboard/leads'
     | '/dashboard/students'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/dashboard/attendance'
     | '/dashboard/classes'
+    | '/dashboard/fees'
     | '/dashboard/homework'
     | '/dashboard/leads'
     | '/dashboard/students'
@@ -242,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardHomeworkRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/fees': {
+      id: '/dashboard/fees'
+      path: '/fees'
+      fullPath: '/dashboard/fees'
+      preLoaderRoute: typeof DashboardFeesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/classes': {
       id: '/dashboard/classes'
       path: '/classes'
@@ -269,6 +288,7 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardAttendanceRoute: typeof DashboardAttendanceRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
+  DashboardFeesRoute: typeof DashboardFeesRoute
   DashboardHomeworkRoute: typeof DashboardHomeworkRoute
   DashboardLeadsRoute: typeof DashboardLeadsRoute
   DashboardStudentsRoute: typeof DashboardStudentsRoute
@@ -279,6 +299,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAttendanceRoute: DashboardAttendanceRoute,
   DashboardClassesRoute: DashboardClassesRoute,
+  DashboardFeesRoute: DashboardFeesRoute,
   DashboardHomeworkRoute: DashboardHomeworkRoute,
   DashboardLeadsRoute: DashboardLeadsRoute,
   DashboardStudentsRoute: DashboardStudentsRoute,
