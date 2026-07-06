@@ -99,12 +99,13 @@ export type ResultForPdf = {
   remarks: string | null;
 };
 
-export function downloadResultPdf(r: ResultForPdf) {
+export async function downloadResultPdf(r: ResultForPdf) {
   const doc = new jsPDF();
-  header(doc, `Result — ${r.term === "annual" ? "Annual" : "Half-yearly"} ${r.year}`);
+  const logo = await getLogoDataUrl();
+  header(doc, `Result — ${r.term === "annual" ? "Annual" : "Half-yearly"} ${r.year}`, logo);
 
   doc.setFontSize(12);
-  let y = 38;
+  let y = 54;
   const info: [string, string][] = [
     ["Student", r.student_name],
     ["Roll No.", r.roll_no],
