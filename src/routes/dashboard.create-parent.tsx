@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useMe } from "@/components/dashboard/me";
 import { Card, AccessDenied } from "@/components/dashboard/ui";
-import { createParentAccount } from "@/lib/school.functions";
+import { createParentAccount, listParentLogins, deleteParentAccount } from "@/lib/school.functions";
 
 export const Route = createFileRoute("/dashboard/create-parent")({
   head: () => ({ meta: [{ title: "Create parent — Dashboard" }, { name: "robots", content: "noindex" }] }),
@@ -18,6 +18,10 @@ type Result = { mode: string; email: string; password?: string; generated?: bool
 function CreateParentPage() {
   const me = useMe();
   const create = useServerFn(createParentAccount);
+  const listLogins = useServerFn(listParentLogins);
+  const delParent = useServerFn(deleteParentAccount);
+  const qc = useQueryClient();
+  const isAdmin = me.roles.includes("admin");
   const [mode, setMode] = useState<Mode>("auto");
   const [form, setForm] = useState({
     full_name: "",
@@ -35,11 +39,27 @@ function CreateParentPage() {
     onSuccess: (r) => {
       setResult(r as Result);
       toast.success("Parent account created");
+      qc.invalidateQueries({ queryKey: ["parent-logins"] });
     },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
   });
 
-  if (!(me.roles.includes("admin") || me.roles.includes("teacher"))) return <AccessDenied />;
+  const logins = useQuery({
+    queryKey: ["parent-logins"],
+    queryFn: () => listLogins(),
+    enabled: isAdmin,
+  });
+
+  const del = useMutation({
+    mutationFn: (user_id: string) => delParent({ data: { user_id } }),
+    onSuccess: () => {
+      toast.success("Parent login deleted");
+      qc.invalidateQueries({ queryKey: ["parent-logins"] });
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+
+  if (!(isAdmin || me.roles.includes("teacher"))) return <AccessDenied />;
 
   return (
     <div className="max-w-3xl grid gap-6">
@@ -177,6 +197,58 @@ function CreateParentPage() {
               <p className="text-xs text-muted-foreground pt-2">
                 Share these securely with the parent. Ask them to change the password after first login.
               </p>
+            </div>
+          )}
+        </Card>
+      )}
+
+      {isAdmin && (
+        <Card title="All parent logins" emoji="👥">
+          <p className="text-sm text-muted-foreground mb-3">
+            Principal-only view. Delete removes the parent's login permanently.
+          </p>
+          {logins.isLoading ? (
+            <p className="text-sm text-muted-foreground">Loading…</p>
+          ) : (logins.data ?? []).length === 0 ? (
+            <p className="text-sm text-muted-foreground">No parent logins yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs uppercase tracking-wide text-muted-foreground border-b border-border">
+                    <th className="py-2 pr-3">Parent</th>
+                    <th className="py-2 pr-3">Email / ID</th>
+                    <th className="py-2 pr-3">Child</th>
+                    <th className="py-2 pr-3">Class</th>
+                    <th className="py-2 pr-3">Phone</th>
+                    <th className="py-2 pr-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(logins.data ?? []).map((p) => (
+                    <tr key={p.id} className="border-b border-border/50">
+                      <td className="py-2 pr-3 font-semibold">{p.full_name ?? "—"}</td>
+                      <td className="py-2 pr-3 font-mono text-xs">{p.email || "—"}</td>
+                      <td className="py-2 pr-3">{p.child_name ?? "—"}</td>
+                      <td className="py-2 pr-3">{p.class_name ?? "—"}</td>
+                      <td className="py-2 pr-3">{p.phone ?? "—"}</td>
+                      <td className="py-2 pr-3 text-right">
+                        <button
+                          disabled={del.isPending}
+                          onClick={() => {
+                            if (confirm(`Delete login for ${p.full_name ?? p.email}? This cannot be undone.`)) {
+                              del.mutate(p.id);
+                            }
+                          }}
+                          className="rounded-full border border-destructive/40 text-destructive text-xs font-bold px-3 py-1 hover:bg-destructive/10 disabled:opacity-50"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </Card>
