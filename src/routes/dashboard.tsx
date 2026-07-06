@@ -13,7 +13,7 @@ import {
 } from "@/lib/school.functions";
 import logo from "@/assets/logo.asset.json";
 
-type Role = "admin" | "teacher" | "parent" | "student";
+type Role = "admin" | "teacher" | "parent";
 
 export const Route = createFileRoute("/dashboard")({
   ssr: false,
@@ -58,14 +58,18 @@ function DashboardPage() {
   const data = me.data!;
   const roles = data.roles as Role[];
   const primary: Role =
-    (["admin", "teacher", "parent", "student"] as Role[]).find((r) => roles.includes(r)) ?? "parent";
+    (["admin", "teacher", "parent"] as Role[]).find((r) => roles.includes(r)) ?? "parent";
 
   return (
     <DashboardShell email={data.email} roles={roles} primary={primary} name={data.profile?.full_name ?? null}>
       {primary === "admin" && <AdminHome />}
       {primary === "teacher" && <TeacherHome />}
-      {primary === "parent" && <ParentHome childName={data.profile?.child_name ?? null} />}
-      {primary === "student" && <StudentHome name={data.profile?.full_name ?? null} />}
+      {primary === "parent" && (
+        <ParentHome
+          childName={data.profile?.child_name ?? null}
+          parentName={data.profile?.full_name ?? null}
+        />
+      )}
     </DashboardShell>
   );
 }
@@ -93,7 +97,6 @@ function DashboardShell({
     admin: { label: "Admin", cls: "bg-tomato text-white", emoji: "🛠" },
     teacher: { label: "Teacher", cls: "bg-primary text-primary-foreground", emoji: "👩‍🏫" },
     parent: { label: "Parent", cls: "bg-leaf text-leaf-foreground", emoji: "👨‍👩‍👧" },
-    student: { label: "Student", cls: "bg-sunshine text-sunshine-foreground", emoji: "🧒" },
   };
   const b = roleBadge[primary];
 
@@ -328,12 +331,21 @@ function TeacherHome() {
   );
 }
 
-/* ---------- Parent ---------- */
-function ParentHome({ childName }: { childName: string | null }) {
+/* ---------- Parent (includes former student features) ---------- */
+function ParentHome({ childName, parentName }: { childName: string | null; parentName: string | null }) {
+  const kid = childName ?? "your little one";
   return (
     <div className="grid md:grid-cols-3 gap-6">
+      <Card title={`Hi ${parentName ?? "there"}! 🎉`} emoji="🌞" className="md:col-span-3">
+        <p className="text-sm">
+          Here's what's happening with {kid} today — a peek at the day, notices from school, and quick ways to reach us.
+        </p>
+      </Card>
+
       <Card title={childName ? `${childName}'s week` : "Your child's week"} emoji="🌈" className="md:col-span-2">
-        <p className="text-sm text-muted-foreground">Progress, activities and photos will appear here once your child's teacher posts them.</p>
+        <p className="text-sm text-muted-foreground">
+          Progress, activities and photos will appear here once your child's teacher posts them.
+        </p>
       </Card>
       <Card title="School notices" emoji="🔔">
         <ul className="text-sm space-y-2">
@@ -341,32 +353,8 @@ function ParentHome({ childName }: { childName: string | null }) {
           <li>📅 Parent-teacher meet: 15th of next month.</li>
         </ul>
       </Card>
-      <Card title="Fees" emoji="💳">
-        <p className="text-sm text-muted-foreground">Fee ledger and online payment — coming soon.</p>
-      </Card>
-      <Card title="Chat with school" emoji="💬" className="md:col-span-2">
-        <p className="text-sm text-muted-foreground mb-2">Reach out via WhatsApp for quick answers, or the AI helper on the bottom right for admissions info.</p>
-        <a
-          href="https://wa.me/351930656040"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block rounded-full bg-leaf text-leaf-foreground text-sm font-bold px-4 py-2"
-        >
-          Open WhatsApp
-        </a>
-      </Card>
-    </div>
-  );
-}
 
-/* ---------- Student ---------- */
-function StudentHome({ name }: { name: string | null }) {
-  return (
-    <div className="grid md:grid-cols-2 gap-6">
-      <Card title={`Hi ${name ?? "friend"}! 🎉`} emoji="🌞" className="md:col-span-2">
-        <p className="text-sm">Today is going to be a wonderful day of learning and play.</p>
-      </Card>
-      <Card title="Today's schedule" emoji="🗓">
+      <Card title={`${childName ?? "Today's"} schedule`} emoji="🗓">
         <ul className="text-sm space-y-1">
           <li>9:00 — Circle time</li>
           <li>10:00 — Art & craft</li>
@@ -375,7 +363,24 @@ function StudentHome({ name }: { name: string | null }) {
         </ul>
       </Card>
       <Card title="Fun fact of the day" emoji="🐘">
-        <p className="text-sm">Elephants can't jump — but they can swim really well!</p>
+        <p className="text-sm">Elephants can't jump — but they can swim really well! Share it with {kid} tonight.</p>
+      </Card>
+      <Card title="Fees" emoji="💳">
+        <p className="text-sm text-muted-foreground">Fee ledger and online payment — coming soon.</p>
+      </Card>
+
+      <Card title="Chat with school" emoji="💬" className="md:col-span-3">
+        <p className="text-sm text-muted-foreground mb-2">
+          Reach out via WhatsApp for quick answers, or the AI helper on the bottom right for admissions info.
+        </p>
+        <a
+          href="https://wa.me/351930656040"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block rounded-full bg-leaf text-leaf-foreground text-sm font-bold px-4 py-2"
+        >
+          Open WhatsApp
+        </a>
       </Card>
     </div>
   );
