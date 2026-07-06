@@ -923,7 +923,7 @@ function Contact() {
         <div className="soft-card overflow-hidden aspect-[4/3] lg:aspect-auto lg:h-full min-h-[420px]">
           <iframe
             title="Mighty Mindz on the map"
-            src="https://www.google.com/maps?q=preschool&output=embed"
+            src="https://www.google.com/maps?q=Mighty+Mindz+International+Preschool+Sec+11A+Vrindavan+Yojna+Lucknow+226029&output=embed"
             className="w-full h-full border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
