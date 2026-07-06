@@ -14,6 +14,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardLeadsRouteImport } from './routes/dashboard.leads'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -41,6 +42,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardLeadsRoute = DashboardLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -79,9 +88,16 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/leads'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/sitemap.xml' | '/api/chat' | '/dashboard'
+  to:
+    | '/'
+    | '/auth'
+    | '/sitemap.xml'
+    | '/api/chat'
+    | '/dashboard/leads'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
@@ -89,6 +105,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/leads'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -137,6 +154,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/leads': {
+      id: '/dashboard/leads'
+      path: '/leads'
+      fullPath: '/dashboard/leads'
+      preLoaderRoute: typeof DashboardLeadsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -148,10 +172,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteChildren {
+  DashboardLeadsRoute: typeof DashboardLeadsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardLeadsRoute: DashboardLeadsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
