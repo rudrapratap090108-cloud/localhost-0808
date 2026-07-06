@@ -365,9 +365,8 @@ function ParentHome({ childName, parentName }: { childName: string | null; paren
       <Card title="Fun fact of the day" emoji="🐘">
         <p className="text-sm">Elephants can't jump — but they can swim really well! Share it with {kid} tonight.</p>
       </Card>
-      <Card title="Fees" emoji="💳">
-        <p className="text-sm text-muted-foreground">Fee ledger and online payment — coming soon.</p>
-      </Card>
+      <FeesCard childName={childName} />
+
 
       <Card title="Chat with school" emoji="💬" className="md:col-span-3">
         <p className="text-sm text-muted-foreground mb-2">
