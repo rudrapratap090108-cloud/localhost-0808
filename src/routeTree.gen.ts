@@ -18,6 +18,7 @@ import { Route as DashboardUsersRouteImport } from './routes/dashboard.users'
 import { Route as DashboardStudentsRouteImport } from './routes/dashboard.students'
 import { Route as DashboardLeadsRouteImport } from './routes/dashboard.leads'
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
+import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -65,6 +66,11 @@ const DashboardClassesRoute = DashboardClassesRouteImport.update({
   path: '/classes',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAttendanceRoute = DashboardAttendanceRouteImport.update({
+  id: '/attendance',
+  path: '/attendance',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -77,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/classes': typeof DashboardClassesRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/attendance'
     | '/dashboard/classes'
     | '/dashboard/leads'
     | '/dashboard/students'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/attendance'
     | '/dashboard/classes'
     | '/dashboard/leads'
     | '/dashboard/students'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/attendance'
     | '/dashboard/classes'
     | '/dashboard/leads'
     | '/dashboard/students'
@@ -218,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardClassesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/attendance': {
+      id: '/dashboard/attendance'
+      path: '/attendance'
+      fullPath: '/dashboard/attendance'
+      preLoaderRoute: typeof DashboardAttendanceRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -229,6 +248,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteChildren {
+  DashboardAttendanceRoute: typeof DashboardAttendanceRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
   DashboardLeadsRoute: typeof DashboardLeadsRoute
   DashboardStudentsRoute: typeof DashboardStudentsRoute
@@ -237,6 +257,7 @@ interface DashboardRouteChildren {
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAttendanceRoute: DashboardAttendanceRoute,
   DashboardClassesRoute: DashboardClassesRoute,
   DashboardLeadsRoute: DashboardLeadsRoute,
   DashboardStudentsRoute: DashboardStudentsRoute,
