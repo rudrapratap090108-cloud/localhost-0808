@@ -7,6 +7,7 @@ import { getMe } from "@/lib/school.functions";
 import logo from "@/assets/logo.asset.json";
 import { FullscreenLoader, ErrorState } from "@/components/dashboard/ui";
 import { MeContext, type Me, type Role } from "@/components/dashboard/me";
+import { NotificationsBell } from "@/components/dashboard/notifications-bell";
 
 export const Route = createFileRoute("/dashboard")({
   ssr: false,
