@@ -561,7 +561,7 @@ export const listGallery = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data: rows, error } = await context.supabase
       .from("gallery")
-      .select("id, storage_path, title, uploaded_by, created_at")
+      .select("id, storage_path, title, uploaded_by, created_at, media_type")
       .order("created_at", { ascending: false })
       .limit(200);
     if (error) throw new Error(error.message);
@@ -583,6 +583,7 @@ export const addGalleryImage = createServerFn({ method: "POST" })
       .object({
         storage_path: z.string().min(1).max(500),
         title: z.string().trim().max(100).optional().or(z.literal("")),
+        media_type: z.enum(["image", "video"]).optional(),
       })
       .parse(d),
   )
@@ -590,8 +591,9 @@ export const addGalleryImage = createServerFn({ method: "POST" })
     const { error } = await context.supabase.from("gallery").insert({
       storage_path: data.storage_path,
       title: data.title || null,
+      media_type: data.media_type ?? "image",
       uploaded_by: context.userId,
-    });
+    } as never);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
