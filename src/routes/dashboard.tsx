@@ -10,6 +10,17 @@ import {
   updateLeadStatus,
   listUsers,
   assignRole,
+  listClasses,
+  createClass,
+  deleteClass,
+  listTeacherAssignments,
+  assignTeacherClass,
+  listMyClasses,
+  listStudents,
+  addStudent,
+  deleteStudent,
+  getAttendance,
+  markAttendance,
 } from "@/lib/school.functions";
 import logo from "@/assets/logo.asset.json";
 
@@ -286,9 +297,152 @@ function AdminHome() {
           </div>
         )}
       </Section>
+
+      <ClassesAdminSection users={users.data ?? []} />
     </div>
   );
 }
+
+/* ---------- Admin: classes + teacher assignments ---------- */
+function ClassesAdminSection({ users }: { users: Array<{ id: string; full_name: string | null; email: string; roles: string[] }> }) {
+  const qc = useQueryClient();
+  const listClassesFn = useServerFn(listClasses);
+  const createClassFn = useServerFn(createClass);
+  const deleteClassFn = useServerFn(deleteClass);
+  const listAssignFn = useServerFn(listTeacherAssignments);
+  const assignFn = useServerFn(assignTeacherClass);
+
+  const classes = useQuery({ queryKey: ["classes"], queryFn: () => listClassesFn() });
+  const assigns = useQuery({ queryKey: ["assigns"], queryFn: () => listAssignFn() });
+  const [className, setClassName] = useState("");
+
+  const teachers = users.filter((u) => u.roles.includes("teacher"));
+
+  const create = useMutation({
+    mutationFn: (name: string) => createClassFn({ data: { name } }),
+    onSuccess: () => {
+      setClassName("");
+      qc.invalidateQueries({ queryKey: ["classes"] });
+      toast.success("Class added");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+  const remove = useMutation({
+    mutationFn: (id: string) => deleteClassFn({ data: { id } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["classes"] });
+      qc.invalidateQueries({ queryKey: ["assigns"] });
+      toast.success("Class removed");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+  const toggle = useMutation({
+    mutationFn: (v: { teacher_id: string; class_id: string; action: "add" | "remove" }) => assignFn({ data: v }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["assigns"] });
+      toast.success("Assignment updated");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+
+  const assignSet = new Set((assigns.data ?? []).map((a) => `${a.teacher_id}:${a.class_id}`));
+
+  return (
+    <Section title="Classes & teacher assignments" subtitle="Create classes and assign teachers to them">
+      <div className="grid gap-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (className.trim()) create.mutate(className.trim());
+          }}
+          className="flex gap-2"
+        >
+          <input
+            value={className}
+            onChange={(e) => setClassName(e.target.value)}
+            placeholder="Class name (e.g. Nursery A)"
+            className="flex-1 rounded-xl border border-border bg-background px-3 py-2 text-sm"
+            maxLength={60}
+          />
+          <button
+            type="submit"
+            disabled={create.isPending}
+            className="rounded-full bg-primary text-primary-foreground text-sm font-bold px-4 py-2 disabled:opacity-50"
+          >
+            Add class
+          </button>
+        </form>
+
+        {classes.isLoading ? (
+          <SkeletonRows />
+        ) : (classes.data ?? []).length === 0 ? (
+          <EmptyState emoji="🏫" label="No classes yet." />
+        ) : (
+          <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+            <table className="w-full text-sm">
+              <thead className="bg-cream text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="p-3">Class</th>
+                  <th className="p-3">Assigned teachers</th>
+                  <th className="p-3 w-24">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {classes.data!.map((c) => (
+                  <tr key={c.id} className="border-t border-border align-top">
+                    <td className="p-3 font-semibold">{c.name}</td>
+                    <td className="p-3">
+                      {teachers.length === 0 ? (
+                        <span className="text-xs text-muted-foreground">
+                          No teachers yet — grant a user the teacher role above.
+                        </span>
+                      ) : (
+                        <div className="flex flex-wrap gap-1">
+                          {teachers.map((t) => {
+                            const has = assignSet.has(`${t.id}:${c.id}`);
+                            return (
+                              <button
+                                key={t.id}
+                                onClick={() =>
+                                  toggle.mutate({
+                                    teacher_id: t.id,
+                                    class_id: c.id,
+                                    action: has ? "remove" : "add",
+                                  })
+                                }
+                                className={`rounded-full px-2.5 py-1 text-xs font-bold border transition ${
+                                  has
+                                    ? "bg-leaf text-leaf-foreground border-leaf"
+                                    : "bg-background border-border hover:bg-cream"
+                                }`}
+                              >
+                                {has ? "✓ " : "+ "}
+                                {t.full_name ?? t.email}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => confirm(`Delete class "${c.name}"?`) && remove.mutate(c.id)}
+                        className="rounded-full border border-border bg-background text-xs font-bold px-3 py-1 hover:bg-cream"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </Section>
+  );
+}
+
 
 function StatusPill({ status }: { status: string }) {
   const map: Record<string, string> = {
@@ -304,32 +458,238 @@ function StatusPill({ status }: { status: string }) {
 
 /* ---------- Teacher ---------- */
 function TeacherHome() {
+  const listMyClassesFn = useServerFn(listMyClasses);
+  const myClasses = useQuery({ queryKey: ["my-classes"], queryFn: () => listMyClassesFn() });
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedId && myClasses.data && myClasses.data.length > 0) {
+      setSelectedId(myClasses.data[0].id);
+    }
+  }, [myClasses.data, selectedId]);
+
+  if (myClasses.isLoading) return <SkeletonRows />;
+
+  const classes = myClasses.data ?? [];
+  if (classes.length === 0) {
+    return (
+      <EmptyState
+        emoji="🏫"
+        label="No classes assigned yet. Ask an admin to assign a class to you."
+      />
+    );
+  }
+
   return (
-    <div className="grid md:grid-cols-2 gap-6">
-      <Card title="My classes" emoji="🏫">
-        <ul className="space-y-2 text-sm">
-          <li className="flex justify-between"><span>Playgroup A</span><span className="text-muted-foreground">14 kids</span></li>
-          <li className="flex justify-between"><span>Nursery B</span><span className="text-muted-foreground">18 kids</span></li>
-        </ul>
+    <div className="grid gap-6">
+      <div className="flex flex-wrap gap-2">
+        {classes.map((c) => (
+          <button
+            key={c.id}
+            onClick={() => setSelectedId(c.id)}
+            className={`rounded-full px-4 py-2 text-sm font-bold border transition ${
+              selectedId === c.id
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-background border-border hover:bg-cream"
+            }`}
+          >
+            🏫 {c.name}
+          </button>
+        ))}
+      </div>
+      {selectedId && <ClassPanel key={selectedId} classId={selectedId} />}
+    </div>
+  );
+}
+
+function ClassPanel({ classId }: { classId: string }) {
+  const qc = useQueryClient();
+  const listStudentsFn = useServerFn(listStudents);
+  const addStudentFn = useServerFn(addStudent);
+  const deleteStudentFn = useServerFn(deleteStudent);
+  const getAttFn = useServerFn(getAttendance);
+  const markAttFn = useServerFn(markAttendance);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const [date, setDate] = useState(today);
+  const [form, setForm] = useState({ name: "", roll_no: "", phone: "" });
+
+  const students = useQuery({
+    queryKey: ["students", classId],
+    queryFn: () => listStudentsFn({ data: { class_id: classId } }),
+  });
+  const attendance = useQuery({
+    queryKey: ["att", classId, date],
+    queryFn: () => getAttFn({ data: { class_id: classId, date } }),
+  });
+
+  const attMap = new Map(
+    (attendance.data ?? []).map((a) => [a.student_id, a.status as "present" | "absent" | "late"]),
+  );
+
+  const addMut = useMutation({
+    mutationFn: () =>
+      addStudentFn({
+        data: {
+          class_id: classId,
+          name: form.name.trim(),
+          roll_no: form.roll_no.trim(),
+          phone: form.phone.trim() || undefined,
+        },
+      }),
+    onSuccess: () => {
+      setForm({ name: "", roll_no: "", phone: "" });
+      qc.invalidateQueries({ queryKey: ["students", classId] });
+      toast.success("Student added");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+  const delMut = useMutation({
+    mutationFn: (id: string) => deleteStudentFn({ data: { id } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["students", classId] });
+      qc.invalidateQueries({ queryKey: ["att", classId, date] });
+      toast.success("Removed");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+  const markMut = useMutation({
+    mutationFn: (v: { student_id: string; status: "present" | "absent" | "late" }) =>
+      markAttFn({
+        data: { class_id: classId, student_id: v.student_id, date, status: v.status },
+      }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["att", classId, date] }),
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+
+  return (
+    <div className="grid gap-6">
+      <Card title="Add a student" emoji="➕">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (form.name.trim() && form.roll_no.trim()) addMut.mutate();
+          }}
+          className="grid md:grid-cols-4 gap-2"
+        >
+          <input
+            value={form.name}
+            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+            placeholder="Full name"
+            className="rounded-xl border border-border bg-background px-3 py-2 text-sm md:col-span-2"
+            maxLength={100}
+            required
+          />
+          <input
+            value={form.roll_no}
+            onChange={(e) => setForm((f) => ({ ...f, roll_no: e.target.value }))}
+            placeholder="Roll no."
+            className="rounded-xl border border-border bg-background px-3 py-2 text-sm"
+            maxLength={30}
+            required
+          />
+          <input
+            value={form.phone}
+            onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+            placeholder="Phone (optional)"
+            className="rounded-xl border border-border bg-background px-3 py-2 text-sm"
+            maxLength={20}
+          />
+          <button
+            type="submit"
+            disabled={addMut.isPending}
+            className="md:col-span-4 rounded-full bg-primary text-primary-foreground text-sm font-bold px-4 py-2 disabled:opacity-50"
+          >
+            {addMut.isPending ? "Adding…" : "Add student"}
+          </button>
+        </form>
       </Card>
-      <Card title="Today's attendance" emoji="✅">
-        <p className="text-sm text-muted-foreground">Attendance grid module — coming soon.</p>
-      </Card>
-      <Card title="Send a notice" emoji="📣">
-        <textarea
-          placeholder="Reminder: Please pack a water bottle tomorrow…"
-          className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
-          rows={3}
-        />
-        <button className="mt-2 rounded-full bg-primary text-primary-foreground text-sm font-bold px-4 py-2">Post to parents</button>
-        <p className="text-xs text-muted-foreground mt-2">Delivery to parent inboxes ships in the next update.</p>
-      </Card>
-      <Card title="Homework & assignments" emoji="📚">
-        <p className="text-sm text-muted-foreground">Assignments module — coming soon.</p>
+
+      <Card title="Attendance" emoji="✅">
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          <label className="text-sm font-semibold">Date:</label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="rounded-xl border border-border bg-background px-3 py-1.5 text-sm"
+          />
+        </div>
+        {students.isLoading ? (
+          <SkeletonRows />
+        ) : (students.data ?? []).length === 0 ? (
+          <EmptyState emoji="👶" label="No students yet. Add one above." />
+        ) : (
+          <div className="overflow-x-auto rounded-2xl border border-border">
+            <table className="w-full text-sm">
+              <thead className="bg-cream text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="p-3">Roll</th>
+                  <th className="p-3">Name</th>
+                  <th className="p-3">Phone</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3 w-20">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.data!.map((s) => {
+                  const status = attMap.get(s.id);
+                  return (
+                    <tr key={s.id} className="border-t border-border">
+                      <td className="p-3 font-semibold">{s.roll_no}</td>
+                      <td className="p-3">{s.name}</td>
+                      <td className="p-3 text-muted-foreground">{s.phone ?? "—"}</td>
+                      <td className="p-3">
+                        <div className="flex gap-1">
+                          {(["present", "absent", "late"] as const).map((st) => {
+                            const active = status === st;
+                            const cls =
+                              st === "present"
+                                ? active
+                                  ? "bg-leaf text-leaf-foreground border-leaf"
+                                  : "hover:bg-leaf/10"
+                                : st === "absent"
+                                  ? active
+                                    ? "bg-tomato text-white border-tomato"
+                                    : "hover:bg-tomato/10"
+                                  : active
+                                    ? "bg-sunshine text-sunshine-foreground border-sunshine"
+                                    : "hover:bg-sunshine/20";
+                            return (
+                              <button
+                                key={st}
+                                onClick={() => markMut.mutate({ student_id: s.id, status: st })}
+                                className={`rounded-full px-3 py-1 text-xs font-bold border border-border transition ${cls}`}
+                              >
+                                {st === "present" ? "P" : st === "absent" ? "A" : "L"}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </td>
+                      <td className="p-3">
+                        <button
+                          onClick={() => confirm(`Remove ${s.name}?`) && delMut.mutate(s.id)}
+                          className="rounded-full border border-border bg-background text-xs font-bold px-2.5 py-1 hover:bg-cream"
+                        >
+                          ✕
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <p className="text-xs text-muted-foreground mt-3">
+          Tap P (present), A (absent) or L (late) — saved instantly.
+        </p>
       </Card>
     </div>
   );
 }
+
 
 /* ---------- Parent (includes former student features) ---------- */
 function ParentHome({ childName, parentName }: { childName: string | null; parentName: string | null }) {
