@@ -1,0 +1,1 @@
+CREATE POLICY "classes any auth read" ON public.classes FOR SELECT TO authenticated USING (true);
