@@ -239,8 +239,9 @@ export type HomeworkForPdf = {
 
 export async function downloadHomeworkPdf(h: HomeworkForPdf) {
   const doc = new jsPDF();
-  header(doc, "Homework / Assignment");
-  let y = 40;
+  const logo = await getLogoDataUrl();
+  header(doc, "Homework / Assignment", logo);
+  let y = 54;
   doc.setFontSize(14);
   doc.setFont("helvetica", "bold");
   doc.text(h.title, 14, y);
