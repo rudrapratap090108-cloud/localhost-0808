@@ -97,7 +97,6 @@ function DashboardShell({
     admin: { label: "Admin", cls: "bg-tomato text-white", emoji: "🛠" },
     teacher: { label: "Teacher", cls: "bg-primary text-primary-foreground", emoji: "👩‍🏫" },
     parent: { label: "Parent", cls: "bg-leaf text-leaf-foreground", emoji: "👨‍👩‍👧" },
-    student: { label: "Student", cls: "bg-sunshine text-sunshine-foreground", emoji: "🧒" },
   };
   const b = roleBadge[primary];
 
