@@ -495,14 +495,17 @@ function Welcome() {
           <Reveal delay={300}>
             <div className="flex items-center gap-4 pt-4">
               <div className="h-14 w-14 rounded-full bg-accent grid place-items-center font-display font-bold text-xl text-accent-foreground">
-                MM
+                SB
               </div>
               <div>
-                <div className="font-bold text-foreground">Mrs. Priya Sharma</div>
-                <div className="text-sm">Principal · M.Ed Early Childhood</div>
+                <div className="font-bold text-foreground">Mrs. Seema Bansal</div>
+                <div className="text-sm">
+                  Principal · Post-graduate Educationist · Psychologist by passion · Trustee, Tarr Devi Educational & Welfare Trust · 20+ years running pre-schools & colleges in Pratapgarh
+                </div>
               </div>
             </div>
           </Reveal>
+
         </div>
       </div>
     </section>
