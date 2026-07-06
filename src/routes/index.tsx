@@ -472,7 +472,7 @@ function Welcome() {
         <div className="lg:col-span-2">
           <Reveal>
             <p className="text-sm font-bold uppercase tracking-widest text-primary">
-              A word from our Principal
+              From our leadership
             </p>
             <h2 className="mt-3 text-3xl md:text-5xl font-bold">
               Every child is a mighty little mind.
@@ -507,7 +507,23 @@ function Welcome() {
                 </div>
               </div>
               <p className="mt-3 text-base text-foreground/90 leading-relaxed">
-                Post-graduate Educationist · Psychologist by passion · Trustee, Tarr Devi Educational & Welfare Trust · 20+ years of running pre-schools & colleges in Pratapgarh.
+                Post-graduate Educationist · Psychologist by passion · Trustee, Tara Devi Educational & Welfare Trust · 20+ years of running pre-schools & colleges in Pratapgarh.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={400}>
+            <div className="soft-card border-l-4 border-l-leaf bg-leaf/5 p-5 mt-4">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-full bg-leaf text-leaf-foreground grid place-items-center font-display font-bold text-2xl shadow-md">
+                  RM
+                </div>
+                <div>
+                  <div className="font-bold text-foreground text-lg">Ms. Reema Mishra</div>
+                  <div className="text-sm font-semibold text-leaf">Director, PTNDPS</div>
+                </div>
+              </div>
+              <p className="mt-3 text-base text-foreground/90 leading-relaxed">
+                MA in Education. A passionate educationist devoted to uplifting the level of education in Pratapgarh, she is also a trustee of Tara Devi Educational & Welfare Trust and a renowned social worker, passionately involved in uplifting education in the rural belt of Pratapgarh.
               </p>
             </div>
           </Reveal>
@@ -978,7 +994,7 @@ function Footer() {
       </div>
       <div className="relative mx-auto max-w-7xl px-4 md:px-8 mt-12 pt-6 border-t border-primary-foreground/20 flex flex-wrap items-center justify-between gap-3 text-xs text-primary-foreground/70">
         <div>© {new Date().getFullYear()} Mighty Mindz International Pre-school™</div>
-        <div className="font-semibold">Under the caring leadership of Mrs. Seema Bansal, Principal</div>
+        <div className="font-semibold">Under the caring leadership of Mrs. Seema Bansal, Principal &amp; Ms. Reema Mishra, Director</div>
       </div>
     </footer>
   );
