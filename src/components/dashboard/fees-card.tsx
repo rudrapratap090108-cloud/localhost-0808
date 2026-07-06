@@ -182,14 +182,17 @@ export function FeesCard({ childName }: { childName: string | null }) {
 
             {tab === "bank" && (
               <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
-                <Row label="Account name" value={PAYEE_NAME} />
+                <Row label="Account name" value={ACCOUNT_NAME} onCopy={() => copy(ACCOUNT_NAME, "Account name")} />
                 <Row
                   label="Account no."
                   value={BANK.account}
                   onCopy={() => copy(BANK.account.replace(/\s/g, ""), "Account number")}
                 />
                 <Row label="IFSC" value={BANK.ifsc} onCopy={() => copy(BANK.ifsc, "IFSC")} />
-                <Row label="Bank" value={`${BANK.name} · ${BANK.branch}`} />
+                <Row label="Bank" value={BANK.name} />
+                <div className="text-xs text-muted-foreground pt-1">
+                  Registered under Tara Devi Educational & Welfare Trust
+                </div>
               </div>
             )}
           </div>
