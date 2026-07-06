@@ -14,7 +14,12 @@ const LINKS: Array<{
     | "/dashboard/students"
     | "/dashboard/attendance"
     | "/dashboard/homework"
-    | "/dashboard/fees";
+    | "/dashboard/fees"
+    | "/dashboard/results"
+    | "/dashboard/gallery"
+    | "/dashboard/cctv"
+    | "/dashboard/profile"
+    | "/dashboard/create-parent";
   title: string;
   emoji: string;
   desc: string;
@@ -23,10 +28,15 @@ const LINKS: Array<{
   { to: "/dashboard/leads", title: "Admission enquiries", emoji: "📮", desc: "See and update leads from the website form.", roles: ["admin"] },
   { to: "/dashboard/users", title: "Users & roles", emoji: "👥", desc: "Grant admin, teacher or parent access.", roles: ["admin"] },
   { to: "/dashboard/classes", title: "Classes", emoji: "🏫", desc: "Create classes and assign teachers.", roles: ["admin"] },
+  { to: "/dashboard/create-parent", title: "New parent account", emoji: "🪪", desc: "Generate or invite a parent login.", roles: ["admin", "teacher"] },
   { to: "/dashboard/students", title: "My students", emoji: "👶", desc: "Add and manage students in your class.", roles: ["teacher"] },
   { to: "/dashboard/attendance", title: "Attendance", emoji: "✅", desc: "Mark daily attendance for your class.", roles: ["teacher"] },
-  { to: "/dashboard/homework", title: "Homework", emoji: "📚", desc: "Post assignments (teachers) or view them (parents).", roles: ["teacher", "parent"] },
-  { to: "/dashboard/fees", title: "Fees", emoji: "💳", desc: "Pay this month's fees by UPI or bank transfer.", roles: ["parent"] },
+  { to: "/dashboard/homework", title: "Homework", emoji: "📚", desc: "Post assignments with photos/videos.", roles: ["teacher", "parent"] },
+  { to: "/dashboard/results", title: "Results portal", emoji: "🎓", desc: "Publish or look up half-yearly and annual results.", roles: ["admin", "teacher", "parent"] },
+  { to: "/dashboard/gallery", title: "Gallery", emoji: "🖼️", desc: "Photos from school events and activities.", roles: ["admin", "teacher", "parent"] },
+  { to: "/dashboard/cctv", title: "Live CCTV", emoji: "📹", desc: "Peek into classrooms during school hours.", roles: ["parent", "admin"] },
+  { to: "/dashboard/fees", title: "Fees", emoji: "💳", desc: "Pay by UPI/bank and upload the screenshot.", roles: ["parent", "admin", "teacher"] },
+  { to: "/dashboard/profile", title: "My profile", emoji: "🙂", desc: "Set your name and photo.", roles: ["admin", "teacher", "parent"] },
 ];
 
 function DashboardIndex() {

@@ -61,6 +61,7 @@ export const updateMyProfile = createServerFn({ method: "POST" })
         phone: z.string().trim().max(20).optional(),
         child_name: z.string().trim().max(100).optional(),
         class_name: z.string().trim().max(50).optional(),
+        avatar_url: z.string().trim().max(500).optional(),
       })
       .parse(d),
   )
@@ -396,6 +397,405 @@ export const deleteHomework = createServerFn({ method: "POST" })
     const { error } = await context.supabase.from("homework").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
+  });
+
+/* ---------- Homework media ---------- */
+export const listHomeworkMedia = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ homework_id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("homework_media")
+      .select("id, kind, storage_path, size_bytes, created_at")
+      .eq("homework_id", data.homework_id)
+      .order("created_at");
+    if (error) throw new Error(error.message);
+    const withUrls = await Promise.all(
+      (rows ?? []).map(async (r) => {
+        const { data: signed } = await context.supabase.storage
+          .from("homework-media")
+          .createSignedUrl(r.storage_path, 3600);
+        return { ...r, url: signed?.signedUrl ?? "" };
+      }),
+    );
+    return withUrls;
+  });
+
+export const addHomeworkMedia = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        homework_id: z.string().uuid(),
+        storage_path: z.string().min(1).max(500),
+        kind: z.enum(["image", "video"]),
+        size_bytes: z.number().int().min(0).optional(),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("homework_media").insert({
+      homework_id: data.homework_id,
+      storage_path: data.storage_path,
+      kind: data.kind,
+      size_bytes: data.size_bytes ?? null,
+      created_by: context.userId,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteHomeworkMedia = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: row } = await context.supabase
+      .from("homework_media")
+      .select("storage_path")
+      .eq("id", data.id)
+      .maybeSingle();
+    const { error } = await context.supabase.from("homework_media").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    if (row?.storage_path) {
+      await context.supabase.storage.from("homework-media").remove([row.storage_path]);
+    }
+    return { ok: true };
+  });
+
+/* ---------- Results ---------- */
+const subjectSchema = z.object({
+  name: z.string().trim().min(1).max(60),
+  marks: z.number().min(0),
+  max: z.number().min(1),
+});
+
+export const upsertResult = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        class_id: z.string().uuid(),
+        roll_no: z.string().trim().min(1).max(30),
+        student_name: z.string().trim().min(1).max(100),
+        term: z.enum(["half_yearly", "annual"]),
+        year: z.number().int().min(2000).max(2100),
+        subjects: z.array(subjectSchema).min(1).max(20),
+        grade: z.string().trim().max(4).optional().or(z.literal("")),
+        remarks: z.string().trim().max(500).optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const total = data.subjects.reduce((s, x) => s + x.marks, 0);
+    const max_total = data.subjects.reduce((s, x) => s + x.max, 0);
+    const percentage = max_total > 0 ? +((total / max_total) * 100).toFixed(2) : 0;
+    const { error } = await context.supabase.from("results").upsert(
+      {
+        class_id: data.class_id,
+        roll_no: data.roll_no,
+        student_name: data.student_name,
+        term: data.term,
+        year: data.year,
+        subjects: data.subjects,
+        total,
+        max_total,
+        percentage,
+        grade: data.grade || null,
+        remarks: data.remarks || null,
+        created_by: context.userId,
+      },
+      { onConflict: "class_id,roll_no,term,year" },
+    );
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const findResults = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        class_id: z.string().uuid(),
+        roll_no: z.string().trim().min(1).max(30),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("results")
+      .select("*, classes(name)")
+      .eq("class_id", data.class_id)
+      .eq("roll_no", data.roll_no)
+      .order("year", { ascending: false })
+      .order("term");
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
+export const listClassResults = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ class_id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("results")
+      .select("id, roll_no, student_name, term, year, percentage, grade, created_at")
+      .eq("class_id", data.class_id)
+      .order("year", { ascending: false })
+      .order("roll_no");
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
+export const deleteResult = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("results").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/* ---------- Gallery ---------- */
+export const listGallery = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("gallery")
+      .select("id, storage_path, title, uploaded_by, created_at")
+      .order("created_at", { ascending: false })
+      .limit(200);
+    if (error) throw new Error(error.message);
+    const withUrls = await Promise.all(
+      (rows ?? []).map(async (r) => {
+        const { data: signed } = await context.supabase.storage
+          .from("gallery")
+          .createSignedUrl(r.storage_path, 3600);
+        return { ...r, url: signed?.signedUrl ?? "" };
+      }),
+    );
+    return withUrls;
+  });
+
+export const addGalleryImage = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        storage_path: z.string().min(1).max(500),
+        title: z.string().trim().max(100).optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("gallery").insert({
+      storage_path: data.storage_path,
+      title: data.title || null,
+      uploaded_by: context.userId,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteGalleryImage = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: row } = await context.supabase
+      .from("gallery")
+      .select("storage_path")
+      .eq("id", data.id)
+      .maybeSingle();
+    const { error } = await context.supabase.from("gallery").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    if (row?.storage_path) {
+      await context.supabase.storage.from("gallery").remove([row.storage_path]);
+    }
+    return { ok: true };
+  });
+
+/* ---------- Fee payments ---------- */
+export const submitFeePayment = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        student_name: z.string().trim().min(1).max(100),
+        student_class: z.string().trim().max(50).optional().or(z.literal("")),
+        period: z.string().trim().min(1).max(50),
+        amount: z.number().positive(),
+        method: z.string().trim().max(30).optional().or(z.literal("")),
+        reference: z.string().trim().max(80).optional().or(z.literal("")),
+        screenshot_path: z.string().trim().max(500).optional().or(z.literal("")),
+        notes: z.string().trim().max(500).optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("fee_payments").insert({
+      parent_id: context.userId,
+      student_name: data.student_name,
+      student_class: data.student_class || null,
+      period: data.period,
+      amount: data.amount,
+      method: data.method || null,
+      reference: data.reference || null,
+      screenshot_path: data.screenshot_path || null,
+      notes: data.notes || null,
+      status: "pending",
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+async function signPathIfAny(
+  context: { supabase: ReturnType<typeof createClient<Database>> },
+  bucket: string,
+  path: string | null,
+) {
+  if (!path) return null;
+  const { data } = await context.supabase.storage.from(bucket).createSignedUrl(path, 3600);
+  return data?.signedUrl ?? null;
+}
+
+export const listMyFeePayments = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("fee_payments")
+      .select("*")
+      .eq("parent_id", context.userId)
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return Promise.all(
+      (rows ?? []).map(async (r) => ({
+        ...r,
+        screenshot_url: await signPathIfAny(context, "fee-screenshots", r.screenshot_path),
+      })),
+    );
+  });
+
+export const listAllFeePayments = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const isAdmin = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+    const isTeacher = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "teacher" });
+    if (!isAdmin.data && !isTeacher.data) throw new Error("Forbidden");
+    const { data: rows, error } = await context.supabase
+      .from("fee_payments")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return Promise.all(
+      (rows ?? []).map(async (r) => ({
+        ...r,
+        screenshot_url: await signPathIfAny(context, "fee-screenshots", r.screenshot_path),
+      })),
+    );
+  });
+
+export const verifyFeePayment = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        status: z.enum(["verified", "rejected", "pending"]),
+        notes: z.string().trim().max(500).optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("fee_payments")
+      .update({
+        status: data.status,
+        notes: data.notes || null,
+        verified_by: context.userId,
+        verified_at: new Date().toISOString(),
+      })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/* ---------- Admin / Teacher: create parent account ---------- */
+export const createParentAccount = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        mode: z.enum(["auto", "manual", "invite"]),
+        full_name: z.string().trim().min(1).max(100),
+        child_name: z.string().trim().max(100).optional().or(z.literal("")),
+        class_name: z.string().trim().max(50).optional().or(z.literal("")),
+        phone: z.string().trim().max(20).optional().or(z.literal("")),
+        email: z.string().trim().email().max(200).optional().or(z.literal("")),
+        password: z.string().min(8).max(72).optional().or(z.literal("")),
+        roll_no: z.string().trim().max(30).optional().or(z.literal("")),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const isAdmin = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+    const isTeacher = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "teacher" });
+    if (!isAdmin.data && !isTeacher.data) throw new Error("Forbidden");
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    let email = data.email?.trim() || "";
+    let password = data.password || "";
+    let generated = false;
+
+    if (data.mode === "auto") {
+      const slug = data.roll_no?.trim() || data.full_name.toLowerCase().replace(/[^a-z0-9]+/g, "").slice(0, 12) || `p${Date.now().toString(36)}`;
+      email = `parent_${slug}_${Math.random().toString(36).slice(2, 6)}@school.local`;
+      password = Math.random().toString(36).slice(2, 6) + Math.random().toString(36).slice(2, 6).toUpperCase() + "!" + Math.floor(Math.random() * 90 + 10);
+      generated = true;
+    }
+
+    if (data.mode === "manual") {
+      if (!email || !password) throw new Error("Email and password required");
+    }
+
+    if (data.mode === "invite") {
+      if (!email) throw new Error("Email required for invite");
+      const { data: invited, error: inviteErr } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+        data: { full_name: data.full_name, phone: data.phone, role: "parent" },
+      });
+      if (inviteErr) throw new Error(inviteErr.message);
+      const uid = invited.user?.id;
+      if (uid) {
+        await supabaseAdmin.from("profiles").upsert({
+          id: uid,
+          full_name: data.full_name,
+          phone: data.phone || null,
+          child_name: data.child_name || null,
+          class_name: data.class_name || null,
+        });
+        await supabaseAdmin.from("user_roles").insert({ user_id: uid, role: "parent" }).then(() => {});
+      }
+      return { ok: true, mode: "invite" as const, email };
+    }
+
+    const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: { full_name: data.full_name, phone: data.phone, role: "parent" },
+    });
+    if (error) throw new Error(error.message);
+    const uid = created.user?.id;
+    if (uid) {
+      await supabaseAdmin.from("profiles").upsert({
+        id: uid,
+        full_name: data.full_name,
+        phone: data.phone || null,
+        child_name: data.child_name || null,
+        class_name: data.class_name || null,
+      });
+      await supabaseAdmin.from("user_roles").insert({ user_id: uid, role: "parent" }).then(() => {});
+    }
+    return { ok: true, mode: data.mode, email, password, generated };
   });
 
 

@@ -16,10 +16,15 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardUsersRouteImport } from './routes/dashboard.users'
 import { Route as DashboardStudentsRouteImport } from './routes/dashboard.students'
+import { Route as DashboardResultsRouteImport } from './routes/dashboard.results'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as DashboardLeadsRouteImport } from './routes/dashboard.leads'
 import { Route as DashboardHomeworkRouteImport } from './routes/dashboard.homework'
+import { Route as DashboardGalleryRouteImport } from './routes/dashboard.gallery'
 import { Route as DashboardFeesRouteImport } from './routes/dashboard.fees'
+import { Route as DashboardCreateParentRouteImport } from './routes/dashboard.create-parent'
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
+import { Route as DashboardCctvRouteImport } from './routes/dashboard.cctv'
 import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
@@ -58,6 +63,16 @@ const DashboardStudentsRoute = DashboardStudentsRouteImport.update({
   path: '/students',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardResultsRoute = DashboardResultsRouteImport.update({
+  id: '/results',
+  path: '/results',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardLeadsRoute = DashboardLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
@@ -68,14 +83,29 @@ const DashboardHomeworkRoute = DashboardHomeworkRouteImport.update({
   path: '/homework',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardGalleryRoute = DashboardGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardFeesRoute = DashboardFeesRouteImport.update({
   id: '/fees',
   path: '/fees',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardCreateParentRoute = DashboardCreateParentRouteImport.update({
+  id: '/create-parent',
+  path: '/create-parent',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardClassesRoute = DashboardClassesRouteImport.update({
   id: '/classes',
   path: '/classes',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCctvRoute = DashboardCctvRouteImport.update({
+  id: '/cctv',
+  path: '/cctv',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardAttendanceRoute = DashboardAttendanceRouteImport.update({
@@ -96,10 +126,15 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
+  '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
+  '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/results': typeof DashboardResultsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -110,10 +145,15 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
+  '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
+  '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/results': typeof DashboardResultsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -126,10 +166,15 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
+  '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
+  '/dashboard/create-parent': typeof DashboardCreateParentRoute
   '/dashboard/fees': typeof DashboardFeesRoute
+  '/dashboard/gallery': typeof DashboardGalleryRoute
   '/dashboard/homework': typeof DashboardHomeworkRoute
   '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/results': typeof DashboardResultsRoute
   '/dashboard/students': typeof DashboardStudentsRoute
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -143,10 +188,15 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/api/chat'
     | '/dashboard/attendance'
+    | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/create-parent'
     | '/dashboard/fees'
+    | '/dashboard/gallery'
     | '/dashboard/homework'
     | '/dashboard/leads'
+    | '/dashboard/profile'
+    | '/dashboard/results'
     | '/dashboard/students'
     | '/dashboard/users'
     | '/dashboard/'
@@ -157,10 +207,15 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/api/chat'
     | '/dashboard/attendance'
+    | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/create-parent'
     | '/dashboard/fees'
+    | '/dashboard/gallery'
     | '/dashboard/homework'
     | '/dashboard/leads'
+    | '/dashboard/profile'
+    | '/dashboard/results'
     | '/dashboard/students'
     | '/dashboard/users'
     | '/dashboard'
@@ -172,10 +227,15 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/api/chat'
     | '/dashboard/attendance'
+    | '/dashboard/cctv'
     | '/dashboard/classes'
+    | '/dashboard/create-parent'
     | '/dashboard/fees'
+    | '/dashboard/gallery'
     | '/dashboard/homework'
     | '/dashboard/leads'
+    | '/dashboard/profile'
+    | '/dashboard/results'
     | '/dashboard/students'
     | '/dashboard/users'
     | '/dashboard/'
@@ -240,6 +300,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardStudentsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/results': {
+      id: '/dashboard/results'
+      path: '/results'
+      fullPath: '/dashboard/results'
+      preLoaderRoute: typeof DashboardResultsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/leads': {
       id: '/dashboard/leads'
       path: '/leads'
@@ -254,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardHomeworkRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/gallery': {
+      id: '/dashboard/gallery'
+      path: '/gallery'
+      fullPath: '/dashboard/gallery'
+      preLoaderRoute: typeof DashboardGalleryRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/fees': {
       id: '/dashboard/fees'
       path: '/fees'
@@ -261,11 +342,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardFeesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/create-parent': {
+      id: '/dashboard/create-parent'
+      path: '/create-parent'
+      fullPath: '/dashboard/create-parent'
+      preLoaderRoute: typeof DashboardCreateParentRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/classes': {
       id: '/dashboard/classes'
       path: '/classes'
       fullPath: '/dashboard/classes'
       preLoaderRoute: typeof DashboardClassesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/cctv': {
+      id: '/dashboard/cctv'
+      path: '/cctv'
+      fullPath: '/dashboard/cctv'
+      preLoaderRoute: typeof DashboardCctvRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/attendance': {
@@ -287,10 +382,15 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteChildren {
   DashboardAttendanceRoute: typeof DashboardAttendanceRoute
+  DashboardCctvRoute: typeof DashboardCctvRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
+  DashboardCreateParentRoute: typeof DashboardCreateParentRoute
   DashboardFeesRoute: typeof DashboardFeesRoute
+  DashboardGalleryRoute: typeof DashboardGalleryRoute
   DashboardHomeworkRoute: typeof DashboardHomeworkRoute
   DashboardLeadsRoute: typeof DashboardLeadsRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardResultsRoute: typeof DashboardResultsRoute
   DashboardStudentsRoute: typeof DashboardStudentsRoute
   DashboardUsersRoute: typeof DashboardUsersRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -298,10 +398,15 @@ interface DashboardRouteChildren {
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAttendanceRoute: DashboardAttendanceRoute,
+  DashboardCctvRoute: DashboardCctvRoute,
   DashboardClassesRoute: DashboardClassesRoute,
+  DashboardCreateParentRoute: DashboardCreateParentRoute,
   DashboardFeesRoute: DashboardFeesRoute,
+  DashboardGalleryRoute: DashboardGalleryRoute,
   DashboardHomeworkRoute: DashboardHomeworkRoute,
   DashboardLeadsRoute: DashboardLeadsRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
+  DashboardResultsRoute: DashboardResultsRoute,
   DashboardStudentsRoute: DashboardStudentsRoute,
   DashboardUsersRoute: DashboardUsersRoute,
   DashboardIndexRoute: DashboardIndexRoute,
