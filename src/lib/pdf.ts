@@ -1,27 +1,86 @@
 import { jsPDF } from "jspdf";
+import logoAsset from "@/assets/logo.asset.json";
 
-const BRAND = "Mighty Mindz School";
+const BRAND = "Mighty Mindz International Pre-school";
+const TRUST = "Tara Devi Educational and Welfare Trust";
+const ADDRESS = "Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029";
+const CONTACT = "+91 84001 00348 · seema.m.bansal@gmail.com";
 
-function header(doc: jsPDF, subtitle: string) {
-  doc.setFillColor(255, 240, 220);
-  doc.rect(0, 0, 210, 26, "F");
+// Cache logo dataURL so we don't refetch per PDF
+let _logoDataUrl: string | null = null;
+async function getLogoDataUrl(): Promise<string | null> {
+  if (_logoDataUrl) return _logoDataUrl;
+  try {
+    const res = await fetch(logoAsset.url);
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    _logoDataUrl = await new Promise<string>((resolve, reject) => {
+      const r = new FileReader();
+      r.onloadend = () => resolve(r.result as string);
+      r.onerror = reject;
+      r.readAsDataURL(blob);
+    });
+    return _logoDataUrl;
+  } catch {
+    return null;
+  }
+}
+
+function header(doc: jsPDF, subtitle: string, logo?: string | null) {
+  // Warm cream band
+  doc.setFillColor(255, 236, 205);
+  doc.rect(0, 0, 210, 34, "F");
+  // Accent stripe
+  doc.setFillColor(232, 90, 79);
+  doc.rect(0, 34, 210, 2.5, "F");
+  // Playful dots
+  doc.setFillColor(255, 205, 90);
+  doc.circle(190, 8, 3, "F");
+  doc.setFillColor(120, 190, 130);
+  doc.circle(200, 20, 2.4, "F");
+  doc.setFillColor(90, 160, 220);
+  doc.circle(182, 26, 2, "F");
+
+  if (logo) {
+    try {
+      doc.addImage(logo, "PNG", 12, 6, 22, 22);
+    } catch {
+      /* ignore */
+    }
+  }
+  const x = logo ? 38 : 14;
   doc.setTextColor(60, 40, 20);
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(18);
-  doc.text(BRAND, 14, 14);
+  doc.setFontSize(16);
+  doc.text(BRAND, x, 14);
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(11);
-  doc.text(subtitle, 14, 21);
+  doc.setFontSize(9);
+  doc.text(TRUST, x, 20);
+  doc.setFontSize(8);
+  doc.setTextColor(110, 90, 70);
+  doc.text(ADDRESS, x, 25);
+  doc.text(CONTACT, x, 29.5);
+  doc.setTextColor(60, 40, 20);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text(subtitle, 14, 44);
   doc.setTextColor(0, 0, 0);
 }
 
 function footer(doc: jsPDF) {
-  doc.setFontSize(9);
+  // Accent bottom stripe
+  doc.setFillColor(232, 90, 79);
+  doc.rect(0, 288, 210, 1.5, "F");
+  doc.setFillColor(255, 205, 90);
+  doc.circle(6, 293, 2, "F");
+  doc.setFillColor(120, 190, 130);
+  doc.circle(204, 293, 2, "F");
+  doc.setFontSize(8);
   doc.setTextColor(120, 120, 120);
   doc.text(
-    `Generated ${new Date().toLocaleString()} · This is a computer-generated document.`,
+    `Generated ${new Date().toLocaleString()} · ${TRUST} · Computer-generated document.`,
     14,
-    285,
+    294,
   );
   doc.setTextColor(0, 0, 0);
 }
