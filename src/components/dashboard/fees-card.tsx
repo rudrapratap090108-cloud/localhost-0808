@@ -13,11 +13,6 @@ import {
 } from "@/lib/school.functions";
 import { downloadFeeReceiptPdf } from "@/lib/pdf";
 
-const FEE_ITEMS = [
-  { label: "Tuition — this month", amount: 4500 },
-  { label: "Activity kit", amount: 800 },
-  { label: "Snacks & meals", amount: 1200 },
-];
 const UPI_ID = "mightymindz@upi";
 const PAYEE_NAME = "Mighty Mindz Preschool";
 const BANK = {
@@ -33,17 +28,17 @@ export function FeesCard({ childName }: { childName: string | null }) {
   const submit = useServerFn(submitFeePayment);
   const listMine = useServerFn(listMyFeePayments);
 
-  const total = FEE_ITEMS.reduce((s, i) => s + i.amount, 0);
   const [tab, setTab] = useState<"qr" | "upi" | "bank">("qr");
   const [form, setForm] = useState({
     student_name: childName ?? "",
     student_class: me.profile?.class_name ?? "",
     period: new Date().toLocaleString("en-US", { month: "long", year: "numeric" }),
-    amount: total,
+    amount: 0,
     method: "UPI",
     reference: "",
     notes: "",
   });
+
   const [busy, setBusy] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const note = `MightyMindz fees${form.student_name ? " - " + form.student_name : ""}`;
