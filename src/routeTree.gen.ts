@@ -26,6 +26,7 @@ import { Route as DashboardCreateParentRouteImport } from './routes/dashboard.cr
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
 import { Route as DashboardCctvRouteImport } from './routes/dashboard.cctv'
 import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
+import { Route as DashboardAnnouncementsRouteImport } from './routes/dashboard.announcements'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -113,6 +114,11 @@ const DashboardAttendanceRoute = DashboardAttendanceRouteImport.update({
   path: '/attendance',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAnnouncementsRoute = DashboardAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/announcements': typeof DashboardAnnouncementsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/announcements': typeof DashboardAnnouncementsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/dashboard/announcements': typeof DashboardAnnouncementsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/announcements'
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/announcements'
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/dashboard/announcements'
     | '/dashboard/attendance'
     | '/dashboard/cctv'
     | '/dashboard/classes'
@@ -370,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAttendanceRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/announcements': {
+      id: '/dashboard/announcements'
+      path: '/announcements'
+      fullPath: '/dashboard/announcements'
+      preLoaderRoute: typeof DashboardAnnouncementsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -381,6 +400,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteChildren {
+  DashboardAnnouncementsRoute: typeof DashboardAnnouncementsRoute
   DashboardAttendanceRoute: typeof DashboardAttendanceRoute
   DashboardCctvRoute: typeof DashboardCctvRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
@@ -397,6 +417,7 @@ interface DashboardRouteChildren {
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAnnouncementsRoute: DashboardAnnouncementsRoute,
   DashboardAttendanceRoute: DashboardAttendanceRoute,
   DashboardCctvRoute: DashboardCctvRoute,
   DashboardClassesRoute: DashboardClassesRoute,
