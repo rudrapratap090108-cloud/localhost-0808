@@ -13,7 +13,7 @@ import {
 } from "@/lib/school.functions";
 import logo from "@/assets/logo.asset.json";
 
-type Role = "admin" | "teacher" | "parent" | "student";
+type Role = "admin" | "teacher" | "parent";
 
 export const Route = createFileRoute("/dashboard")({
   ssr: false,
