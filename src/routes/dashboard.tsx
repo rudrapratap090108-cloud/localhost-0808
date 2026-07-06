@@ -21,6 +21,9 @@ import {
   deleteStudent,
   getAttendance,
   markAttendance,
+  listHomework,
+  createHomework,
+  deleteHomework,
 } from "@/lib/school.functions";
 import logo from "@/assets/logo.asset.json";
 
