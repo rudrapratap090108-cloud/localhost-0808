@@ -321,3 +321,92 @@ async function urlToDataUrl(url: string): Promise<string | null> {
     reader.readAsDataURL(blob);
   });
 }
+
+export type AttendanceForPdf = {
+  className: string;
+  from: string;
+  to: string;
+  students: Array<{ id: string; name: string; roll_no: string }>;
+  records: Array<{ student_id: string; date: string; status: string }>;
+};
+
+export async function downloadAttendancePdf(a: AttendanceForPdf) {
+  const doc = new jsPDF({ orientation: "landscape" });
+  const logo = await getLogoDataUrl();
+  const sameDay = a.from === a.to;
+  header(
+    doc,
+    sameDay
+      ? `Attendance — ${a.className} — ${new Date(a.from).toLocaleDateString()}`
+      : `Attendance — ${a.className} — ${new Date(a.from).toLocaleDateString()} to ${new Date(a.to).toLocaleDateString()}`,
+    logo,
+  );
+
+  const dates: string[] = [];
+  const start = new Date(a.from);
+  const end = new Date(a.to);
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    dates.push(d.toISOString().slice(0, 10));
+  }
+
+  const map = new Map<string, string>();
+  a.records.forEach((r) => map.set(`${r.student_id}|${r.date}`, r.status));
+
+  const pageWidth = 297;
+  const leftX = 10;
+  const rollW = 14;
+  const nameW = 50;
+  const summaryW = 24;
+  const availableW = pageWidth - leftX * 2 - rollW - nameW - summaryW;
+  const colW = Math.min(10, Math.max(5, availableW / Math.max(dates.length, 1)));
+
+  let y = 54;
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "bold");
+  doc.setFillColor(240, 240, 240);
+  doc.rect(leftX, y - 4, pageWidth - leftX * 2, 7, "F");
+  doc.text("Roll", leftX + 1, y);
+  doc.text("Name", leftX + rollW + 1, y);
+  let cx = leftX + rollW + nameW;
+  dates.forEach((d) => {
+    doc.text(d.slice(5), cx + 0.5, y);
+    cx += colW;
+  });
+  doc.text("P/A/L", cx + 1, y);
+  y += 5;
+
+  doc.setFont("helvetica", "normal");
+  a.students.forEach((s) => {
+    if (y > 195) { doc.addPage(); y = 20; }
+    doc.text(s.roll_no, leftX + 1, y);
+    doc.text(s.name.slice(0, 28), leftX + rollW + 1, y);
+    let x = leftX + rollW + nameW;
+    let p = 0, ab = 0, la = 0;
+    dates.forEach((d) => {
+      const st = map.get(`${s.id}|${d}`);
+      let mark = "-";
+      if (st === "present") { mark = "P"; p++; }
+      else if (st === "absent") { mark = "A"; ab++; }
+      else if (st === "late") { mark = "L"; la++; }
+      if (mark === "P") doc.setTextColor(60, 140, 70);
+      else if (mark === "A") doc.setTextColor(200, 60, 50);
+      else if (mark === "L") doc.setTextColor(200, 140, 30);
+      else doc.setTextColor(160, 160, 160);
+      doc.text(mark, x + 1, y);
+      doc.setTextColor(0, 0, 0);
+      x += colW;
+    });
+    doc.text(`${p}/${ab}/${la}`, x + 1, y);
+    y += 5;
+  });
+
+  y += 6;
+  if (y > 195) { doc.addPage(); y = 20; }
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(9);
+  doc.text("Legend: P = Present, A = Absent, L = Late, - = Not marked", leftX, y);
+
+  footer(doc);
+  const suffix = sameDay ? a.from : `${a.from}_to_${a.to}`;
+  doc.save(`Attendance_${a.className.replace(/\s+/g, "_")}_${suffix}.pdf`);
+}
