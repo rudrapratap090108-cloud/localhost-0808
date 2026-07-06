@@ -18,6 +18,10 @@ type Result = { mode: string; email: string; password?: string; generated?: bool
 function CreateParentPage() {
   const me = useMe();
   const create = useServerFn(createParentAccount);
+  const listLogins = useServerFn(listParentLogins);
+  const delParent = useServerFn(deleteParentAccount);
+  const qc = useQueryClient();
+  const isAdmin = me.roles.includes("admin");
   const [mode, setMode] = useState<Mode>("auto");
   const [form, setForm] = useState({
     full_name: "",
@@ -35,11 +39,27 @@ function CreateParentPage() {
     onSuccess: (r) => {
       setResult(r as Result);
       toast.success("Parent account created");
+      qc.invalidateQueries({ queryKey: ["parent-logins"] });
     },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
   });
 
-  if (!(me.roles.includes("admin") || me.roles.includes("teacher"))) return <AccessDenied />;
+  const logins = useQuery({
+    queryKey: ["parent-logins"],
+    queryFn: () => listLogins(),
+    enabled: isAdmin,
+  });
+
+  const del = useMutation({
+    mutationFn: (user_id: string) => delParent({ data: { user_id } }),
+    onSuccess: () => {
+      toast.success("Parent login deleted");
+      qc.invalidateQueries({ queryKey: ["parent-logins"] });
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
+  });
+
+  if (!(isAdmin || me.roles.includes("teacher"))) return <AccessDenied />;
 
   return (
     <div className="max-w-3xl grid gap-6">
