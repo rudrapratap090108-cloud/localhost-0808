@@ -816,6 +816,45 @@ export const listParents = createServerFn({ method: "GET" })
     return (profiles ?? []).sort((a, b) => (a.full_name ?? "").localeCompare(b.full_name ?? ""));
   });
 
+/* ---------- Admin: parent login management ---------- */
+export const listParentLogins = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: roles } = await supabaseAdmin.from("user_roles").select("user_id").eq("role", "parent");
+    const ids = new Set((roles ?? []).map((r) => r.user_id));
+    if (ids.size === 0) return [];
+    const { data: profiles } = await supabaseAdmin
+      .from("profiles")
+      .select("id, full_name, phone, child_name, class_name, created_at")
+      .in("id", Array.from(ids));
+    const { data: authList } = await supabaseAdmin.auth.admin.listUsers({ perPage: 200 });
+    const emailMap = new Map(authList?.users.map((u) => [u.id, u.email ?? ""]) ?? []);
+    return (profiles ?? [])
+      .map((p) => ({ ...p, email: emailMap.get(p.id) ?? "" }))
+      .sort((a, b) => (a.full_name ?? "").localeCompare(b.full_name ?? ""));
+  });
+
+export const deleteParentAccount = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ user_id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    if (data.user_id === context.userId) throw new Error("Cannot delete yourself");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: isParent } = await supabaseAdmin
+      .from("user_roles")
+      .select("user_id")
+      .eq("user_id", data.user_id)
+      .eq("role", "parent")
+      .maybeSingle();
+    if (!isParent) throw new Error("Not a parent account");
+    const { error } = await supabaseAdmin.auth.admin.deleteUser(data.user_id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
 /* ---------- Fee assignments ---------- */
 async function assertStaff(context: { supabase: ReturnType<typeof createClient<Database>>; userId: string }) {
   const isAdmin = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
