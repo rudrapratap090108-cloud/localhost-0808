@@ -10,6 +10,17 @@ import {
   updateLeadStatus,
   listUsers,
   assignRole,
+  listClasses,
+  createClass,
+  deleteClass,
+  listTeacherAssignments,
+  assignTeacherClass,
+  listMyClasses,
+  listStudents,
+  addStudent,
+  deleteStudent,
+  getAttendance,
+  markAttendance,
 } from "@/lib/school.functions";
 import logo from "@/assets/logo.asset.json";
 
