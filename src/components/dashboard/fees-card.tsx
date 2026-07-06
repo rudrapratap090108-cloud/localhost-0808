@@ -12,14 +12,15 @@ import {
   verifyFeePayment,
 } from "@/lib/school.functions";
 import { downloadFeeReceiptPdf } from "@/lib/pdf";
+import upiQrAsset from "@/assets/upi-qr.asset.json";
 
-const UPI_ID = "mightymindz@upi";
-const PAYEE_NAME = "Mighty Mindz Preschool";
+const UPI_ID = "seema.m.bansal@okhdfcbank";
+const PAYEE_NAME = "Seema Bansal";
+const ACCOUNT_NAME = "Tara Devi Educational and Welfare Trust";
 const BANK = {
-  name: "HDFC Bank",
-  account: "50100 1234 5678",
-  ifsc: "HDFC0001234",
-  branch: "MG Road, Bengaluru",
+  name: "Union Bank of India",
+  account: "215211100003004",
+  ifsc: "UBIN0821527",
 };
 
 export function FeesCard({ childName }: { childName: string | null }) {
@@ -45,9 +46,7 @@ export function FeesCard({ childName }: { childName: string | null }) {
   const upiLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(
     PAYEE_NAME,
   )}&am=${form.amount}&cu=INR&tn=${encodeURIComponent(note)}`;
-  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
-    upiLink,
-  )}`;
+  const qrSrc = upiQrAsset.url;
 
   const myPayments = useQuery({ queryKey: ["my-fees"], queryFn: () => listMine() });
 
@@ -156,15 +155,14 @@ export function FeesCard({ childName }: { childName: string | null }) {
               <div className="rounded-2xl border border-border bg-card p-4 text-center">
                 <img
                   src={qrSrc}
-                  alt="Demo UPI QR"
-                  className="mx-auto rounded-xl border border-border bg-white p-2"
-                  width={220}
-                  height={220}
+                  alt={`UPI QR — ${PAYEE_NAME}`}
+                  className="mx-auto rounded-xl border border-border bg-white p-2 max-w-[240px] w-full h-auto"
                 />
                 <div className="text-xs text-muted-foreground mt-2">
                   Scan with any UPI app (GPay / PhonePe / Paytm)
                 </div>
-                <div className="text-sm font-semibold mt-1">₹{form.amount.toLocaleString("en-IN")}</div>
+                <div className="text-sm font-semibold mt-1">{PAYEE_NAME} · {UPI_ID}</div>
+                <div className="text-sm font-semibold">₹{form.amount.toLocaleString("en-IN")}</div>
               </div>
             )}
 
@@ -183,14 +181,17 @@ export function FeesCard({ childName }: { childName: string | null }) {
 
             {tab === "bank" && (
               <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
-                <Row label="Account name" value={PAYEE_NAME} />
+                <Row label="Account name" value={ACCOUNT_NAME} onCopy={() => copy(ACCOUNT_NAME, "Account name")} />
                 <Row
                   label="Account no."
                   value={BANK.account}
                   onCopy={() => copy(BANK.account.replace(/\s/g, ""), "Account number")}
                 />
                 <Row label="IFSC" value={BANK.ifsc} onCopy={() => copy(BANK.ifsc, "IFSC")} />
-                <Row label="Bank" value={`${BANK.name} · ${BANK.branch}`} />
+                <Row label="Bank" value={BANK.name} />
+                <div className="text-xs text-muted-foreground pt-1">
+                  Registered under Tara Devi Educational & Welfare Trust
+                </div>
               </div>
             )}
           </div>
