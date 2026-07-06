@@ -13,11 +13,6 @@ import {
 } from "@/lib/school.functions";
 import { downloadFeeReceiptPdf } from "@/lib/pdf";
 
-const FEE_ITEMS = [
-  { label: "Tuition — this month", amount: 4500 },
-  { label: "Activity kit", amount: 800 },
-  { label: "Snacks & meals", amount: 1200 },
-];
 const UPI_ID = "mightymindz@upi";
 const PAYEE_NAME = "Mighty Mindz Preschool";
 const BANK = {
@@ -33,17 +28,17 @@ export function FeesCard({ childName }: { childName: string | null }) {
   const submit = useServerFn(submitFeePayment);
   const listMine = useServerFn(listMyFeePayments);
 
-  const total = FEE_ITEMS.reduce((s, i) => s + i.amount, 0);
   const [tab, setTab] = useState<"qr" | "upi" | "bank">("qr");
   const [form, setForm] = useState({
     student_name: childName ?? "",
     student_class: me.profile?.class_name ?? "",
     period: new Date().toLocaleString("en-US", { month: "long", year: "numeric" }),
-    amount: total,
+    amount: 0,
     method: "UPI",
     reference: "",
     notes: "",
   });
+
   const [busy, setBusy] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const note = `MightyMindz fees${form.student_name ? " - " + form.student_name : ""}`;
@@ -107,28 +102,38 @@ export function FeesCard({ childName }: { childName: string | null }) {
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <div className="rounded-2xl border border-border bg-cream/60 p-4">
-              <div className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-                This month
+              <label className="text-xs uppercase tracking-wide text-muted-foreground mb-2 block">
+                Enter amount to pay
+              </label>
+              <div className="flex items-baseline gap-2">
+                <span className="font-display font-bold text-2xl">₹</span>
+                <input
+                  type="number"
+                  min={1}
+                  value={form.amount || ""}
+                  onChange={(e) => setForm((f) => ({ ...f, amount: Number(e.target.value) }))}
+                  placeholder="0"
+                  className="w-full rounded-xl border border-border bg-background px-3 py-2 font-display font-bold text-2xl"
+                />
               </div>
-              <ul className="text-sm space-y-1.5">
-                {FEE_ITEMS.map((i) => (
-                  <li key={i.label} className="flex justify-between">
-                    <span>{i.label}</span>
-                    <span className="font-semibold">₹{i.amount.toLocaleString("en-IN")}</span>
-                  </li>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {[2000, 4500, 6500, 8000].map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setForm((f) => ({ ...f, amount: v }))}
+                    className="rounded-full border border-border bg-background text-xs font-bold px-3 py-1 hover:bg-cream"
+                  >
+                    ₹{v.toLocaleString("en-IN")}
+                  </button>
                 ))}
-              </ul>
-              <div className="mt-3 pt-3 border-t border-border flex justify-between items-baseline">
-                <span className="font-display font-bold">Total due</span>
-                <span className="font-display font-bold text-2xl">
-                  ₹{total.toLocaleString("en-IN")}
-                </span>
               </div>
-              <div className="mt-2 text-xs text-muted-foreground">
-                Demo billing · Due by 10th of the month
+              <div className="mt-3 text-xs text-muted-foreground">
+                Type the fee amount shared by school · Due by 10th of the month
               </div>
             </div>
           </div>
+
 
           <div>
             <div className="flex gap-2 mb-3">
