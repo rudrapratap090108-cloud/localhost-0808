@@ -29,6 +29,9 @@ const NAV: Array<{
     | "/dashboard/attendance"
     | "/dashboard/homework"
     | "/dashboard/fees"
+    | "/dashboard/assignments"
+    | "/dashboard/announcements"
+    | "/dashboard/complaints"
     | "/dashboard/results"
     | "/dashboard/gallery"
     | "/dashboard/cctv"
@@ -46,12 +49,16 @@ const NAV: Array<{
   { to: "/dashboard/students", label: "My students", emoji: "👶", roles: ["teacher"] },
   { to: "/dashboard/attendance", label: "Attendance", emoji: "✅", roles: ["teacher"] },
   { to: "/dashboard/homework", label: "Homework", emoji: "📚", roles: ["teacher", "parent"] },
+  { to: "/dashboard/announcements", label: "Announcements", emoji: "📣", roles: ["admin", "teacher", "parent"] },
+  { to: "/dashboard/complaints", label: "Complaints", emoji: "✉️", roles: ["admin", "teacher", "parent"] },
   { to: "/dashboard/results", label: "Results", emoji: "🎓", roles: ["admin", "teacher", "parent"] },
   { to: "/dashboard/gallery", label: "Gallery", emoji: "🖼️", roles: ["admin", "teacher", "parent"] },
   { to: "/dashboard/cctv", label: "CCTV", emoji: "📹", roles: ["parent", "admin"] },
+  { to: "/dashboard/assignments", label: "Fee assignments", emoji: "🧾", roles: ["admin", "teacher", "parent"] },
   { to: "/dashboard/fees", label: "Fees", emoji: "💳", roles: ["parent", "admin", "teacher"] },
   { to: "/dashboard/profile", label: "Profile", emoji: "🙂", roles: ["admin", "teacher", "parent"] },
 ];
+
 
 function DashboardLayout() {
   const navigate = useNavigate();
