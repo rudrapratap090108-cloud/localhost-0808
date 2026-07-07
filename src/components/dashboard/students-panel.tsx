@@ -87,6 +87,10 @@ export function StudentsPanel({ classId }: { classId: string }) {
         </form>
       </Card>
 
+      <StudentsImport classId={classId} />
+
+
+
       <Card title="Students" emoji="👶">
         {students.isLoading ? (
           <SkeletonRows />
