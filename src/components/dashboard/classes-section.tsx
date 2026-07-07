@@ -12,6 +12,7 @@ import {
   listStudents,
 } from "@/lib/school.functions";
 import { Section, SkeletonRows, EmptyState } from "./ui";
+import { StudentsImport } from "./students-import";
 
 export function ClassesAdminSection() {
   const qc = useQueryClient();
@@ -192,7 +193,9 @@ function AdminClassRow({
         </div>
       </div>
       {open && (
-        <div className="border-t border-border bg-cream/40 p-4">
+        <div className="border-t border-border bg-cream/40 p-4 grid gap-3">
+          <StudentsImport classId={classId} />
+
           {students.isLoading ? (
             <SkeletonRows />
           ) : (students.data ?? []).length === 0 ? (

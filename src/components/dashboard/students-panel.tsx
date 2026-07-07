@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { listStudents, addStudent, deleteStudent } from "@/lib/school.functions";
 import { Card, EmptyState, SkeletonRows } from "./ui";
+import { StudentsImport } from "./students-import";
 
 export function StudentsPanel({ classId }: { classId: string }) {
   const qc = useQueryClient();
@@ -85,6 +86,10 @@ export function StudentsPanel({ classId }: { classId: string }) {
           </button>
         </form>
       </Card>
+
+      <StudentsImport classId={classId} />
+
+
 
       <Card title="Students" emoji="👶">
         {students.isLoading ? (
