@@ -292,6 +292,40 @@ export const addStudent = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const bulkAddStudents = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        class_id: z.string().uuid(),
+        students: z
+          .array(
+            z.object({
+              name: z.string().trim().min(1).max(100),
+              roll_no: z.string().trim().min(1).max(30),
+              phone: z.string().trim().max(20).optional().or(z.literal("")),
+            }),
+          )
+          .min(1)
+          .max(500),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const rows = data.students.map((s) => ({
+      class_id: data.class_id,
+      name: s.name,
+      roll_no: s.roll_no,
+      phone: s.phone || null,
+      created_by: context.userId,
+    }));
+    const { error, count } = await context.supabase
+      .from("students")
+      .insert(rows, { count: "exact" });
+    if (error) throw new Error(error.message);
+    return { ok: true, inserted: count ?? rows.length };
+  });
+
 export const deleteStudent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
