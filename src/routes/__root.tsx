@@ -79,7 +79,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 const TITLE = "Mighty Mindz International Pre-school";
 const DESCRIPTION =
   "MightyMindz Preschool – Nurturing young minds through joyful learning, creativity, and a strong foundation for a bright future.";
-const LOGO_URL = "/__l5e/assets-v1/8b7755ad-afcd-437a-a673-b3f0088e563d/mighty-mindz-logo.jpg";
+const LOGO_URL = "/__l5e/assets-v1/6f23f582-f105-4136-867a-1b6d09103765/mighty-mindz-logo.png";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
