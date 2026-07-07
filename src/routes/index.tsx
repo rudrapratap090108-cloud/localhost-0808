@@ -124,9 +124,9 @@ function Nav() {
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school logo"
-            className="h-12 md:h-16 w-auto"
-            width={200}
-            height={64}
+            className="h-16 md:h-24 w-auto"
+            width={280}
+            height={96}
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -530,6 +530,22 @@ function Welcome() {
               </p>
             </div>
           </Reveal>
+          <Reveal delay={500}>
+            <div className="soft-card border-l-4 border-l-tomato bg-tomato/5 p-5 mt-4">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-full bg-tomato text-white grid place-items-center font-display font-bold text-2xl shadow-md">
+                  TB
+                </div>
+                <div>
+                  <div className="font-bold text-foreground text-lg">Ms. Taruna Bhaskar</div>
+                  <div className="text-sm font-semibold text-tomato">Principal · Gomti Nagar Branch</div>
+                </div>
+              </div>
+              <p className="mt-3 text-base text-foreground/90 leading-relaxed">
+                Leading our Gomti Nagar Vistar campus with warmth and dedication — bringing the Mighty Mindz way of joyful learning to families across Gomti Nagar, Lucknow.
+              </p>
+            </div>
+          </Reveal>
 
         </div>
       </div>
@@ -925,12 +941,26 @@ function Contact() {
             </p>
           </Reveal>
 
-          <dl className="mt-8 space-y-5 text-sm">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+            <div className="soft-card p-5 border-l-4 border-l-primary">
+              <div className="text-xs font-bold uppercase tracking-widest text-primary">Main Branch · Vrindavan</div>
+              <div className="mt-2 font-bold text-foreground">Mighty Mindz International Pre-school</div>
+              <p className="mt-1 text-sm text-foreground/85">Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029</p>
+              <p className="mt-2 text-sm"><span className="font-semibold text-primary">Principal:</span> Mrs. Seema Bansal</p>
+              <p className="text-sm"><span className="font-semibold text-primary">Phone / WhatsApp:</span> +91 84001 00348</p>
+            </div>
+            <div className="soft-card p-5 border-l-4 border-l-tomato">
+              <div className="text-xs font-bold uppercase tracking-widest text-tomato">Gomti Nagar Branch</div>
+              <div className="mt-2 font-bold text-foreground">Mighty Mindz International Preschool & Daycare</div>
+              <p className="mt-1 text-sm text-foreground/85">1/321, Vardan Khand, Sector 1, Gomti Nagar Vistar, Lucknow, UP 226010</p>
+              <p className="mt-2 text-sm"><span className="font-semibold text-tomato">Principal:</span> Ms. Taruna Bhaskar</p>
+              <p className="text-sm"><span className="font-semibold text-tomato">Phone:</span> +91 84001 00348 · Mon–Sat, closes 6 PM</p>
+            </div>
+          </div>
+
+          <dl className="mt-6 space-y-3 text-sm">
             {[
-              ["Address", "Mighty Mindz International Pre-school, Sec 11A/197, Vrindavan Yojna, Lucknow, Uttar Pradesh 226029"],
               ["Hours", "Mon – Sat · 8:30 AM – 3:30 PM"],
-              ["Phone", "+91 84001 00348"],
-              ["WhatsApp", "+91 84001 00348"],
               ["Email", "seema.m.bansal@gmail.com"],
             ].map(([k, v]) => (
               <div key={k} className="flex gap-4">
@@ -939,6 +969,26 @@ function Contact() {
               </div>
             ))}
           </dl>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <span className="text-sm font-bold text-primary">Follow us:</span>
+            <a
+              href="https://www.instagram.com/reel/DaczE6oyvWX/?igsh=MnVxZWF5Y2x3ejE3"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-tomato text-white px-4 py-2 text-sm font-bold shadow-sm hover:scale-105 transition"
+            >
+              📸 Instagram
+            </a>
+            <a
+              href="https://www.facebook.com/reel/4114081708882705/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-bold shadow-sm hover:scale-105 transition"
+            >
+              📘 Facebook
+            </a>
+          </div>
 
 
           <AdmissionForm />
@@ -986,12 +1036,39 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="font-display font-bold mb-4">Contact</h4>
-          <ul className="space-y-2 text-primary-foreground/85 text-sm">
-            <li>Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029</li>
-            <li>+91 84001 00348 (Call / WhatsApp)</li>
-            <li>seema.m.bansal@gmail.com</li>
-
+          <h4 className="font-display font-bold mb-4">Our Campuses</h4>
+          <ul className="space-y-3 text-primary-foreground/85 text-sm">
+            <li>
+              <div className="font-bold text-primary-foreground">Vrindavan (Main)</div>
+              <div>Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029</div>
+              <div className="opacity-90">Principal: Mrs. Seema Bansal</div>
+            </li>
+            <li>
+              <div className="font-bold text-primary-foreground">Gomti Nagar</div>
+              <div>1/321, Vardan Khand, Sector 1, Gomti Nagar Vistar, Lucknow, UP 226010</div>
+              <div className="opacity-90">Principal: Ms. Taruna Bhaskar</div>
+            </li>
+            <li className="pt-1">📞 +91 84001 00348 · seema.m.bansal@gmail.com</li>
+            <li className="pt-2 flex gap-3">
+              <a
+                href="https://www.instagram.com/reel/DaczE6oyvWX/?igsh=MnVxZWF5Y2x3ejE3"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-background/15 hover:bg-background/25 transition"
+              >
+                📸
+              </a>
+              <a
+                href="https://www.facebook.com/reel/4114081708882705/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-background/15 hover:bg-background/25 transition"
+              >
+                📘
+              </a>
+            </li>
           </ul>
         </div>
       </div>
