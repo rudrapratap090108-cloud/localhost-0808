@@ -124,9 +124,9 @@ function Nav() {
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school logo"
-            className="h-12 md:h-16 w-auto"
-            width={200}
-            height={64}
+            className="h-16 md:h-24 w-auto"
+            width={280}
+            height={96}
             loading="eager"
             fetchPriority="high"
             decoding="async"
