@@ -1036,12 +1036,39 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="font-display font-bold mb-4">Contact</h4>
-          <ul className="space-y-2 text-primary-foreground/85 text-sm">
-            <li>Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029</li>
-            <li>+91 84001 00348 (Call / WhatsApp)</li>
-            <li>seema.m.bansal@gmail.com</li>
-
+          <h4 className="font-display font-bold mb-4">Our Campuses</h4>
+          <ul className="space-y-3 text-primary-foreground/85 text-sm">
+            <li>
+              <div className="font-bold text-primary-foreground">Vrindavan (Main)</div>
+              <div>Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029</div>
+              <div className="opacity-90">Principal: Mrs. Seema Bansal</div>
+            </li>
+            <li>
+              <div className="font-bold text-primary-foreground">Gomti Nagar</div>
+              <div>1/321, Vardan Khand, Sector 1, Gomti Nagar Vistar, Lucknow, UP 226010</div>
+              <div className="opacity-90">Principal: Ms. Taruna Bhaskar</div>
+            </li>
+            <li className="pt-1">📞 +91 84001 00348 · seema.m.bansal@gmail.com</li>
+            <li className="pt-2 flex gap-3">
+              <a
+                href="https://www.instagram.com/reel/DaczE6oyvWX/?igsh=MnVxZWF5Y2x3ejE3"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-background/15 hover:bg-background/25 transition"
+              >
+                📸
+              </a>
+              <a
+                href="https://www.facebook.com/reel/4114081708882705/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-background/15 hover:bg-background/25 transition"
+              >
+                📘
+              </a>
+            </li>
           </ul>
         </div>
       </div>
