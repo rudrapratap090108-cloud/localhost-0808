@@ -12,6 +12,7 @@ import {
   listStudents,
 } from "@/lib/school.functions";
 import { Section, SkeletonRows, EmptyState } from "./ui";
+import { StudentsImport } from "./students-import";
 
 export function ClassesAdminSection() {
   const qc = useQueryClient();
