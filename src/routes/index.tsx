@@ -499,6 +499,22 @@ function Welcome() {
             </p>
           </Reveal>
           <Reveal delay={300}>
+            <div className="soft-card border-l-4 border-l-leaf bg-leaf/5 p-5 mt-4">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-full bg-leaf text-leaf-foreground grid place-items-center font-display font-bold text-2xl shadow-md">
+                  RM
+                </div>
+                <div>
+                  <div className="font-bold text-foreground text-lg">Ms. Reema Mishra</div>
+                  <div className="text-sm font-semibold text-leaf">Founder Member · Tara Devi Educational Welfare & Trust</div>
+                </div>
+              </div>
+              <p className="mt-3 text-base text-foreground/90 leading-relaxed">
+                Mighty Mindz International Preschool is her brainchild. She has 15+ years of experience running schools and colleges in Pratapgarh, and her vision continues to guide every classroom at Mighty Mindz.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={400}>
             <div className="soft-card border-l-4 border-l-primary bg-primary/5 p-5 mt-4">
               <div className="flex items-center gap-4">
                 <div className="h-16 w-16 rounded-full bg-primary text-primary-foreground grid place-items-center font-display font-bold text-2xl shadow-md">
@@ -511,22 +527,6 @@ function Welcome() {
               </div>
               <p className="mt-3 text-base text-foreground/90 leading-relaxed">
                 Post-graduate Educationist · Psychologist by passion · Trustee, Tara Devi Educational & Welfare Trust · 20+ years of running pre-schools & colleges in Pratapgarh.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={400}>
-            <div className="soft-card border-l-4 border-l-leaf bg-leaf/5 p-5 mt-4">
-              <div className="flex items-center gap-4">
-                <div className="h-16 w-16 rounded-full bg-leaf text-leaf-foreground grid place-items-center font-display font-bold text-2xl shadow-md">
-                  RM
-                </div>
-                <div>
-                  <div className="font-bold text-foreground text-lg">Ms. Reema Mishra</div>
-                  <div className="text-sm font-semibold text-leaf">Director, PTNDPS</div>
-                </div>
-              </div>
-              <p className="mt-3 text-base text-foreground/90 leading-relaxed">
-                MA in Education. A passionate educationist devoted to uplifting the level of education in Pratapgarh, she is also a trustee of Tara Devi Educational & Welfare Trust and a renowned social worker, passionately involved in uplifting education in the rural belt of Pratapgarh.
               </p>
             </div>
           </Reveal>
