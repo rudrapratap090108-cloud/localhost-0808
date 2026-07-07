@@ -117,7 +117,7 @@ function DashboardLayout() {
     <MeContext.Provider value={me}>
       <div className="min-h-screen bg-cream">
         <header className="bg-card border-b border-border sticky top-0 z-40">
-          <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center gap-4">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 h-24 flex items-center gap-4">
             <Link to="/" className="flex items-center gap-2">
               <img src={logo.url} alt="Mighty Mindz" className="h-20 w-auto" />
             </Link>
