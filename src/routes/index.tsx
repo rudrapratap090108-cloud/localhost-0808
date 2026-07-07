@@ -1074,7 +1074,7 @@ function Footer() {
       </div>
       <div className="relative mx-auto max-w-7xl px-4 md:px-8 mt-12 pt-6 border-t border-primary-foreground/20 flex flex-wrap items-center justify-between gap-3 text-xs text-primary-foreground/70">
         <div>© {new Date().getFullYear()} Mighty Mindz International Pre-school™</div>
-        <div className="font-semibold">Under the caring leadership of Mrs. Seema Bansal, Principal &amp; Ms. Reema Mishra, Director</div>
+        <div className="font-semibold">Founded by Ms. Reema Mishra · Under the caring leadership of Mrs. Seema Bansal, Principal & Ms. Taruna Bhaskar, Gomti Nagar Branch</div>
       </div>
     </footer>
   );
