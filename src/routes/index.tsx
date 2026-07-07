@@ -530,6 +530,22 @@ function Welcome() {
               </p>
             </div>
           </Reveal>
+          <Reveal delay={500}>
+            <div className="soft-card border-l-4 border-l-tomato bg-tomato/5 p-5 mt-4">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-full bg-tomato text-white grid place-items-center font-display font-bold text-2xl shadow-md">
+                  TB
+                </div>
+                <div>
+                  <div className="font-bold text-foreground text-lg">Ms. Taruna Bhaskar</div>
+                  <div className="text-sm font-semibold text-tomato">Principal · Gomti Nagar Branch</div>
+                </div>
+              </div>
+              <p className="mt-3 text-base text-foreground/90 leading-relaxed">
+                Leading our Gomti Nagar Vistar campus with warmth and dedication — bringing the Mighty Mindz way of joyful learning to families across Gomti Nagar, Lucknow.
+              </p>
+            </div>
+          </Reveal>
 
         </div>
       </div>
