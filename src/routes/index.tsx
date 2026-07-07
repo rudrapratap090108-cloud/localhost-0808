@@ -941,12 +941,26 @@ function Contact() {
             </p>
           </Reveal>
 
-          <dl className="mt-8 space-y-5 text-sm">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+            <div className="soft-card p-5 border-l-4 border-l-primary">
+              <div className="text-xs font-bold uppercase tracking-widest text-primary">Main Branch · Vrindavan</div>
+              <div className="mt-2 font-bold text-foreground">Mighty Mindz International Pre-school</div>
+              <p className="mt-1 text-sm text-foreground/85">Sec 11A/197, Vrindavan Yojna, Lucknow, UP 226029</p>
+              <p className="mt-2 text-sm"><span className="font-semibold text-primary">Principal:</span> Mrs. Seema Bansal</p>
+              <p className="text-sm"><span className="font-semibold text-primary">Phone / WhatsApp:</span> +91 84001 00348</p>
+            </div>
+            <div className="soft-card p-5 border-l-4 border-l-tomato">
+              <div className="text-xs font-bold uppercase tracking-widest text-tomato">Gomti Nagar Branch</div>
+              <div className="mt-2 font-bold text-foreground">Mighty Mindz International Preschool & Daycare</div>
+              <p className="mt-1 text-sm text-foreground/85">1/321, Vardan Khand, Sector 1, Gomti Nagar Vistar, Lucknow, UP 226010</p>
+              <p className="mt-2 text-sm"><span className="font-semibold text-tomato">Principal:</span> Ms. Taruna Bhaskar</p>
+              <p className="text-sm"><span className="font-semibold text-tomato">Phone:</span> +91 84001 00348 · Mon–Sat, closes 6 PM</p>
+            </div>
+          </div>
+
+          <dl className="mt-6 space-y-3 text-sm">
             {[
-              ["Address", "Mighty Mindz International Pre-school, Sec 11A/197, Vrindavan Yojna, Lucknow, Uttar Pradesh 226029"],
               ["Hours", "Mon – Sat · 8:30 AM – 3:30 PM"],
-              ["Phone", "+91 84001 00348"],
-              ["WhatsApp", "+91 84001 00348"],
               ["Email", "seema.m.bansal@gmail.com"],
             ].map(([k, v]) => (
               <div key={k} className="flex gap-4">
@@ -955,6 +969,26 @@ function Contact() {
               </div>
             ))}
           </dl>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <span className="text-sm font-bold text-primary">Follow us:</span>
+            <a
+              href="https://www.instagram.com/reel/DaczE6oyvWX/?igsh=MnVxZWF5Y2x3ejE3"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-tomato text-white px-4 py-2 text-sm font-bold shadow-sm hover:scale-105 transition"
+            >
+              📸 Instagram
+            </a>
+            <a
+              href="https://www.facebook.com/reel/4114081708882705/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-bold shadow-sm hover:scale-105 transition"
+            >
+              📘 Facebook
+            </a>
+          </div>
 
 
           <AdmissionForm />
