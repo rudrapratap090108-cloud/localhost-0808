@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 import logo from "@/assets/logo.asset.json";
 import kid from "@/assets/kid.asset.json";
+import childPlayingVideo from "@/assets/child-playing.mp4.asset.json";
 
 import heroImg from "@/assets/hero.jpg";
 import classroomImg from "@/assets/classroom.jpg";
@@ -112,7 +113,7 @@ function Nav() {
     ["About", "#about"],
     ["Programs", "#programs"],
     ["Facilities", "#facilities"],
-    ["Gallery", "#gallery"],
+    ["Activities", "#gallery"],
     ["News", "#news"],
     ["Contact", "#contact"],
   ];
@@ -743,10 +744,34 @@ function Gallery() {
               Life at Mighty Mindz
             </p>
             <h2 className="mt-3 text-3xl md:text-5xl font-bold">
-              A peek into our joyful days.
+              Activities — a peek into our joyful days.
             </h2>
           </div>
         </Reveal>
+
+        <Reveal>
+          <div className="mt-10 soft-card overflow-hidden">
+            <div className="relative aspect-video bg-black">
+              <video
+                src={childPlayingVideo.url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="p-4 md:p-5 flex items-center gap-3">
+              <span className="text-2xl">🎬</span>
+              <div>
+                <div className="font-bold">Little hands, big imaginations</div>
+                <p className="text-sm text-foreground/75">A glimpse of the joyful play and discovery that fills every day at Mighty Mindz.</p>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
         <div className="mt-12 grid gap-4 grid-cols-2 md:grid-cols-4 auto-rows-[140px] md:auto-rows-[180px]">
           {shots.map((src, i) => (
             <div
@@ -954,7 +979,7 @@ function Contact() {
               <div className="mt-2 font-bold text-foreground">Mighty Mindz International Preschool & Daycare</div>
               <p className="mt-1 text-sm text-foreground/85">1/321, Vardan Khand, Sector 1, Gomti Nagar Vistar, Lucknow, UP 226010</p>
               <p className="mt-2 text-sm"><span className="font-semibold text-tomato">Principal:</span> Ms. Taruna Bhaskar</p>
-              <p className="text-sm"><span className="font-semibold text-tomato">Phone:</span> +91 84001 00348 · Mon–Sat, closes 6 PM</p>
+              <p className="text-sm"><span className="font-semibold text-tomato">Phone:</span> +91 92500 31755 · +91 99997 81268 · Mon–Sat, closes 6 PM</p>
             </div>
           </div>
 
@@ -1032,7 +1057,7 @@ function Footer() {
             <li><a href="#about" className="hover:underline">About</a></li>
             <li><a href="#programs" className="hover:underline">Programs</a></li>
             <li><a href="#facilities" className="hover:underline">Facilities</a></li>
-            <li><a href="#gallery" className="hover:underline">Gallery</a></li>
+            <li><a href="#gallery" className="hover:underline">Activities</a></li>
           </ul>
         </div>
         <div>
@@ -1048,7 +1073,9 @@ function Footer() {
               <div>1/321, Vardan Khand, Sector 1, Gomti Nagar Vistar, Lucknow, UP 226010</div>
               <div className="opacity-90">Principal: Ms. Taruna Bhaskar</div>
             </li>
-            <li className="pt-1">📞 +91 84001 00348 · seema.m.bansal@gmail.com</li>
+            <li className="pt-1">📞 Vrindavan: +91 84001 00348</li>
+            <li>📞 Gomti Nagar: +91 92500 31755 · +91 99997 81268</li>
+            <li>✉️ seema.m.bansal@gmail.com</li>
             <li className="pt-2 flex gap-3">
               <a
                 href="https://www.instagram.com/reel/DaczE6oyvWX/?igsh=MnVxZWF5Y2x3ejE3"
