@@ -76,9 +76,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const TITLE = "Mighty Mindz International Pre-school — Nurturing Future";
+const TITLE = "Mighty Mindz International Pre-school";
 const DESCRIPTION =
-  "A warm, playful pre-school where curious little minds learn, play and grow. Explore our programs, facilities and admissions.";
+  "MightyMindz Preschool – Nurturing young minds through joyful learning, creativity, and a strong foundation for a bright future.";
+const LOGO_URL = "/__l5e/assets-v1/8b7755ad-afcd-437a-a673-b3f0088e563d/mighty-mindz-logo.jpg";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -92,20 +93,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "Mighty mindz" },
-      { property: "og:title", content: "Mighty mindz" },
-      { name: "twitter:title", content: "Mighty mindz" },
-      { name: "description", content: "MightyMindz Preschool – Nurturing young minds through joyful learning, creativity, and a strong foundation for a bright future." },
-      { property: "og:description", content: "MightyMindz Preschool – Nurturing young minds through joyful learning, creativity, and a strong foundation for a bright future." },
-      { name: "twitter:description", content: "MightyMindz Preschool – Nurturing young minds through joyful learning, creativity, and a strong foundation for a bright future." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1c22db16-c0eb-49c3-b368-041ae19972bd/id-preview-8e03d36c--ab02b50c-b7de-4425-a3d4-c540b0aaf530.lovable.app-1783278871486.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1c22db16-c0eb-49c3-b368-041ae19972bd/id-preview-8e03d36c--ab02b50c-b7de-4425-a3d4-c540b0aaf530.lovable.app-1783278871486.png" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preload", as: "image", href: LOGO_URL, fetchPriority: "high" } as unknown as { rel: string; href: string },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap",

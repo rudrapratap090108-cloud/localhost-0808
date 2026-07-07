@@ -127,6 +127,9 @@ function Nav() {
             className="h-12 md:h-16 w-auto"
             width={200}
             height={64}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
           />
           <span className="sr-only">Mighty Mindz</span>
         </a>
