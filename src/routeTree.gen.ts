@@ -15,6 +15,7 @@ import { Route as LeadershipRouteImport } from './routes/leadership'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CampusesRouteImport } from './routes/campuses'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdmissionsRouteImport } from './routes/admissions'
 import { Route as ActivitiesRouteImport } from './routes/activities'
@@ -32,9 +33,11 @@ import { Route as DashboardCreateParentRouteImport } from './routes/dashboard.cr
 import { Route as DashboardComplaintsRouteImport } from './routes/dashboard.complaints'
 import { Route as DashboardClassesRouteImport } from './routes/dashboard.classes'
 import { Route as DashboardCctvRouteImport } from './routes/dashboard.cctv'
+import { Route as DashboardBlogRouteImport } from './routes/dashboard.blog'
 import { Route as DashboardAttendanceRouteImport } from './routes/dashboard.attendance'
 import { Route as DashboardAssignmentsRouteImport } from './routes/dashboard.assignments'
 import { Route as DashboardAnnouncementsRouteImport } from './routes/dashboard.announcements'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -65,6 +68,11 @@ const ContactRoute = ContactRouteImport.update({
 const CampusesRoute = CampusesRouteImport.update({
   id: '/campuses',
   path: '/campuses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -152,6 +160,11 @@ const DashboardCctvRoute = DashboardCctvRouteImport.update({
   path: '/cctv',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardBlogRoute = DashboardBlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardAttendanceRoute = DashboardAttendanceRouteImport.update({
   id: '/attendance',
   path: '/attendance',
@@ -167,6 +180,11 @@ const DashboardAnnouncementsRoute = DashboardAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => DashboardRoute,
 } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -178,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/activities': typeof ActivitiesRoute
   '/admissions': typeof AdmissionsRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/campuses': typeof CampusesRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -185,9 +204,11 @@ export interface FileRoutesByFullPath {
   '/programs': typeof ProgramsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/dashboard/announcements': typeof DashboardAnnouncementsRoute
   '/dashboard/assignments': typeof DashboardAssignmentsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
+  '/dashboard/blog': typeof DashboardBlogRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
@@ -207,15 +228,18 @@ export interface FileRoutesByTo {
   '/activities': typeof ActivitiesRoute
   '/admissions': typeof AdmissionsRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/campuses': typeof CampusesRoute
   '/contact': typeof ContactRoute
   '/leadership': typeof LeadershipRoute
   '/programs': typeof ProgramsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/dashboard/announcements': typeof DashboardAnnouncementsRoute
   '/dashboard/assignments': typeof DashboardAssignmentsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
+  '/dashboard/blog': typeof DashboardBlogRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
@@ -236,6 +260,7 @@ export interface FileRoutesById {
   '/activities': typeof ActivitiesRoute
   '/admissions': typeof AdmissionsRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/campuses': typeof CampusesRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -243,9 +268,11 @@ export interface FileRoutesById {
   '/programs': typeof ProgramsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/dashboard/announcements': typeof DashboardAnnouncementsRoute
   '/dashboard/assignments': typeof DashboardAssignmentsRoute
   '/dashboard/attendance': typeof DashboardAttendanceRoute
+  '/dashboard/blog': typeof DashboardBlogRoute
   '/dashboard/cctv': typeof DashboardCctvRoute
   '/dashboard/classes': typeof DashboardClassesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
@@ -267,6 +294,7 @@ export interface FileRouteTypes {
     | '/activities'
     | '/admissions'
     | '/auth'
+    | '/blog'
     | '/campuses'
     | '/contact'
     | '/dashboard'
@@ -274,9 +302,11 @@ export interface FileRouteTypes {
     | '/programs'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/blog/$slug'
     | '/dashboard/announcements'
     | '/dashboard/assignments'
     | '/dashboard/attendance'
+    | '/dashboard/blog'
     | '/dashboard/cctv'
     | '/dashboard/classes'
     | '/dashboard/complaints'
@@ -296,15 +326,18 @@ export interface FileRouteTypes {
     | '/activities'
     | '/admissions'
     | '/auth'
+    | '/blog'
     | '/campuses'
     | '/contact'
     | '/leadership'
     | '/programs'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/blog/$slug'
     | '/dashboard/announcements'
     | '/dashboard/assignments'
     | '/dashboard/attendance'
+    | '/dashboard/blog'
     | '/dashboard/cctv'
     | '/dashboard/classes'
     | '/dashboard/complaints'
@@ -324,6 +357,7 @@ export interface FileRouteTypes {
     | '/activities'
     | '/admissions'
     | '/auth'
+    | '/blog'
     | '/campuses'
     | '/contact'
     | '/dashboard'
@@ -331,9 +365,11 @@ export interface FileRouteTypes {
     | '/programs'
     | '/sitemap.xml'
     | '/api/chat'
+    | '/blog/$slug'
     | '/dashboard/announcements'
     | '/dashboard/assignments'
     | '/dashboard/attendance'
+    | '/dashboard/blog'
     | '/dashboard/cctv'
     | '/dashboard/classes'
     | '/dashboard/complaints'
@@ -354,6 +390,7 @@ export interface RootRouteChildren {
   ActivitiesRoute: typeof ActivitiesRoute
   AdmissionsRoute: typeof AdmissionsRoute
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
   CampusesRoute: typeof CampusesRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
@@ -405,6 +442,13 @@ declare module '@tanstack/react-router' {
       path: '/campuses'
       fullPath: '/campuses'
       preLoaderRoute: typeof CampusesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -526,6 +570,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCctvRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/blog': {
+      id: '/dashboard/blog'
+      path: '/blog'
+      fullPath: '/dashboard/blog'
+      preLoaderRoute: typeof DashboardBlogRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/attendance': {
       id: '/dashboard/attendance'
       path: '/attendance'
@@ -547,6 +598,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAnnouncementsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -557,10 +615,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 interface DashboardRouteChildren {
   DashboardAnnouncementsRoute: typeof DashboardAnnouncementsRoute
   DashboardAssignmentsRoute: typeof DashboardAssignmentsRoute
   DashboardAttendanceRoute: typeof DashboardAttendanceRoute
+  DashboardBlogRoute: typeof DashboardBlogRoute
   DashboardCctvRoute: typeof DashboardCctvRoute
   DashboardClassesRoute: typeof DashboardClassesRoute
   DashboardComplaintsRoute: typeof DashboardComplaintsRoute
@@ -580,6 +649,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAnnouncementsRoute: DashboardAnnouncementsRoute,
   DashboardAssignmentsRoute: DashboardAssignmentsRoute,
   DashboardAttendanceRoute: DashboardAttendanceRoute,
+  DashboardBlogRoute: DashboardBlogRoute,
   DashboardCctvRoute: DashboardCctvRoute,
   DashboardClassesRoute: DashboardClassesRoute,
   DashboardComplaintsRoute: DashboardComplaintsRoute,
@@ -604,6 +674,7 @@ const rootRouteChildren: RootRouteChildren = {
   ActivitiesRoute: ActivitiesRoute,
   AdmissionsRoute: AdmissionsRoute,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
   CampusesRoute: CampusesRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,

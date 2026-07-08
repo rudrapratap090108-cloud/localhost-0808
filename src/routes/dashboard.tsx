@@ -37,7 +37,8 @@ const NAV: Array<{
     | "/dashboard/gallery"
     | "/dashboard/cctv"
     | "/dashboard/profile"
-    | "/dashboard/create-parent";
+    | "/dashboard/create-parent"
+    | "/dashboard/blog";
   label: string;
   emoji: string;
   roles: Role[];
@@ -46,6 +47,7 @@ const NAV: Array<{
   { to: "/dashboard/leads", label: "Enquiries", emoji: "📮", roles: ["admin"] },
   { to: "/dashboard/users", label: "Users & roles", emoji: "👥", roles: ["admin"] },
   { to: "/dashboard/classes", label: "Classes", emoji: "🏫", roles: ["admin"] },
+  { to: "/dashboard/blog", label: "Blog", emoji: "📰", roles: ["admin"] },
   { to: "/dashboard/create-parent", label: "New parent", emoji: "🪪", roles: ["admin", "teacher"] },
   { to: "/dashboard/students", label: "My students", emoji: "👶", roles: ["teacher"] },
   { to: "/dashboard/attendance", label: "Attendance", emoji: "✅", roles: ["teacher"] },
@@ -58,6 +60,12 @@ const NAV: Array<{
   { to: "/dashboard/assignments", label: "Fee assignments", emoji: "🧾", roles: ["admin", "teacher", "parent"] },
   { to: "/dashboard/fees", label: "Fees", emoji: "💳", roles: ["parent", "admin", "teacher"] },
   { to: "/dashboard/profile", label: "Profile", emoji: "🙂", roles: ["admin", "teacher", "parent"] },
+];
+
+const SOCIALS = [
+  { label: "Instagram", emoji: "📸", url: "https://www.instagram.com/reel/DaczE6oyvWX/?igsh=MnVxZWF5Y2x3ejE3" },
+  { label: "Facebook", emoji: "📘", url: "https://www.facebook.com/reel/4114081708882705/" },
+  { label: "WhatsApp", emoji: "💬", url: "https://wa.me/918400100348" },
 ];
 
 
