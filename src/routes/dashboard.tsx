@@ -146,7 +146,7 @@ function DashboardLayout() {
               </button>
             </div>
           </div>
-          <nav className="max-w-7xl mx-auto px-4 md:px-8 pb-3 flex flex-wrap gap-1.5 overflow-x-auto">
+          <nav className="max-w-7xl mx-auto px-4 md:px-8 pb-3 flex flex-wrap gap-1.5 overflow-x-auto items-center">
             {visibleNav.map((item) => (
               <Link
                 key={item.to}
@@ -163,6 +163,19 @@ function DashboardLayout() {
               >
                 {item.emoji} {item.label}
               </Link>
+            ))}
+            <span className="mx-2 hidden md:inline text-xs text-muted-foreground">Follow us</span>
+            {SOCIALS.map((s) => (
+              <a
+                key={s.label}
+                href={s.url}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-border bg-background hover:bg-cream text-xs font-bold px-3 py-1.5 whitespace-nowrap"
+                title={s.label}
+              >
+                {s.emoji} {s.label}
+              </a>
             ))}
           </nav>
         </header>
