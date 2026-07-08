@@ -322,153 +322,75 @@ function AdmissionForm() {
 
 function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden">
-      {/* Playful background blobs */}
-      <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-sunshine/40 blur-3xl" />
-        <div className="absolute top-40 -right-24 h-80 w-80 rounded-full bg-primary/25 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-tomato/20 blur-3xl" />
-      </div>
+    <section id="top" className="relative overflow-hidden bg-[#1B3A8A] text-white">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 py-10 md:py-16 relative">
+        {/* Carousel chevrons (decorative) */}
+        <button
+          aria-label="Previous"
+          className="hidden md:grid absolute left-2 top-1/2 -translate-y-1/2 h-12 w-12 place-items-center rounded-full text-white/80 hover:text-white text-3xl font-light"
+        >
+          ‹
+        </button>
+        <button
+          aria-label="Next"
+          className="hidden md:grid absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 place-items-center rounded-full text-white/80 hover:text-white text-3xl font-light"
+        >
+          ›
+        </button>
 
-      <div className="mx-auto max-w-7xl px-4 md:px-8 pt-10 md:pt-16 pb-16 md:pb-24 grid gap-10 md:gap-12 lg:grid-cols-2 items-center">
-        <div>
-          {(() => {
-            const badge = "Nurturing Future · Admissions Open 2026";
-            const palette = [
-              "var(--primary)",
-              "var(--tomato)",
-              "var(--tangerine)",
-              "var(--sunshine)",
-              "var(--leaf)",
-              "var(--grape)",
-            ];
-            let colorIdx = 0;
-            return (
-              <div className="inline-flex items-center gap-2 sm:gap-2.5 rounded-full bg-card pl-2 pr-3 sm:pl-2.5 sm:pr-4 py-1.5 sm:py-2 shadow-soft border border-border max-w-full">
-                <span className="relative shrink-0 h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10">
-                  <img
-                    src={kid.url}
-                    alt=""
-                    aria-hidden
-                    loading="lazy"
-                    width={40}
-                    height={46}
-                    className="absolute inset-x-0 bottom-0 mx-auto h-full w-auto animate-kid-jump-badge select-none pointer-events-none"
-                  />
-                </span>
-                <span
-                  className="text-[10px] sm:text-xs font-black uppercase tracking-wider leading-none"
-                  aria-label={badge}
-                >
-                  {badge.split("").map((ch, i) => {
-                    if (ch === " " || ch === "\u00A0") {
-                      return (
-                        <span key={i} aria-hidden>
-                          {"\u00A0"}
-                        </span>
-                      );
-                    }
-                    const color = palette[colorIdx % palette.length];
-                    colorIdx++;
-                    return (
-                      <span
-                        key={i}
-                        aria-hidden
-                        className="animate-letter-drop"
-                        style={{
-                          ["--drop-delay" as any]: `${i * 0.06}s`,
-                          ["--drop-color" as any]: color,
-                        }}
-                      >
-                        {ch}
-                      </span>
-                    );
-                  })}
-                </span>
-              </div>
-            );
-          })()}
-
-          <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-foreground">
-            Where little{" "}
-            <span className="inline-block align-baseline">
-              <BlockWord word="MINDZ" />
-            </span>{" "}
-            <br className="hidden md:block" />
-            grow big dreams.
+        <div className="text-center max-w-3xl mx-auto">
+          <h1 className="font-extrabold tracking-tight text-white leading-[1.05] text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+            Your Door
+            <br />
+            To The Future
           </h1>
 
-          <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl">
-            Mighty Mindz International Pre-school is a warm, joyful place for
-            ages 2–6 to play, wonder, and discover. Rooted in curiosity,
-            guided by love.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a
-              href="#admissions"
-              className="inline-flex items-center rounded-full bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
+          <div className="mt-6 md:mt-8 inline-block">
+            <div
+              className="rounded-2xl bg-sunshine px-5 py-3 md:px-8 md:py-4 shadow-lg ring-4 ring-sunshine/60"
+              style={{ transform: "rotate(-1deg)" }}
             >
-              Book a School Tour →
-            </a>
+              <span className="block font-black tracking-tight text-tomato text-3xl sm:text-5xl md:text-6xl leading-none drop-shadow-sm">
+                ADMISSION OPEN
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-4 md:mt-5 text-white font-extrabold text-3xl sm:text-5xl md:text-6xl">
+            2025-26
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              to="/admissions"
+              className="inline-flex items-center rounded-full bg-tomato px-6 py-3.5 text-base font-extrabold text-tomato-foreground shadow-lg ring-2 ring-sunshine"
+            >
+              Apply for 2026-27 →
+            </Link>
             <a
               href="#programs"
-              className="inline-flex items-center rounded-full bg-card px-6 py-3.5 text-base font-bold text-foreground border border-border btn-3d [--btn-shadow:var(--border)]"
+              className="inline-flex items-center rounded-full bg-white/10 hover:bg-white/20 px-6 py-3.5 text-base font-bold text-white border border-white/30"
             >
               Explore Programs
             </a>
           </div>
 
-          <dl className="mt-10 grid grid-cols-3 gap-4 max-w-md">
-            {[
-              ["12+", "Years of care"],
-              ["1:8", "Teacher ratio"],
-              ["500+", "Happy families"],
-            ].map(([n, l]) => (
-              <div key={l} className="soft-card p-4 text-center">
-                <dt className="text-2xl md:text-3xl font-bold text-primary">{n}</dt>
-                <dd className="text-xs font-semibold text-muted-foreground mt-1">
-                  {l}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        <div className="relative">
-          <div className="soft-card overflow-hidden rounded-3xl">
+          <div className="mt-8 md:mt-10 relative mx-auto max-w-md">
+            <div className="absolute inset-x-0 bottom-0 h-40 sm:h-56 bg-sunshine/90 rounded-t-[50%]" aria-hidden />
             <img
               src={heroImg}
-              alt="Happy pre-school children playing with alphabet blocks and a friendly dolphin mascot"
-              width={1600}
-              height={1200}
-              className="w-full h-auto"
+              alt="Happy Mighty Mindz student ready for the future"
+              className="relative mx-auto w-full h-auto max-h-[420px] object-contain"
+              width={800}
+              height={800}
             />
-          </div>
-          <div className="absolute -bottom-6 -left-6 hidden sm:block soft-card px-5 py-4 animate-float-slow">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-leaf/20 grid place-items-center text-leaf font-bold">
-                ✓
-              </div>
-              <div>
-                <div className="text-sm font-bold">Certified Educators</div>
-                <div className="text-xs text-muted-foreground">
-                  Early-childhood specialists
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="absolute -top-4 -right-2 hidden sm:block soft-card px-4 py-3 animate-bob">
-            <div className="text-xs font-bold text-tomato">★ ★ ★ ★ ★</div>
-            <div className="text-xs text-muted-foreground">
-              Loved by 500+ parents
-            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 function Welcome() {
   return (
