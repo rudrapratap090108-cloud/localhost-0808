@@ -9,13 +9,13 @@ export const Route = createFileRoute("/admissions")({
   component: AdmissionsPage,
   head: () => ({
     meta: [
-      { title: "Admissions Open 2025-26 — Mighty Mindz" },
+      { title: "Admissions Open 2026-2027 — Mighty Mindz" },
       {
         name: "description",
         content:
           "Book a school tour or apply for admission at Mighty Mindz International Pre-school, Lucknow.",
       },
-      { property: "og:title", content: "Admissions Open 2025-26" },
+      { property: "og:title", content: "Admissions Open 2026-2027" },
       {
         property: "og:description",
         content: "Your door to the future — apply now for Playgroup, Nursery, LKG or UKG.",
