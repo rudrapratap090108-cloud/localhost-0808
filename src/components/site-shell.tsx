@@ -43,15 +43,15 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-cream text-[#1B3A8A] border-b border-[#1B3A8A]/10">
-      <div className="mx-auto max-w-7xl px-4 md:px-8 h-24 md:h-32 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-[#1B3A8A] text-white border-b border-white/15">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 h-28 md:h-40 flex items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-3">
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school"
-            className="h-20 md:h-28 w-auto"
-            width={360}
-            height={140}
+            className="h-24 md:h-36 w-auto"
+            width={420}
+            height={160}
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -66,8 +66,8 @@ export function SiteHeader() {
                 to={l.to}
                 className={`px-3 py-2 rounded-full text-sm font-semibold transition ${
                   active
-                    ? "bg-[#1B3A8A] text-white"
-                    : "text-[#1B3A8A]/85 hover:text-[#1B3A8A] hover:bg-[#1B3A8A]/10"
+                    ? "bg-white text-[#1B3A8A]"
+                    : "text-white/90 hover:text-white hover:bg-white/15"
                 }`}
               >
                 {l.label}
@@ -79,13 +79,13 @@ export function SiteHeader() {
           <AuthNavLink />
           <Link
             to="/admissions"
-            className="inline-flex items-center rounded-full bg-[#1B3A8A] px-5 py-2.5 text-sm font-bold text-white btn-3d [--btn-shadow:#1B3A8A]"
+            className="inline-flex items-center rounded-full bg-sunshine px-5 py-2.5 text-sm font-bold text-[#1B3A8A] btn-3d [--btn-shadow:#c9a000]"
           >
             Book School Tour
           </Link>
         </div>
         <button
-          className="lg:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-[#1B3A8A]/10 text-[#1B3A8A] ring-1 ring-[#1B3A8A]/30"
+          className="lg:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-white/15 text-white ring-1 ring-white/30"
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={open}
@@ -94,14 +94,14 @@ export function SiteHeader() {
         </button>
       </div>
       {open && (
-        <div className="lg:hidden border-t border-[#1B3A8A]/10 bg-cream text-[#1B3A8A]">
+        <div className="lg:hidden border-t border-white/15 bg-[#1B3A8A] text-white">
           <div className="px-4 py-3 flex flex-col gap-1">
             {LINKS.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 onClick={() => setOpen(false)}
-                className="px-3 py-3 rounded-xl text-sm font-semibold text-[#1B3A8A] hover:bg-[#1B3A8A]/10"
+                className="px-3 py-3 rounded-xl text-sm font-semibold text-white hover:bg-white/15"
               >
                 {l.label}
               </Link>
@@ -112,7 +112,7 @@ export function SiteHeader() {
             <Link
               to="/admissions"
               onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-[#1B3A8A] px-5 py-3 text-sm font-bold text-white"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-sunshine px-5 py-3 text-sm font-bold text-[#1B3A8A]"
             >
               Book School Tour
             </Link>
