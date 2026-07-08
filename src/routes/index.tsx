@@ -2,9 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import logo from "@/assets/logo.asset.json";
+import logo from "@/assets/logo-header.asset.json";
 import kid from "@/assets/kid.asset.json";
 import childPlayingVideo from "@/assets/child-playing.mp4.asset.json";
+import heroVideo from "@/assets/hero-kids.mp4.asset.json";
 
 import heroImg from "@/assets/hero.jpg";
 import classroomImg from "@/assets/classroom.jpg";
@@ -120,15 +121,15 @@ function Nav() {
   ];
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
-      <div className="mx-auto max-w-7xl px-4 md:px-8 h-16 md:h-20 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-[#1B3A8A] text-white border-b border-white/10">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 h-24 md:h-32 flex items-center justify-between gap-4">
         <a href="#top" className="flex items-center gap-3">
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school logo"
-            className="h-16 md:h-24 w-auto"
-            width={280}
-            height={96}
+            className="h-20 md:h-28 w-auto bg-white/95 rounded-2xl p-1.5 shadow-md"
+            width={360}
+            height={140}
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -140,7 +141,7 @@ function Nav() {
             <a
               key={href}
               href={href}
-              className="px-3 py-2 rounded-full text-sm font-semibold text-foreground/80 hover:text-foreground hover:bg-accent transition"
+              className="px-3 py-2 rounded-full text-sm font-semibold text-white/85 hover:text-white hover:bg-white/10 transition"
             >
               {label}
             </a>
@@ -148,16 +149,16 @@ function Nav() {
         </nav>
         <div className="hidden md:flex items-center gap-2">
           <AuthNavLink />
-          <a
-            href="#admissions"
-            className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
+          <Link
+            to="/admissions"
+            className="inline-flex items-center rounded-full bg-sunshine px-5 py-2.5 text-sm font-bold text-tomato btn-3d [--btn-shadow:var(--sunshine)]"
           >
             Apply Now
-          </a>
+          </Link>
         </div>
 
         <button
-          className="md:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-accent text-accent-foreground btn-3d [--btn-shadow:var(--accent)]"
+          className="md:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-white/15 text-white ring-1 ring-white/30"
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={open}
@@ -166,14 +167,14 @@ function Nav() {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t border-border bg-background">
+        <div className="md:hidden border-t border-white/10 bg-[#1B3A8A] text-white">
           <div className="px-4 py-3 flex flex-col gap-1">
             {links.map(([label, href]) => (
               <a
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className="px-3 py-3 rounded-xl text-sm font-semibold hover:bg-accent"
+                className="px-3 py-3 rounded-xl text-sm font-semibold text-white hover:bg-white/10"
               >
                 {label}
               </a>
@@ -184,9 +185,9 @@ function Nav() {
             <Link
               to="/admissions"
               onClick={() => setOpen(false)}
-              className="mt-3 inline-flex items-center justify-center rounded-full bg-tomato px-5 py-3 text-base font-extrabold text-tomato-foreground shadow-lg ring-2 ring-sunshine"
+              className="mt-3 inline-flex items-center justify-center rounded-full bg-sunshine px-5 py-3 text-base font-extrabold text-tomato shadow-lg ring-2 ring-white/40"
             >
-              Admissions 2026-27 →
+              Admissions 2026-2027 →
             </Link>
           </div>
         </div>
@@ -357,7 +358,7 @@ function Hero() {
           </div>
 
           <div className="mt-4 md:mt-5 text-white font-extrabold text-3xl sm:text-5xl md:text-6xl">
-            2025-26
+            2026-2027
           </div>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -365,7 +366,7 @@ function Hero() {
               to="/admissions"
               className="inline-flex items-center rounded-full bg-tomato px-6 py-3.5 text-base font-extrabold text-tomato-foreground shadow-lg ring-2 ring-sunshine"
             >
-              Apply for 2026-27 →
+              Apply for 2026-2027 →
             </Link>
             <a
               href="#programs"
@@ -375,14 +376,15 @@ function Hero() {
             </a>
           </div>
 
-          <div className="mt-8 md:mt-10 relative mx-auto max-w-md">
-            <div className="absolute inset-x-0 bottom-0 h-40 sm:h-56 bg-sunshine/90 rounded-t-[50%]" aria-hidden />
-            <img
-              src={heroImg}
-              alt="Happy Mighty Mindz student ready for the future"
-              className="relative mx-auto w-full h-auto max-h-[420px] object-contain"
-              width={800}
-              height={800}
+          <div className="mt-8 md:mt-10 relative mx-auto max-w-2xl">
+            <video
+              src={heroVideo.url}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="relative mx-auto w-full h-auto rounded-3xl shadow-2xl ring-4 ring-white/20"
+              poster={heroImg}
             />
           </div>
         </div>
