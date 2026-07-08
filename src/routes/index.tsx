@@ -1112,6 +1112,12 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
+      <a
+        href="/admissions"
+        className="block bg-[#0f2b6b] text-white text-center py-3 font-extrabold tracking-wide hover:bg-[#0a2158] transition"
+      >
+        🎓 ADMISSIONS OPEN 2025-26 · Book your school tour today →
+      </a>
       <main>
         <Hero />
         <Welcome />
