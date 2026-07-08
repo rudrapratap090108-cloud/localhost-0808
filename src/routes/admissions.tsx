@@ -63,7 +63,7 @@ function AdmissionsPage() {
   const input =
     "w-full rounded-xl border border-input bg-background px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring";
   return (
-    <SitePage title="Admissions Open 2025-26" intro="Your door to the future.">
+    <SitePage title="Admissions Open 2026-2027" intro="Your door to the future.">
       <div className="grid gap-8 md:grid-cols-[1fr_1.2fr]">
         <div className="rounded-3xl bg-sunshine/40 border border-border p-6 md:p-8">
           <h2 className="text-2xl font-extrabold">Book a School Tour</h2>
