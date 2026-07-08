@@ -109,13 +109,14 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 /* ---------- Sections ---------- */
 
 function Nav() {
-  const links = [
+  const links: Array<[string, string]> = [
     ["About", "#about"],
-    ["Programs", "#programs"],
-    ["Facilities", "#facilities"],
-    ["Activities", "#gallery"],
-    ["News", "#news"],
-    ["Contact", "#contact"],
+    ["Programs", "/programs"],
+    ["Admissions", "/admissions"],
+    ["Activities", "/activities"],
+    ["Leadership", "/leadership"],
+    ["Blog", "/blog"],
+    ["Contact", "/contact"],
   ];
   const [open, setOpen] = useState(false);
   return (
