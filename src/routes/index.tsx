@@ -109,13 +109,14 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 /* ---------- Sections ---------- */
 
 function Nav() {
-  const links = [
+  const links: Array<[string, string]> = [
     ["About", "#about"],
-    ["Programs", "#programs"],
-    ["Facilities", "#facilities"],
-    ["Activities", "#gallery"],
-    ["News", "#news"],
-    ["Contact", "#contact"],
+    ["Programs", "/programs"],
+    ["Admissions", "/admissions"],
+    ["Activities", "/activities"],
+    ["Leadership", "/leadership"],
+    ["Blog", "/blog"],
+    ["Contact", "/contact"],
   ];
   const [open, setOpen] = useState(false);
   return (
@@ -1111,6 +1112,12 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
+      <a
+        href="/admissions"
+        className="block bg-[#0f2b6b] text-white text-center py-3 font-extrabold tracking-wide hover:bg-[#0a2158] transition"
+      >
+        🎓 ADMISSIONS OPEN 2025-26 · Book your school tour today →
+      </a>
       <main>
         <Hero />
         <Welcome />
