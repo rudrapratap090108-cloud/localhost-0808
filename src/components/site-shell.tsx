@@ -128,7 +128,7 @@ export function SiteFooter() {
     <footer className="mt-16 bg-[#0f2b6b] text-white">
       <div className="mx-auto max-w-7xl px-4 md:px-8 py-10 grid gap-8 md:grid-cols-3">
         <div>
-          <img src={logo.url} alt="Mighty Mindz" className="h-16 w-auto bg-white/95 rounded-2xl p-2" />
+          <img src={logo.url} alt="Mighty Mindz" className="h-24 w-auto" />
           <p className="mt-4 text-sm text-white/80">
             Nurturing future minds since day one. Founded by Ms. Reema Mishra · Under the caring
             leadership of Mrs. Seema Bansal & Ms. Taruna Bhaskar.
