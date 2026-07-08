@@ -10,8 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ProgramsRouteImport } from './routes/programs'
+import { Route as LeadershipRouteImport } from './routes/leadership'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CampusesRouteImport } from './routes/campuses'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdmissionsRouteImport } from './routes/admissions'
+import { Route as ActivitiesRouteImport } from './routes/activities'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardUsersRouteImport } from './routes/dashboard.users'
@@ -36,14 +42,44 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramsRoute = ProgramsRouteImport.update({
+  id: '/programs',
+  path: '/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadershipRoute = LeadershipRouteImport.update({
+  id: '/leadership',
+  path: '/leadership',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampusesRoute = CampusesRouteImport.update({
+  id: '/campuses',
+  path: '/campuses',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdmissionsRoute = AdmissionsRouteImport.update({
+  id: '/admissions',
+  path: '/admissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivitiesRoute = ActivitiesRouteImport.update({
+  id: '/activities',
+  path: '/activities',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -139,8 +175,14 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/admissions': typeof AdmissionsRoute
   '/auth': typeof AuthRoute
+  '/campuses': typeof CampusesRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/leadership': typeof LeadershipRoute
+  '/programs': typeof ProgramsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
   '/dashboard/announcements': typeof DashboardAnnouncementsRoute
@@ -162,7 +204,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/admissions': typeof AdmissionsRoute
   '/auth': typeof AuthRoute
+  '/campuses': typeof CampusesRoute
+  '/contact': typeof ContactRoute
+  '/leadership': typeof LeadershipRoute
+  '/programs': typeof ProgramsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
   '/dashboard/announcements': typeof DashboardAnnouncementsRoute
@@ -185,8 +233,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/admissions': typeof AdmissionsRoute
   '/auth': typeof AuthRoute
+  '/campuses': typeof CampusesRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/leadership': typeof LeadershipRoute
+  '/programs': typeof ProgramsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
   '/dashboard/announcements': typeof DashboardAnnouncementsRoute
@@ -210,8 +264,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/activities'
+    | '/admissions'
     | '/auth'
+    | '/campuses'
+    | '/contact'
     | '/dashboard'
+    | '/leadership'
+    | '/programs'
     | '/sitemap.xml'
     | '/api/chat'
     | '/dashboard/announcements'
@@ -233,7 +293,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/activities'
+    | '/admissions'
     | '/auth'
+    | '/campuses'
+    | '/contact'
+    | '/leadership'
+    | '/programs'
     | '/sitemap.xml'
     | '/api/chat'
     | '/dashboard/announcements'
@@ -255,8 +321,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/activities'
+    | '/admissions'
     | '/auth'
+    | '/campuses'
+    | '/contact'
     | '/dashboard'
+    | '/leadership'
+    | '/programs'
     | '/sitemap.xml'
     | '/api/chat'
     | '/dashboard/announcements'
@@ -279,8 +351,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActivitiesRoute: typeof ActivitiesRoute
+  AdmissionsRoute: typeof AdmissionsRoute
   AuthRoute: typeof AuthRoute
+  CampusesRoute: typeof CampusesRoute
+  ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  LeadershipRoute: typeof LeadershipRoute
+  ProgramsRoute: typeof ProgramsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -294,6 +372,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs': {
+      id: '/programs'
+      path: '/programs'
+      fullPath: '/programs'
+      preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leadership': {
+      id: '/leadership'
+      path: '/leadership'
+      fullPath: '/leadership'
+      preLoaderRoute: typeof LeadershipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -301,11 +393,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campuses': {
+      id: '/campuses'
+      path: '/campuses'
+      fullPath: '/campuses'
+      preLoaderRoute: typeof CampusesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admissions': {
+      id: '/admissions'
+      path: '/admissions'
+      fullPath: '/admissions'
+      preLoaderRoute: typeof AdmissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activities': {
+      id: '/activities'
+      path: '/activities'
+      fullPath: '/activities'
+      preLoaderRoute: typeof ActivitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -481,8 +601,14 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActivitiesRoute: ActivitiesRoute,
+  AdmissionsRoute: AdmissionsRoute,
   AuthRoute: AuthRoute,
+  CampusesRoute: CampusesRoute,
+  ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  LeadershipRoute: LeadershipRoute,
+  ProgramsRoute: ProgramsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiChatRoute: ApiChatRoute,
 }
