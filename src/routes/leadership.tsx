@@ -27,10 +27,10 @@ const LEADERS = [
     body: "A passionate educator committed to nurturing young learners with kindness, structure and joy. She leads our flagship Vrindavan campus.",
   },
   {
-    name: "Ms. Taruna Bhaskar",
-    title: "Principal · Gomti Nagar Branch",
+    name: "Mr. Taruna Bhaskar",
+    title: "Director · Mighty Mindz Gomti Nagar Extension Branch",
     color: "bg-leaf/25",
-    body: "Heads the Gomti Nagar Vistar campus with an emphasis on holistic early learning and a warm home-away-from-home experience.",
+    body: "Qualification: M.Phil (Mathematics). 10 years of experience as a lecturer of Mathematics in engineering colleges. Alumnus of Delhi University and Jamia Millia Islamia.",
   },
 ];
 
