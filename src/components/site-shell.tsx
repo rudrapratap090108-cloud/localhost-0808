@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import logo from "@/assets/logo.asset.json";
+import logo from "@/assets/logo-header.asset.json";
 
 const LINKS = [
   { to: "/", label: "Home" },
@@ -25,14 +25,14 @@ function AuthNavLink() {
   return signedIn ? (
     <Link
       to="/dashboard"
-      className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-bold hover:bg-cream transition"
+      className="inline-flex items-center rounded-full bg-white/10 border border-white/30 text-white px-4 py-2 text-sm font-bold hover:bg-white/20 transition"
     >
       Dashboard
     </Link>
   ) : (
     <Link
       to="/auth"
-      className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-bold hover:bg-cream transition"
+      className="inline-flex items-center rounded-full bg-white/10 border border-white/30 text-white px-4 py-2 text-sm font-bold hover:bg-white/20 transition"
     >
       Sign in
     </Link>
@@ -43,15 +43,15 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-background/85 border-b border-border">
-      <div className="mx-auto max-w-7xl px-4 md:px-8 h-16 md:h-24 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-[#1B3A8A] text-white border-b border-white/10">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 h-24 md:h-32 flex items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-3">
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school"
-            className="h-14 md:h-20 w-auto"
-            width={280}
-            height={96}
+            className="h-20 md:h-28 w-auto bg-white/95 rounded-2xl p-1.5 shadow-md"
+            width={360}
+            height={140}
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -66,8 +66,8 @@ export function SiteHeader() {
                 to={l.to}
                 className={`px-3 py-2 rounded-full text-sm font-semibold transition ${
                   active
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
+                    ? "bg-sunshine text-tomato"
+                    : "text-white/85 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {l.label}
@@ -79,13 +79,13 @@ export function SiteHeader() {
           <AuthNavLink />
           <Link
             to="/admissions"
-            className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
+            className="inline-flex items-center rounded-full bg-sunshine px-5 py-2.5 text-sm font-bold text-tomato btn-3d [--btn-shadow:var(--sunshine)]"
           >
             Apply Now
           </Link>
         </div>
         <button
-          className="lg:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-accent text-accent-foreground btn-3d [--btn-shadow:var(--accent)]"
+          className="lg:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-white/15 text-white ring-1 ring-white/30"
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={open}
@@ -94,14 +94,14 @@ export function SiteHeader() {
         </button>
       </div>
       {open && (
-        <div className="lg:hidden border-t border-border bg-background">
+        <div className="lg:hidden border-t border-white/10 bg-[#1B3A8A] text-white">
           <div className="px-4 py-3 flex flex-col gap-1">
             {LINKS.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 onClick={() => setOpen(false)}
-                className="px-3 py-3 rounded-xl text-sm font-semibold hover:bg-accent"
+                className="px-3 py-3 rounded-xl text-sm font-semibold text-white hover:bg-white/10"
               >
                 {l.label}
               </Link>
@@ -112,7 +112,7 @@ export function SiteHeader() {
             <Link
               to="/admissions"
               onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground btn-3d [--btn-shadow:var(--primary)]"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-sunshine px-5 py-3 text-sm font-bold text-tomato"
             >
               Apply Now
             </Link>
