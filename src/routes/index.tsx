@@ -1040,7 +1040,7 @@ function HomePage() {
         href="/admissions"
         className="block bg-[#0f2b6b] text-white text-center py-3 font-extrabold tracking-wide hover:bg-[#0a2158] transition"
       >
-        🎓 ADMISSIONS OPEN 2025-26 · Book your school tour today →
+        🎓 ADMISSIONS OPEN 2026-2027 · Book your school tour today →
       </a>
       <main>
         <Hero />
