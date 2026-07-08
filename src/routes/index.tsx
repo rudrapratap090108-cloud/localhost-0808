@@ -121,15 +121,15 @@ function Nav() {
   ];
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-cream text-[#1B3A8A] border-b border-[#1B3A8A]/10">
-      <div className="mx-auto max-w-7xl px-4 md:px-8 h-24 md:h-32 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-[#1B3A8A] text-white border-b border-white/15">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 h-28 md:h-40 flex items-center justify-between gap-4">
         <a href="#top" className="flex items-center gap-3">
           <img
             src={logo.url}
             alt="Mighty Mindz International Pre-school logo"
-            className="h-20 md:h-28 w-auto"
-            width={360}
-            height={140}
+            className="h-24 md:h-36 w-auto"
+            width={420}
+            height={160}
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -141,7 +141,7 @@ function Nav() {
             <a
               key={href}
               href={href}
-              className="px-3 py-2 rounded-full text-sm font-semibold text-[#1B3A8A]/85 hover:text-[#1B3A8A] hover:bg-[#1B3A8A]/10 transition"
+              className="px-3 py-2 rounded-full text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition"
             >
               {label}
             </a>
@@ -151,14 +151,14 @@ function Nav() {
           <AuthNavLink />
           <Link
             to="/admissions"
-            className="inline-flex items-center rounded-full bg-[#1B3A8A] px-5 py-2.5 text-sm font-bold text-white btn-3d [--btn-shadow:#1B3A8A]"
+            className="inline-flex items-center rounded-full bg-sunshine px-5 py-2.5 text-sm font-bold text-[#1B3A8A] btn-3d [--btn-shadow:#c9a000]"
           >
             Book School Tour
           </Link>
         </div>
 
         <button
-          className="md:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-[#1B3A8A]/10 text-[#1B3A8A] ring-1 ring-[#1B3A8A]/30"
+          className="md:hidden inline-flex items-center justify-center h-11 w-11 rounded-full bg-white/15 text-white ring-1 ring-white/30"
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={open}
@@ -167,14 +167,14 @@ function Nav() {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t border-[#1B3A8A]/10 bg-cream text-[#1B3A8A]">
+        <div className="md:hidden border-t border-white/15 bg-[#1B3A8A] text-white">
           <div className="px-4 py-3 flex flex-col gap-1">
             {links.map(([label, href]) => (
               <a
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className="px-3 py-3 rounded-xl text-sm font-semibold text-[#1B3A8A] hover:bg-[#1B3A8A]/10"
+                className="px-3 py-3 rounded-xl text-sm font-semibold text-white hover:bg-white/15"
               >
                 {label}
               </a>
@@ -185,7 +185,7 @@ function Nav() {
             <Link
               to="/admissions"
               onClick={() => setOpen(false)}
-              className="mt-3 inline-flex items-center justify-center rounded-full bg-[#1B3A8A] px-5 py-3 text-base font-extrabold text-white shadow-lg"
+              className="mt-3 inline-flex items-center justify-center rounded-full bg-sunshine px-5 py-3 text-base font-extrabold text-[#1B3A8A] shadow-lg"
             >
               Book Your School Tour Now →
             </Link>
@@ -207,14 +207,14 @@ function AuthNavLink() {
   return signedIn ? (
     <Link
       to="/dashboard"
-      className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-bold hover:bg-cream transition"
+      className="inline-flex items-center rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-bold text-white hover:bg-white/20 transition"
     >
       Dashboard
     </Link>
   ) : (
     <Link
       to="/auth"
-      className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-bold hover:bg-cream transition"
+      className="inline-flex items-center rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-bold text-white hover:bg-white/20 transition"
     >
       Sign in
     </Link>
@@ -1040,7 +1040,7 @@ function HomePage() {
         href="/admissions"
         className="block bg-[#0f2b6b] text-white text-center py-3 font-extrabold tracking-wide hover:bg-[#0a2158] transition"
       >
-        🎓 ADMISSIONS OPEN 2025-26 · Book your school tour today →
+        🎓 ADMISSIONS OPEN 2026-2027 · Book your school tour today →
       </a>
       <main>
         <Hero />
