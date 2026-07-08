@@ -25,14 +25,14 @@ function AuthNavLink() {
   return signedIn ? (
     <Link
       to="/dashboard"
-      className="inline-flex items-center rounded-full border border-[#1B3A8A]/30 bg-white text-[#1B3A8A] px-4 py-2 text-sm font-bold hover:bg-[#1B3A8A]/10 transition"
+      className="inline-flex items-center rounded-full border border-white/30 bg-white/10 text-white px-4 py-2 text-sm font-bold hover:bg-white/20 transition"
     >
       Dashboard
     </Link>
   ) : (
     <Link
       to="/auth"
-      className="inline-flex items-center rounded-full border border-[#1B3A8A]/30 bg-white text-[#1B3A8A] px-4 py-2 text-sm font-bold hover:bg-[#1B3A8A]/10 transition"
+      className="inline-flex items-center rounded-full border border-white/30 bg-white/10 text-white px-4 py-2 text-sm font-bold hover:bg-white/20 transition"
     >
       Sign in
     </Link>
